@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://cp4dtj0hqoh3x"]
+
+[ext_resource type="Script" path="res://Scenes/Components/movement_component.gd" id="1_w33h1"]
+[ext_resource type="Texture2D" uid="uid://brpwacblvevg3" path="res://icon.svg" id="2_8hjxx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pgoi5"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hajl0"]
+size = Vector2(128, 128)
+
+[node name="MovementComponent" type="CharacterBody2D"]
+script = ExtResource("1_w33h1")
+
+[node name="PlaceHolderSprite" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_8hjxx")
+
+[node name="RootCollision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pgoi5")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_hajl0")
+
+[node name="MarkerUp" type="Marker2D" parent="Area2D"]
+visible = false
+position = Vector2(0, -128)
+rotation = -1.5708
+gizmo_extents = 64.0
+
+[node name="MarkerRight" type="Marker2D" parent="Area2D"]
+visible = false
+position = Vector2(128, 0)
+gizmo_extents = 64.0
+
+[node name="MarkerLeft" type="Marker2D" parent="Area2D"]
+visible = false
+position = Vector2(-128, 0)
+rotation = 3.14159
+gizmo_extents = 64.0
+
+[node name="MarkerDown" type="Marker2D" parent="Area2D"]
+visible = false
+position = Vector2(0, 128)
+rotation = 1.5708
+gizmo_extents = 64.0
+
+[node name="RayCast2D" type="RayCast2D" parent="Area2D"]
+collide_with_areas = true
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

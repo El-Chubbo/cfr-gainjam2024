@@ -1,0 +1,114 @@
+[gd_scene load_steps=11 format=3 uid="uid://bjk146k4p6yho"]
+
+[ext_resource type="Script" path="res://Scenes/hud_logic.gd" id="1_c74vo"]
+[ext_resource type="PackedScene" uid="uid://83lbldk0ei0i" path="res://Scenes/spell_hotbar.tscn" id="2_4g6re"]
+[ext_resource type="PackedScene" uid="uid://cbjaog3mtnip8" path="res://Scenes/heart_gui.tscn" id="3_cnv8t"]
+[ext_resource type="PackedScene" uid="uid://duyb1tue8pemb" path="res://Scenes/calorie_meter.tscn" id="4_44m3x"]
+[ext_resource type="Texture2D" uid="uid://ctso5cblwwyud" path="res://Art Assets/Heart Sprites.png" id="4_rlp4i"]
+[ext_resource type="PackedScene" uid="uid://bsmnxnmeifj5s" path="res://Scenes/turn_order_box.tscn" id="5_214fo"]
+[ext_resource type="PackedScene" uid="uid://dm85s7bcj2sdw" path="res://Scenes/Components/resource_labels.tscn" id="7_anc3g"]
+[ext_resource type="Script" path="res://Scenes/debug_controls.gd" id="8_o7yxl"]
+[ext_resource type="PackedScene" uid="uid://h60cra5dw2bk" path="res://Scenes/UI/pause_menu.tscn" id="9_t0nal"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ofr2f"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[node name="GameplayHud" type="CanvasLayer"]
+script = ExtResource("1_c74vo")
+
+[node name="Hotbar" parent="." instance=ExtResource("2_4g6re")]
+offset_left = 499.0
+offset_top = 650.0
+offset_right = 2591.0
+offset_bottom = 1170.0
+scale = Vector2(0.125, 0.125)
+
+[node name="HeartGUI" parent="." instance=ExtResource("3_cnv8t")]
+scale = Vector2(0.25, 0.25)
+
+[node name="DummyHearts" type="Sprite2D" parent="HeartGUI"]
+visible = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_rlp4i")
+centered = false
+
+[node name="CalorieMeter" parent="." instance=ExtResource("4_44m3x")]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_right = 0.0
+offset_left = 0.0
+offset_top = 63.0
+offset_right = 1024.0
+offset_bottom = 319.0
+grow_horizontal = 1
+scale = Vector2(0.25, 0.25)
+value = 0.0
+
+[node name="TurnOrder" parent="." instance=ExtResource("5_214fo")]
+visible = false
+
+[node name="TurnStatus" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -55.5
+offset_right = 55.5
+offset_bottom = 23.0
+grow_horizontal = 2
+tooltip_text = "When there are hostile monsters on the field, combat is initiated.
+During combat, each unit takes turns performing actions.
+Cirana will always move first and once again halfway through the turn order before it loops."
+mouse_filter = 1
+text = "Not in combat"
+label_settings = SubResource("LabelSettings_ofr2f")
+horizontal_alignment = 1
+
+[node name="ResourceLabels" parent="." instance=ExtResource("7_anc3g")]
+offset_top = 130.0
+offset_bottom = 224.0
+
+[node name="DebugControls" type="Control" parent="." groups=["debug"]]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+script = ExtResource("8_o7yxl")
+
+[node name="EnableCombat" type="Button" parent="DebugControls" groups=["debug"]]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -41.0
+offset_right = 153.0
+offset_bottom = -10.0
+grow_vertical = 0
+disabled = true
+text = "Force Combat On"
+
+[node name="PauseButton" type="Button" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 40)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -90.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 50.0
+grow_horizontal = 0
+tooltip_text = "HOTKEY: Esc"
+text = "Pause"
+
+[node name="PauseMenu" parent="." instance=ExtResource("9_t0nal")]
+visible = false
+
+[connection signal="pressed" from="DebugControls/EnableCombat" to="DebugControls" method="_on_enable_combat_pressed"]
+[connection signal="pressed" from="PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="unpaused" from="PauseMenu" to="." method="_on_unpaused"]

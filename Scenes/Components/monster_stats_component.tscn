@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d6m5ktywuy7m"]
+
+[ext_resource type="Script" path="res://monster_stats.gd" id="1_7i7x5"]
+
+[node name="Monster Stats Component" type="Node" groups=["component"]]
+script = ExtResource("1_7i7x5")

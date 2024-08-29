@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dks6umm3aodo8"
+path="res://.godot/imported/Anime_Stomach_Growl_Sound_2.mp3-ae2d2098c3e2a1a949c2d2932a611445.mp3str"
+
+[deps]
+
+source_file="res://Sound Assets/Anime_Stomach_Growl_Sound_2.mp3"
+dest_files=["res://.godot/imported/Anime_Stomach_Growl_Sound_2.mp3-ae2d2098c3e2a1a949c2d2932a611445.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

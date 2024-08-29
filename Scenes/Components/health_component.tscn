@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://b30id1vnhmleh"]
+
+[ext_resource type="Script" path="res://Scenes/Components/health_component.gd" id="1_wxxff"]
+
+[sub_resource type="FontFile" id="FontFile_ljypt"]
+subpixel_positioning = 0
+msdf_pixel_range = 14
+msdf_size = 128
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
+
+[sub_resource type="Theme" id="Theme_car84"]
+default_font = SubResource("FontFile_ljypt")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b3tkb"]
+bg_color = Color(0.6, 0.6, 0.6, 0.521569)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kfysu"]
+bg_color = Color(1, 0.207843, 0.207843, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cahmj"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Health Component" type="ProgressBar" groups=["component"]]
+custom_minimum_size = Vector2(256, 32)
+offset_right = 4.0
+offset_bottom = 27.0
+theme = SubResource("Theme_car84")
+theme_override_styles/background = SubResource("StyleBoxFlat_b3tkb")
+theme_override_styles/fill = SubResource("StyleBoxFlat_kfysu")
+step = 1.0
+value = 100.0
+show_percentage = false
+script = ExtResource("1_wxxff")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -22.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP"
+label_settings = SubResource("LabelSettings_cahmj")
+horizontal_alignment = 1

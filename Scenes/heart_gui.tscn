@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbjaog3mtnip8"]
+
+[ext_resource type="Script" path="res://Scenes/player_heart_gui.gd" id="1_s82ae"]
+
+[node name="HeartGUI" type="HBoxContainer"]
+script = ExtResource("1_s82ae")

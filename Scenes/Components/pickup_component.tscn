@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://njttkafifunw"]
+
+[ext_resource type="Script" path="res://Scenes/Components/pickup_component.gd" id="1_2gocf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rru0t"]
+size = Vector2(64, 64)
+
+[node name="PickupComponent" type="Area2D" groups=["pickup"]]
+script = ExtResource("1_2gocf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rru0t")

@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://dx42msiyc1b1s"]
+
+[ext_resource type="Script" path="res://test_monster.gd" id="1_1qijs"]
+[ext_resource type="Texture2D" uid="uid://douyvrvwn6151" path="res://Art Assets/TargetDummy.png" id="1_4tmcf"]
+[ext_resource type="AudioStream" uid="uid://drifi3ffp4mck" path="res://Sound Assets/Melee Target Break.wav" id="3_if70x"]
+[ext_resource type="PackedScene" uid="uid://b30id1vnhmleh" path="res://Scenes/Components/health_component.tscn" id="4_flpil"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k57pc"]
+size = Vector2(128, 128)
+
+[node name="TestMonster" type="Node2D" groups=["monster"]]
+script = ExtResource("1_1qijs")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_4tmcf")
+
+[node name="TargetBreak" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_if70x")
+volume_db = -8.0
+
+[node name="Health Component" parent="." instance=ExtResource("4_flpil")]
+offset_left = -128.0
+offset_top = -161.0
+offset_right = 128.0
+offset_bottom = -129.0
+
+[node name="Area2D" type="Area2D" parent="." groups=["monster"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_k57pc")
+
+[connection signal="took_damage" from="." to="Health Component" method="_on_took_damage"]
+[connection signal="health_depleted" from="Health Component" to="." method="_on_health_depleted"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_body_entered"]

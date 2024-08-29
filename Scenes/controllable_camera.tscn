@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cftlng4a1boxg"]
+
+[ext_resource type="Script" path="res://addons/MapCamera2D.gd" id="1_qftl1"]
+
+[node name="ControllableCamera" type="Camera2D"]
+position_smoothing_enabled = true
+editor_draw_limits = true
+script = ExtResource("1_qftl1")
+pan_keyboard = false

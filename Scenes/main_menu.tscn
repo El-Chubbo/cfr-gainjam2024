@@ -1,0 +1,296 @@
+[gd_scene load_steps=14 format=3 uid="uid://bbeec4do7gab2"]
+
+[ext_resource type="Script" path="res://Scenes/main_menu.gd" id="1_j5icd"]
+[ext_resource type="PackedScene" uid="uid://jkwjim8u1mgw" path="res://Scenes/UI/credits.tscn" id="2_cl04f"]
+[ext_resource type="Texture2D" uid="uid://cv3wvovrw6x1u" path="res://Art Assets/GameLogo.png" id="3_en7wx"]
+[ext_resource type="Texture2D" uid="uid://cpareh3en80th" path="res://Art Assets/cirana preset fat neutral.png" id="4_oavkc"]
+[ext_resource type="Texture2D" uid="uid://btv3ccns7fmp4" path="res://Art Assets/cirana preset fat smug.png" id="5_j3h4c"]
+[ext_resource type="Texture2D" uid="uid://ckl7sl2sebuk4" path="res://Art Assets/cirana preset fat confident.png" id="6_mm53m"]
+[ext_resource type="Texture2D" uid="uid://cgcuixwmmx7m6" path="res://Art Assets/cirana preset neutral.png" id="7_ghrog"]
+[ext_resource type="Texture2D" uid="uid://gqx06past2ly" path="res://Art Assets/cirana preset smug.png" id="8_xjqjf"]
+[ext_resource type="Texture2D" uid="uid://dhgbk183wy78b" path="res://Art Assets/cirana preset confident.png" id="9_epcpy"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0frbk"]
+font_size = 64
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wngro"]
+animations = [{
+"frames": [{
+"duration": 18.0,
+"texture": ExtResource("4_oavkc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_j3h4c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_mm53m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_j3h4c")
+}],
+"loop": true,
+"name": &"fat idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 18.0,
+"texture": ExtResource("7_ghrog")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_xjqjf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_epcpy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_xjqjf")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[sub_resource type="LabelSettings" id="LabelSettings_lbsfw"]
+font_size = 43
+
+[sub_resource type="LabelSettings" id="LabelSettings_2v1rs"]
+line_spacing = -6.0
+
+[node name="Main Menu" type="CanvasLayer"]
+script = ExtResource("1_j5icd")
+enable_test_levels = true
+
+[node name="MainButtons" type="VBoxContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -68.5
+offset_top = 20.0
+offset_right = 68.5
+offset_bottom = 261.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DietModeButton" type="CheckButton" parent="MainButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Diet Mode"
+
+[node name="StartButton" type="Button" parent="MainButtons"]
+layout_mode = 2
+disabled = true
+text = "New Game
+"
+
+[node name="ResumeButton" type="Button" parent="MainButtons"]
+layout_mode = 2
+disabled = true
+text = "Resume"
+
+[node name="ExtraButton" type="Button" parent="MainButtons"]
+layout_mode = 2
+disabled = true
+text = "Extra Mode???"
+
+[node name="HowToPlayButton" type="Button" parent="MainButtons"]
+layout_mode = 2
+text = "How to Play"
+
+[node name="CreditsButton" type="Button" parent="MainButtons"]
+layout_mode = 2
+text = "View Credits"
+
+[node name="QuitButton" type="Button" parent="MainButtons"]
+layout_mode = 2
+text = "Quit
+"
+
+[node name="TestLevels" type="HBoxContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 284.0
+grow_vertical = 0
+
+[node name="TestButton" type="Button" parent="TestLevels"]
+layout_mode = 2
+text = "Load Test Level 1"
+
+[node name="TestButton2" type="Button" parent="TestLevels"]
+layout_mode = 2
+disabled = true
+text = "Load Test Level 2"
+
+[node name="CreditsControls" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="CreditsControls"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -300.0
+offset_right = 400.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+use_top_left = true
+
+[node name="Credits" parent="CreditsControls/CenterContainer" instance=ExtResource("2_cl04f")]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="CreditsControls"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -57.0
+offset_top = -31.0
+offset_right = 57.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Back to Menu"
+
+[node name="PlaceHolderTitle" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -81.0
+offset_top = -11.5
+offset_right = 81.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Cirana's Factory Raid"
+label_settings = SubResource("LabelSettings_0frbk")
+
+[node name="TitleGraphic" type="TextureRect" parent="."]
+unique_name_in_owner = true
+texture_filter = 4
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -115.0
+offset_right = 512.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_en7wx")
+
+[node name="CiranaArt" type="AnimatedSprite2D" parent="TitleGraphic"]
+unique_name_in_owner = true
+position = Vector2(505, -118)
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_wngro")
+animation = &"idle"
+autoplay = "fat idle"
+frame_progress = 0.129259
+
+[node name="HowToPlayControls" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="HowToPlayControls"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+use_top_left = true
+
+[node name="Panel" type="Panel" parent="HowToPlayControls/CenterContainer"]
+custom_minimum_size = Vector2(600, 300)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HowToPlayControls/CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -46.0
+offset_right = 46.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "How to Play"
+label_settings = SubResource("LabelSettings_lbsfw")
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="HowToPlayControls/CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -276.5
+offset_top = -97.0
+offset_right = 276.5
+offset_bottom = 134.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Move with WASD or arrow keys
+
+Press a number key to cast one of four abilities.
+(Fireball, [1], is the only one currently implemented)
+Input a movement direction to launch it.
+
+Gain Calories to cast spells by eating food pickups. 
+Watch out for overfill damage!
+
+Enabling Diet Mode is only cosmetic, does not affect the core gameplay."
+label_settings = SubResource("LabelSettings_2v1rs")
+horizontal_alignment = 1
+
+[node name="BackButton" type="Button" parent="HowToPlayControls"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -57.0
+offset_top = -31.0
+offset_right = 57.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Back to Menu"
+
+[connection signal="toggled" from="MainButtons/DietModeButton" to="." method="_on_diet_mode_button_toggled"]
+[connection signal="pressed" from="MainButtons/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MainButtons/HowToPlayButton" to="." method="_on_how_to_play_button_pressed"]
+[connection signal="pressed" from="MainButtons/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="MainButtons/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="TestLevels/TestButton" to="." method="_on_test_button1_pressed"]
+[connection signal="pressed" from="TestLevels/TestButton2" to="." method="_on_test_button2_pressed"]
+[connection signal="pressed" from="CreditsControls/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="HowToPlayControls/BackButton" to="." method="_on_back_button_pressed"]

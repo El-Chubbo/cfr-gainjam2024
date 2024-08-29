@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://dm85s7bcj2sdw"]
+
+[sub_resource type="Theme" id="Theme_gwsks"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_akagp"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_n5gr0"]
+font_size = 32
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[node name="ResourceLabels" type="VBoxContainer"]
+offset_right = 92.0
+offset_bottom = 94.0
+size_flags_horizontal = 3
+tooltip_text = "MOV represents how many spaces away from your origin point you can move in a turn. AP is your action points, or how many major actions you can perform."
+theme = SubResource("Theme_gwsks")
+
+[node name="MovNum" type="Label" parent="."]
+layout_mode = 2
+tooltip_text = "MOV is how many spaces away from your origin point you can move in a turn. Using a major action resets your origin point.
+You have unlimited MOV while out of combat."
+mouse_filter = 1
+text = "MOV: "
+label_settings = SubResource("LabelSettings_akagp")
+
+[node name="APNum" type="Label" parent="."]
+layout_mode = 2
+tooltip_text = "Action Points represent how many major actions, usually attacks, you can perform per turn.
+Upon reaching 0 AP, your turn immediately ends even if you have MOV remaining.
+You have unlimited AP while out of combat."
+mouse_filter = 1
+text = "AP: "
+label_settings = SubResource("LabelSettings_n5gr0")

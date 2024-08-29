@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://vew634icda4w"]
+
+[ext_resource type="Script" path="res://Scenes/game_logic.gd" id="1_i7410"]
+[ext_resource type="PackedScene" uid="uid://bbeec4do7gab2" path="res://Scenes/main_menu.tscn" id="1_tehl3"]
+
+[node name="MasterNode" type="Node2D"]
+
+[node name="GameStatus" type="Node" parent="."]
+script = ExtResource("1_i7410")
+
+[node name="Main Menu" parent="GameStatus" instance=ExtResource("1_tehl3")]

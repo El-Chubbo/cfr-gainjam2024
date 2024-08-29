@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://83lbldk0ei0i"]
+
+[ext_resource type="Texture2D" uid="uid://bija3dhyrxchv" path="res://Art Assets/Placeholder Icon 1.png" id="1_7xr0m"]
+[ext_resource type="Script" path="res://Scenes/spell_hotbar.gd" id="1_atpjo"]
+[ext_resource type="Texture2D" uid="uid://c4cl57bkbc66f" path="res://Art Assets/Placeholder Icon 2.png" id="2_r6me7"]
+[ext_resource type="Texture2D" uid="uid://dhxqvfmpioi04" path="res://Art Assets/Placeholder Icon 3.png" id="3_yti1s"]
+[ext_resource type="Texture2D" uid="uid://bfl22hmakjesb" path="res://Art Assets/Placeholder Icon 4.png" id="4_b71tx"]
+
+[node name="HotBar" type="HBoxContainer"]
+clip_children = 1
+offset_right = 2092.0
+offset_bottom = 520.0
+size_flags_horizontal = 4
+mouse_filter = 2
+script = ExtResource("1_atpjo")
+
+[node name="AbilityButton" type="Button" parent="."]
+layout_mode = 2
+tooltip_text = "Cast a Fireball projectile. Cost: 150 calories. Damage: Base ATK."
+focus_mode = 1
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+icon = ExtResource("1_7xr0m")
+flat = true
+icon_alignment = 1
+
+[node name="AbilityButton2" type="Button" parent="."]
+layout_mode = 2
+tooltip_text = "Cast Flamethrower in a 2x3 space in front of you. Cost: 600 calories. Damage: Base ATK + 300."
+focus_mode = 1
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+icon = ExtResource("2_r6me7")
+flat = true
+icon_alignment = 1
+
+[node name="AbilityButton3" type="Button" parent="."]
+layout_mode = 2
+tooltip_text = "Feast on an enemy one space in front of you. Cost: 0 calories. Damage: Base ATK x 3. Restores calories based on damage dealt."
+focus_mode = 1
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+icon = ExtResource("3_yti1s")
+flat = true
+icon_alignment = 1
+
+[node name="AbilityButton4" type="Button" parent="."]
+layout_mode = 2
+tooltip_text = "Attempt teleporting exactly 3 spaces ahead in a direction. Cost: 400 calories. This does not use action points."
+focus_mode = 1
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+icon = ExtResource("4_b71tx")
+flat = true
+icon_alignment = 1
+
+[connection signal="focus_entered" from="AbilityButton" to="." method="_on_ability1_button_focus_entered"]
+[connection signal="mouse_entered" from="AbilityButton" to="." method="_on_ability1_button_mouse_entered"]
