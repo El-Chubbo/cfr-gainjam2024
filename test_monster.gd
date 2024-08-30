@@ -5,10 +5,14 @@ extends Node2D
 #@onready var stats = $"Monster Stats Component"
 @onready var sound = $TargetBreak
 signal took_damage()
+signal defeated
+signal turn_ended(reference)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	health.set_initial_health(initial_health)
+	GameLogic.add_emitter("turn_ended", self)
+	GameLogic.add_listener("start_turn", self, "_on_turn_start(entity)")
 	return
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -22,7 +26,7 @@ func _ready() -> void:
 func _on_turn_start(entity):
 	if entity == self:
 		print_debug(self, " has passed their turn")
-		GameLogic._on_turn_end()
+		turn_ended.emit(self)
 		return
 
 func _on_health_depleted() -> void:

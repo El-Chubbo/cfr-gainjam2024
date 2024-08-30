@@ -12,8 +12,8 @@ func _ready() -> void:
 	#pass
 
 func setMaxHearts(new_max: int):
-	print_debug("Increasing max hearts by ", new_max)
-	print_debug("Real max value: ", PlayerData.current_data["MaxHealth"])
+	#print_debug("Increasing max hearts by ", new_max)
+	#print_debug("Real max value: ", PlayerData.current_data["MaxHealth"])
 	for i in range(new_max):
 		var heart = heart_container.instantiate()
 		total_hearts.append(heart)

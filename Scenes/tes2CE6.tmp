@@ -79,10 +79,18 @@ metadata/_edit_use_anchors_ = true
 
 [node name="ControllableCamera" parent="." instance=ExtResource("1_d2gh6")]
 position = Vector2(135, 155)
+zoom = Vector2(0.4, 0.4)
 limit_left = -2048
 limit_top = -1536
 limit_right = 2560
 limit_bottom = 1792
+limit_smoothed = true
+position_smoothing_speed = 10.0
+zoom_factor = 1.1
+zoom_min = 0.35
+zoom_max = 1.35
+pan_speed = 0.0
+drag_inertia = 0.0
 
 [node name="CalorieTest" type="Area2D" parent="." groups=["pickup", "test"]]
 position = Vector2(896, 641)

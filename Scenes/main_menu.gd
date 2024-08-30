@@ -76,4 +76,5 @@ func _on_test_button1_pressed() -> void:
 
 func _on_test_button2_pressed() -> void:
 	GameLogic.goto_scene("res://Scenes/test_level2.tscn")
+	MusicPlayer.force_play(MusicPlayer.song_list.MYSTIC_ACT1)
 	return

@@ -43,8 +43,8 @@ signal quick_pan_completed
 
 func _ready():
 	_pan_direction = Vector2.ZERO
-	
 	get_viewport().size_changed.connect(clamp_offset)
+	GameLogic.add_listener("camera_quick_pan", self, "_on_quick_pan_event(new_position: Vector2)")
 
 func _process(delta):
 	if _drag_movement == Vector2.ZERO:
@@ -62,6 +62,8 @@ func _physics_process(delta):
 	_process(delta)
 
 func _unhandled_input(event):
+	if is_quick_panning:
+		return
 	if event is InputEventMagnifyGesture:
 		_change_zoom(1 + ((zoom_factor if zoom_factor > 1 else 1 / zoom_factor) - 1) * (event.factor - 1) * 2.5)
 	elif event is InputEventPanGesture:
@@ -239,11 +241,13 @@ func _change_zoom(factor, with_cursor = true):
 ##new panning function
 func _on_quick_pan_event(new_position: Vector2):
 	print_debug("Camera attempting quick pan")
+	is_quick_panning = true
 	if quick_target:
 		quick_target.kill()
 	quick_target = get_tree().create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT).set_parallel(true)
 	quick_target.tween_property(self, "position:x", new_position.x, 0.5)
 	quick_target.tween_property(self, "position:x", new_position.y, 0.5)
+	is_quick_panning = false
 	quick_pan_completed.emit()
 	return
 

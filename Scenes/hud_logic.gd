@@ -12,8 +12,14 @@ func _ready() -> void:
 	$DebugControls.visible = debug_mode
 	#var scene = SceneTree.new()
 	hearts.setMaxHearts(PlayerData.default_data["MaxHealth"])
+	##these were originally connected manually, but with the new global signal system they can be readied here
+	GameLogic.add_listener("calories_changed", self, "_update_calories(new_amount: int = 0, _difference: int = 0)")
+	GameLogic.add_listener("health_changed", self, "_update_health(current_health)")
+	GameLogic.add_listener("max_health_changed", self, "_set_max_health(amount: int = 1)")
+	GameLogic.add_listener("round_passed", self, "_on_round_passed(new_entity :Variant)")
+	GameLogic.add_listener("combat_start", self, "_on_combat_start()")
+	GameLogic.add_listener("combat_end", self, "_on_combat_end()")
 	GameLogic.add_listener('game_over', self, '_on_game_over')
-	
 	#player_reference = %CiranaPlayer
 	#player_reference.health_changed().connect(self._update_health(3))
 
@@ -36,7 +42,7 @@ func _set_max_health(amount: int = 1):
 	return
 
 func _update_calories(new_amount: int = 0, _difference: int = 0):
-	print_debug("Updating calorie meter to value ", new_amount)
+	#print_debug("Updating calorie meter to value ", new_amount)
 	$CalorieMeter/Label.text = str(new_amount, "/", $CalorieMeter.max_value)
 	var tween = get_tree().create_tween()
 	tween.tween_property($CalorieMeter, "value", new_amount, 0.5).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)

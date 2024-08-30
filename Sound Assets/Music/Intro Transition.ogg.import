@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://8toattiw432d"
+path="res://.godot/imported/Intro Transition.ogg-9c79bdeea8f2bcb3b9868e53f81261d8.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound Assets/Music/Intro Transition.ogg"
+dest_files=["res://.godot/imported/Intro Transition.ogg-9c79bdeea8f2bcb3b9868e53f81261d8.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=120.0
+beat_count=0
+bar_beats=4

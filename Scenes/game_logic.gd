@@ -13,7 +13,8 @@ signal camera_quick_pan(target: Vector2, type)
 
 @export var debug_mode = false
 
-enum game_status {CUTSCENE, PLAYERTURN, ENEMYTURN, FREEMOVE}
+enum game_status {CUTSCENE, PLAYERTURN, ENEMYTURN, FREEMOVE, MENU}
+var current_game_status = game_status.MENU
 
 var _emitters = {}
 var _listeners = {}
@@ -54,6 +55,15 @@ func _process(_delta: float) -> void:
 		set_process(false)
 		set_physics_process(false)
 	#pass
+
+#function for quickly panning camera on right click
+func _unhandled_input(event: InputEvent):
+	if event == InputEventMouseButton:
+		print_debug("Game Logic received input ", event)
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			camera_quick_pan.emit(event.global_position)
+		pass
+	return
 
 #this portion is based on code from Josh Anthony
 ##https://www.joshanthony.info/2021/08/09/creating-a-global-signal-system-in-godot/
@@ -155,11 +165,16 @@ func emit_signal_when_ready(signal_name: String, args: Array, emitter: Object) -
 ##in hindsight I should've probably made this its own dedicated script instead of being in game logic
 #endregion
 
-func _on_turn_end():
-	print_debug(turn_order[current_turn_index], " turn has ended")
-	current_turn_index += 1
-	if current_turn_index >= turn_order.size():
-		current_turn_index = 0
+func _on_turn_end(entity: Object):
+	print_debug("Received end turn signal from ", entity)
+	if turn_order[current_turn_index] == entity:
+		print_debug(turn_order[current_turn_index], " turn has ended")
+		current_turn_index += 1
+		if current_turn_index >= turn_order.size():
+			current_turn_index = 0
+	else:
+		print_debug("Turn end signal from ", entity, " does not match turn index for ", turn_order[current_turn_index])
+		return
 
 func _on_turn_start():
 	
@@ -174,6 +189,8 @@ func _on_turn_start():
 #p m m p m m
 #p m m m p m m
 #p m m m p m m m
+##this isn't balanced very well for high amounts of monsters until the parry/dodge system is implemented
+
 
 #find all entities in the scene, add them to the list, then calculate the turn order
 func combat_start():
@@ -181,13 +198,15 @@ func combat_start():
 		print_debug("Initiating combat")
 		in_combat = true
 		entities = get_tree().get_nodes_in_group("monster")
-		turn_order = entities
+		turn_order = entities.duplicate()
 		turn_order.shuffle()
 		turn_order.push_front(player_reference)
 		var insertion_point = turn_order.size()/2
 		if turn_order.size() % 2 == 1:
 			insertion_point += 1
 		turn_order.insert(insertion_point,player_reference)
+		print_debug("Monsters listed: ", entities)
+		print_debug("Turn order generated: ", turn_order)
 		combat_started.emit()
 
 func _combat_loop() ->void:
@@ -204,9 +223,11 @@ func _combat_loop() ->void:
 func _on_enemy_defeated(enemy: Node2D):
 	#remove enemy from turn order and entity list
 	print_debug(enemy, "defeated")
+	if turn_order.get_index(enemy) < current_turn_index:
+		pass
 	turn_order.erase(enemy)
 	entities.erase(enemy)
-	print_debug("Turn order is now", turn_order)
+	print_debug("Turn order is now ", turn_order)
 	camera_quick_pan.emit(enemy.global_position)
 	#await camera_reference.quick_pan_completed
 	#if there's no enemies left, in_combat = false
@@ -251,7 +272,8 @@ func _on_game_over():
 
 func game_logic_listeners():
 	#add_listener function calls for global listeners
-	
+	add_listener("turn_ended", self, "_on_turn_end(entity: Object)")
+	add_listener("level_cleared", self, "_on_level_cleared()")
 	return
 
 func game_logic_emitters():
@@ -260,4 +282,6 @@ func game_logic_emitters():
 	add_emitter("enemy_turn", self)
 	add_emitter("combat_started", self)
 	add_emitter("combat_ended", self)
+	add_emitter("start_turn", self)
+	add_emitter("camera_quick_pan", self)
 	return

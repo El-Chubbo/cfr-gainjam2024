@@ -84,8 +84,8 @@ func _ready():
 		flat_attack_modifier = PlayerData.saved_data["FlatAttackBoost"]
 		percentage_attack_modifier = PlayerData.saved_data["PercentAttackBoost"]
 	else:
-		print_debug("Replacing the current player data: ")
-		print_debug(PlayerData.current_data)
+		#print_debug("Replacing the current player data: ")
+		#print_debug(PlayerData.current_data)
 		max_health = PlayerData.default_data["MaxHealth"]
 		current_health = PlayerData.default_data["Health"]
 		max_calories = PlayerData.default_data["MaxCalories"]
@@ -130,7 +130,7 @@ func _unhandled_input(event):
 func move(dir):
 	ray.target_position = movement_inputs[dir] * tile_size
 	ray.force_raycast_update()
-	print_debug("Raycast is colliding with ", ray.get_collider())
+	#print_debug("Raycast is colliding with ", ray.get_collider())
 	if !ray.is_colliding() or ray.get_collider().is_in_group("pickup") or ray.get_collider().is_in_group("spell") and !ray.get_collider().is_in_group("monster") and MOV > 0:
 		#position += inputs[dir] * tile_size #instant movement
 		moved.emit()
@@ -192,7 +192,7 @@ func attack(dir):
 		"spell_1":
 			var final_attack: int = base_attack * percentage_attack_modifier + flat_attack_modifier
 			if !remove_calories(150): #it's supposed to fetch the spell's cost here, but hardcoding it for now
-				print_debug(spell_1, " spell cast failed. Too few calories!")
+				#print_debug(spell_1, " spell cast failed. Too few calories!")
 				action_failed.emit(action_buffer)
 				cancel()
 				return
@@ -392,7 +392,8 @@ func _on_health_changed(amount: int = 1) -> void:
 	#print_debug("Current health: ", current_health)
 	PlayerData.current_data["Health"] = current_health
 	if current_health <= 0:	
-		print_debug("Cirana has been knocked out!")
+		#print_debug("Cirana has been knocked out!")
+		pass
 	return
 
 func preset_animation(): #this should be replaced with an animation mixer in the future for more complex facial expression combinations and saving on texture size
