@@ -36,7 +36,8 @@ stream_3/volume = 0.0
 clip_count = 4
 clip_0/name = &"Intro"
 clip_0/stream = ExtResource("8_qhp7t")
-clip_0/auto_advance = 0
+clip_0/auto_advance = 1
+clip_0/next_clip = 0
 clip_1/name = &"Transition"
 clip_1/stream = ExtResource("9_1t25b")
 clip_1/auto_advance = 1
@@ -77,9 +78,10 @@ script = ExtResource("1_uv2i1")
 [node name="Mystic" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamInteractive_gi6qa")
 volume_db = -16.0
-autoplay = true
 bus = &"Music"
 
 [node name="Hyrule" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamInteractive_xlav5")
 bus = &"Music"
+
+[connection signal="finished" from="Mystic" to="." method="_on_finished"]

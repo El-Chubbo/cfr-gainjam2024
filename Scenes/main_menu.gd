@@ -14,6 +14,7 @@ func _ready() -> void:
 	$CreditsControls.visible = false
 	%TitleGraphic.visible = true
 	%CiranaArt.visible = true
+	MusicPlayer.force_play(MusicPlayer.song_list.MYSTIC_INTRO)
 	return
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -72,6 +73,8 @@ func _on_how_to_play_button_pressed() -> void:
 
 func _on_test_button1_pressed() -> void:
 	GameLogic.goto_scene("res://Scenes/test_level.tscn")
+	MusicPlayer.force_play(MusicPlayer.song_list.NONE)
+	##Music should probably controlled on level load rather than manually from the previous scene
 	return
 
 func _on_test_button2_pressed() -> void:

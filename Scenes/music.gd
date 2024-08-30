@@ -10,7 +10,7 @@ extends Node
 
 ##new decision, use a muffled audio bus for the pause menu, Act 1 for non-combat, Act 2 for combat, Lead appears for Cirana's turn
 
-enum song_list {MYSTIC_ACT1, MYSTIC_ACT2, HYRULE_ACT1, HYRULE_ACT2}
+enum song_list {NONE, MYSTIC_INTRO, MYSTIC_TRANSITION, MYSTIC_ACT1, MYSTIC_ACT2, HYRULE_ACT1, HYRULE_ACT2}
 var in_combat : bool = false
 var player_turn : bool = false
 var is_paused : bool = false
@@ -68,18 +68,25 @@ func _on_game_unpaused() -> void:
 	is_paused = false
 	return
 
+##I can't find the proper method to call to trigger a transition
 func force_play(name: song_list):
+	print_debug("Received force_play signal with input ", name)
 	match name:
 		song_list.MYSTIC_ACT1:
+			if currently_playing == song_list.MYSTIC_INTRO:
+				print_debug("Attempting to switch from Mystic_Intro to Mystic_Transition")
+				$Mystic.stream.set_clip_auto_advance(0, 1)
+				$Mystic.stream.set_clip_auto_advance_next_clip(0, 1)
+				##this area still needs a lot more work
 			if currently_playing == song_list.MYSTIC_ACT2:
-				#$Mystic.get_
-				pass
+				
+				return
 			$Mystic.play()
 			$Hyrule.stop()
 		song_list.MYSTIC_ACT2:
 			$Mystic.play()
 			if currently_playing == song_list.MYSTIC_ACT1:
-				$Mystic.set_deferred("parameters/switch_to_clip", "Act2")
+				#$Mystic.set_deferred("parameters/switch_to_clip", "Act2")
 				pass
 			else:
 				#$Mystic.set_deferred("initial_clip", "Act2")
@@ -89,4 +96,11 @@ func force_play(name: song_list):
 			$Mystic.stop()
 			$Hyrule.stop()
 	currently_playing = name
+	if currently_playing == song_list.NONE:
+		$Mystic.stop()
+		$Hyrule.stop()
+	return
+
+func _on_finished() -> void:
+	print_debug("Received a finished() signal")
 	return
