@@ -17,6 +17,8 @@ var is_paused : bool = false
 var volume = 1.0
 var currently_playing : song_list
 
+var music_bus = AudioServer.get_bus_index("Music")
+
 func _ready() -> void:
 	
 	GameLogic.add_listener("combat_start", self, "_on_combat_start()")
@@ -61,23 +63,45 @@ func _on_enemy_turn() -> void:
 	
 func _on_game_paused() -> void:
 	is_paused = true
-	
+	AudioServer.set_bus_effect_enabled(1, 0, true)
+	AudioServer.set_bus_effect_enabled(1, 1, true)
+	AudioServer.set_bus_effect_enabled(1, 2, true)
 	return
 	
 func _on_game_unpaused() -> void:
 	is_paused = false
+	AudioServer.set_bus_effect_enabled(1, 0, false)
+	AudioServer.set_bus_effect_enabled(1, 1, false)
+	AudioServer.set_bus_effect_enabled(1, 2, false)
 	return
 
-##I can't find the proper method to call to trigger a transition
-func force_play(name: song_list):
-	print_debug("Received force_play signal with input ", name)
-	match name:
+##honestly I should probably ditch using the whole audio stream interactive thing and just script playing audiostreams manually
+func audio_transition() -> void:
+	match currently_playing:
+		song_list.MYSTIC_INTRO:
+			#await finished()
+			pass
+		song_list.MYSTIC_TRANSITION:
+			pass
+		song_list.MYSTIC_ACT1:
+			pass
+		song_list.MYSTIC_ACT2:
+			pass
+		_:
+			pass
+	return
+
+##I can't find the proper method to call to trigger a transition like "switch to clip" in the editor, try setting auto advances I guess??
+func force_play(song: song_list):
+	print_debug("Received force_play signal with input ", song)
+	match song:
 		song_list.MYSTIC_ACT1:
 			if currently_playing == song_list.MYSTIC_INTRO:
 				print_debug("Attempting to switch from Mystic_Intro to Mystic_Transition")
 				$Mystic.stream.set_clip_auto_advance(0, 1)
 				$Mystic.stream.set_clip_auto_advance_next_clip(0, 1)
 				##this area still needs a lot more work
+				##I also realize I'm doing crazy logic here instead of update_state()
 			if currently_playing == song_list.MYSTIC_ACT2:
 				
 				return
@@ -95,7 +119,7 @@ func force_play(name: song_list):
 		_:
 			$Mystic.stop()
 			$Hyrule.stop()
-	currently_playing = name
+	currently_playing = song
 	if currently_playing == song_list.NONE:
 		$Mystic.stop()
 		$Hyrule.stop()

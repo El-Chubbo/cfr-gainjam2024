@@ -5,7 +5,7 @@ extends Node2D
 @onready var health_component = $"Health Component"
 @onready var nav = $NavigationAgent2D
 
-signal finished_turn
+signal turn_ended(reference)
 signal defeated
 
 @export var max_health = 50
@@ -18,7 +18,9 @@ var current_AP = max_AP
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#set up global signals
-	GameLogic.add_emitter("finished_turn", self)
+	GameLogic.add_emitter("turn_ended", self)
+	GameLogic.add_listener("turn_started", self, "_on_turn_start()")
+	
 	return
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,6 +30,9 @@ func _ready() -> void:
 func _on_turn_start():
 	current_MOV = max_MOV
 	current_AP = max_AP
+	#do more things
+	turn_ended.emit(self)
+	return
 
 func get_MOV():
 	return current_MOV
