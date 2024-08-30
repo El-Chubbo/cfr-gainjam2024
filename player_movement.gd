@@ -29,8 +29,10 @@ var parry_dodge = parry_dodge_statuses.INACTIVE
 
 var is_casting = false
 var has_turn = true
-var in_combat = false #no limitations on movement and actions while out of combat
+#var in_combat = false #no limitations on movement and actions while out of combat
+##removed to use the global variable instead
 var tile_size = 256
+@export var override_stats = false ##this is for when stats are enforced for a particular room
 @export var max_movement = 3
 @export var max_actions = 2
 var MOV = max_movement
@@ -72,9 +74,23 @@ var action_inputs = {"spell_1": "Fireball",
 func _ready():
 	position = position.snapped(Vector2.ONE * tile_size)
 	position += Vector2.ONE * tile_size/2
-	#var saved_stats = load("")
+	GameLogic.add_emitter("game_over", self)
+	GameLogic.add_emitter("calories_changed", self)
+	GameLogic.add_emitter("health_changed", self)
+	GameLogic.add_emitter("max_health_changed", self)
 	#in hindsight I should've put all the player stats in this script in a dictionary too
-	if GameLogic.saved_data_exists:
+	if override_stats:
+		PlayerData.current_data["MaxHealth"] = max_health
+		PlayerData.current_data["Health"] = current_health
+		PlayerData.current_data["MaxCalories"] = max_calories 
+		current_calories = 0 #hardcoded for the secret level
+		PlayerData.current_data["Calories"] = current_calories 
+		PlayerData.current_data["MaxMovement"] = max_movement 
+		PlayerData.current_data["MaxActionPoints"] = max_actions 
+		PlayerData.current_data["FlatAttackBoost"] = flat_attack_modifier
+		PlayerData.current_data["PercentAttackBoost"] = percentage_attack_modifier
+	##this is a fucking pain, please be easy to refactor later
+	elif GameLogic.saved_data_exists:
 		max_health = PlayerData.saved_data["MaxHealth"]
 		current_health = PlayerData.saved_data["Health"]
 		max_calories = PlayerData.saved_data["MaxCalories"]
@@ -99,14 +115,8 @@ func _ready():
 	##I only introduced global signals later when I realized I needed them
 	#health_changed.emit(current_health)
 	calories_changed.emit(current_calories, 0)
+	print_debug("sent calories changed signal")
 	%StatChangeSounds.enabled = true
-	#to do: load stats
-	
-	GameLogic.add_emitter("game_over", self)
-	#GameLogic.emit_signal_when_ready('game_over', ["test"], self)
-	connect('game_over',Callable(self,'_on_game_over'))
-	#print_debug("Attempted creating signal ", game_over, " global")
-	#print_debug("Emitters in GameLogic: ", GameLogic._emitters)
 
 func _unhandled_input(event):
 	if moving:
@@ -131,7 +141,7 @@ func move(dir):
 	ray.target_position = movement_inputs[dir] * tile_size
 	ray.force_raycast_update()
 	#print_debug("Raycast is colliding with ", ray.get_collider())
-	if !ray.is_colliding() or ray.get_collider().is_in_group("pickup") or ray.get_collider().is_in_group("spell") and !ray.get_collider().is_in_group("monster") and MOV > 0:
+	if !ray.is_colliding() or ray.get_collider().is_in_group("pickup") or ray.get_collider().is_in_group("trigger") or ray.get_collider().is_in_group("spell") and !ray.get_collider().is_in_group("monster") and MOV > 0:
 		#position += inputs[dir] * tile_size #instant movement
 		moved.emit()
 		var tween = create_tween()
@@ -282,13 +292,13 @@ func _on_cancel_cast():
 	$Area2D/MarkerLeft.visible = false
 	$Area2D/MarkerDown.visible = false
 
-func _on_combat_end():
-	in_combat = false
-	pass
+#func _on_combat_end():
+	#in_combat = false
+	#pass
 
-func _on_combat_start():
-	in_combat = true
-	pass
+#func _on_combat_start():
+	#in_combat = true
+	#pass
 
 func take_damage(amount: int = 1, type: String = "none"): #default 1 if nothing specified
 	if amount == 0:
@@ -435,6 +445,8 @@ func get_AP():
 
 #function for walking over pickups or damage zones and taking damage from attacks
 func _on_area_2d_area_entered(entity: Area2D) -> void:
+	if entity.is_in_group("trigger"):
+		return
 	if entity.is_in_group("spell") and !entity.is_in_group("from player"):
 		take_damage(1, "spell")
 		return

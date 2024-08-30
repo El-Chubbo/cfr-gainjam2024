@@ -58,6 +58,7 @@ func _process(_delta: float) -> void:
 
 #function for quickly panning camera on right click
 func _unhandled_input(event: InputEvent):
+	##I forgot I added a right click to the input map, I should replace this later
 	if event == InputEventMouseButton:
 		print_debug("Game Logic received input ", event)
 		if event.button_index == MOUSE_BUTTON_RIGHT:
@@ -69,6 +70,7 @@ func _unhandled_input(event: InputEvent):
 ##https://www.joshanthony.info/2021/08/09/creating-a-global-signal-system-in-godot/
 #region Global Signal Code
 func add_emitter(signal_name: String, emitter: Object) -> void:
+	#print_debug("Adding signal ", signal_name, " from ", emitter)
 	var emitter_data = {'object': emitter, 'object_id': emitter.get_instance_id()}
 	if !_emitters.has(signal_name):
 		_emitters[signal_name] = {}
@@ -78,6 +80,7 @@ func add_emitter(signal_name: String, emitter: Object) -> void:
 		_connect_emitter_to_listeners(signal_name, emitter)
 
 func add_listener(signal_name: String, listener: Object, method: String) -> void:
+	#print_debug("Adding listener ", signal_name, " from ", listener)
 	var listener_data = {'object': listener, 'object_id': listener.get_instance_id(), 'method':method}
 	if !_listeners.has(signal_name):
 		_listeners[signal_name] = {}
@@ -87,6 +90,7 @@ func add_listener(signal_name: String, listener: Object, method: String) -> void
 		_connect_listener_to_emitters(signal_name, listener, method)
 
 func _connect_emitter_to_listeners(signal_name: String, emitter: Object) -> void:
+	#print_debug("Successfully connected emitter ", emitter, " to ", signal_name)
 	var listeners = _listeners[signal_name]
 	for listener in listeners.values():
 		if _process_purge(listener, listeners):
@@ -94,6 +98,7 @@ func _connect_emitter_to_listeners(signal_name: String, emitter: Object) -> void
 		emitter.connect(signal_name, Callable(listener.object,listener.method))
 	
 func _connect_listener_to_emitters(signal_name: String, listener: Object, method: String) -> void:
+	#print_debug("Successfully connected emitter ", listener, " to ", signal_name)
 	var emitters = _emitters[signal_name]
 	for emitter in emitters.values():
 		if _process_purge(emitter, emitters):
@@ -274,6 +279,7 @@ func game_logic_listeners():
 	#add_listener function calls for global listeners
 	add_listener("turn_ended", self, "_on_turn_end(entity: Object)")
 	add_listener("level_cleared", self, "_on_level_cleared()")
+	add_listener("defeated", self, "_on_enemy_defeated(enemy: Node2D)")
 	return
 
 func game_logic_emitters():

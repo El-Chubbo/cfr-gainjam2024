@@ -1,0 +1,91 @@
+[gd_scene load_steps=7 format=4 uid="uid://deopf3j1md3yf"]
+
+[ext_resource type="PackedScene" uid="uid://joo0ehc63rqi" path="res://Scenes/cirana_player.tscn" id="1_6j5o2"]
+[ext_resource type="TileSet" uid="uid://cfsc5odf3wfjk" path="res://Scenes/placeholder_tiles.tres" id="2_yvm2j"]
+[ext_resource type="PackedScene" uid="uid://cftlng4a1boxg" path="res://Scenes/controllable_camera.tscn" id="3_j1p7f"]
+[ext_resource type="PackedScene" uid="uid://bjk146k4p6yho" path="res://Scenes/gameplay_hud.tscn" id="4_3a7sp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_5x0vy"]
+font_size = 256
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_k14hg"]
+font_size = 32
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[node name="ThankYouLevel" type="Node2D"]
+metadata/_edit_vertical_guides_ = [1600.0, -1601.0]
+metadata/_edit_horizontal_guides_ = [-900.0, 900.0]
+
+[node name="CiranaPlayer" parent="." instance=ExtResource("1_6j5o2")]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAQAAAACAAAAAAABAAQAAAACAAAAAAACAAQAAAACAAAAAAADAAQAAAACAAAAAAAEAAQAAAACAAAAAAAFAAQAAAACAAAAAAAGAAQAAAACAAAAAAAHAAQAAAACAAAAAAD//wQAAAACAAAAAAD+/wQAAAACAAAAAAD9/wQAAAACAAAAAAD8/wQAAAACAAAAAAD7/wQAAAACAAAAAAD6/wQAAAACAAAAAAD5/wQAAAACAAAAAAD4/wQAAAACAAAAAAAHAAMAAAACAAAAAAAHAAIAAAACAAAAAAAHAAEAAAACAAAAAAAHAAAAAAACAAAAAAAHAP//AAACAAAAAAAHAP7/AAACAAAAAAAHAP3/AAACAAAAAAAHAPz/AAACAAAAAAAHAPv/AAACAAAAAAD4/wMAAAACAAAAAAD4/wIAAAACAAAAAAD4/wEAAAACAAAAAAD4/wAAAAACAAAAAAD4////AAACAAAAAAD4//7/AAACAAAAAAD4//3/AAACAAAAAAD4//z/AAACAAAAAAD4//v/AAACAAAAAAD5//v/AAACAAAAAAD6//v/AAACAAAAAAD7//v/AAACAAAAAAD8//v/AAACAAAAAAD9//v/AAACAAAAAAD+//v/AAACAAAAAAD///v/AAACAAAAAAAAAPv/AAACAAAAAAABAPv/AAACAAAAAAACAPv/AAACAAAAAAADAPv/AAACAAAAAAAEAPv/AAACAAAAAAAFAPv/AAACAAAAAAAGAPv/AAACAAAAAAA=")
+tile_set = ExtResource("2_yvm2j")
+
+[node name="ControllableCamera" parent="." instance=ExtResource("3_j1p7f")]
+limit_left = -1600
+limit_top = -900
+limit_right = 1600
+limit_bottom = 900
+zoom_min = 0.4
+zoom_max = 1.15
+
+[node name="Label" type="Label" parent="ControllableCamera"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1137.5
+offset_top = -600.0
+offset_right = 1137.5
+offset_bottom = -251.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Thanks for playing"
+label_settings = SubResource("LabelSettings_5x0vy")
+
+[node name="Label2" type="Label" parent="ControllableCamera"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -632.0
+offset_top = 600.0
+offset_right = 632.0
+offset_bottom = 693.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "That's all the secrets I could fit into the prototype before the end of the game jam.
+I appreciate you seeing it to the end."
+label_settings = SubResource("LabelSettings_k14hg")
+horizontal_alignment = 1
+
+[node name="GameplayHud" parent="." instance=ExtResource("4_3a7sp")]
+
+[node name="Hotbar" parent="GameplayHud" index="0"]
+visible = false
+
+[node name="HeartGUI" parent="GameplayHud" index="1"]
+visible = false
+
+[node name="CalorieMeter" parent="GameplayHud" index="2"]
+visible = false
+
+[node name="TurnStatus" parent="GameplayHud" index="4"]
+visible = false
+
+[node name="ResourceLabels" parent="GameplayHud" index="5"]
+visible = false
+
+[node name="DebugControls" parent="GameplayHud" index="6"]
+visible = false
+
+[node name="PauseButton" parent="GameplayHud" index="7"]
+visible = false
+
+[editable path="GameplayHud"]

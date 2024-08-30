@@ -26,7 +26,7 @@ animations = [{
 "speed": 12.0
 }, {
 "frames": [{
-"duration": 7.0,
+"duration": 5.0,
 "texture": ExtResource("6_ukxrh")
 }, {
 "duration": 1.0,
@@ -48,13 +48,23 @@ animations = [{
 "speed": 12.0
 }]
 
-[node name="CakeMonster" type="Node2D"]
+[node name="CakeMonster" type="Node2D" groups=["monster"]]
 script = ExtResource("1_551yx")
+max_health = 110
 
-[node name="MovementComponent" parent="." instance=ExtResource("2_fok58")]
+[node name="MovementComponent" parent="." groups=["component", "monster"] instance=ExtResource("2_fok58")]
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1
+
+[node name="CakeSprites" type="AnimatedSprite2D" parent="."]
+texture_filter = 5
+material = SubResource("ShaderMaterial_xfuja")
+position = Vector2(0, -64)
+scale = Vector2(12, 12)
+sprite_frames = SubResource("SpriteFrames_qgmro")
+animation = &"knife idle"
+autoplay = "knife idle"
 
 [node name="Control" type="Control" parent="."]
 custom_minimum_size = Vector2(256, 256)
@@ -71,18 +81,17 @@ offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Health Component2" parent="Control" instance=ExtResource("3_m1u6b")]
-layout_mode = 0
-offset_right = 256.0
-offset_bottom = 32.0
-
-[node name="CakeSprites" type="AnimatedSprite2D" parent="."]
-texture_filter = 5
-material = SubResource("ShaderMaterial_xfuja")
-scale = Vector2(2, 2)
-sprite_frames = SubResource("SpriteFrames_qgmro")
-animation = &"sword idle"
-frame_progress = 0.616719
+[node name="HealthComponent" parent="Control" instance=ExtResource("3_m1u6b")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -128.0
+offset_top = -32.0
+offset_right = 128.0
+offset_bottom = 0.0
+grow_horizontal = 2
 
 [node name="Markers" type="Node2D" parent="."]
 

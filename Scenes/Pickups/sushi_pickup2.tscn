@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2theungap8vm"]
+
+[ext_resource type="Script" path="res://Scenes/Pickups/pickup_logic.gd" id="1_wg5k1"]
+[ext_resource type="PackedScene" uid="uid://njttkafifunw" path="res://Scenes/Components/pickup_component.tscn" id="2_swgst"]
+[ext_resource type="Texture2D" uid="uid://crg4e0h0qap7o" path="res://Art Assets/Food/plate.png" id="3_gdjm1"]
+[ext_resource type="Texture2D" uid="uid://cnvv6pmpct6ml" path="res://Art Assets/Food/fooddd.png" id="4_fj4tk"]
+
+[node name="SushiPickup" type="Node2D" groups=["pickup"]]
+script = ExtResource("1_wg5k1")
+
+[node name="PickupComponent" parent="." instance=ExtResource("2_swgst")]
+calorie_amount = 100
+
+[node name="Plate" type="Sprite2D" parent="."]
+texture_filter = 3
+position = Vector2(0, 32)
+scale = Vector2(8, 8)
+texture = ExtResource("3_gdjm1")
+
+[node name="FoodSprite" type="Sprite2D" parent="."]
+texture_filter = 3
+scale = Vector2(8, 8)
+texture = ExtResource("4_fj4tk")
+hframes = 9
+vframes = 9
+frame = 11
+
+[node name="Plus" type="Node2D" parent="."]
+visible = false
+position = Vector2(32, 32)
+
+[node name="Line2D" type="Line2D" parent="Plus"]
+points = PackedVector2Array(0, -16, 0, 16)
+default_color = Color(0, 1, 0, 1)
+
+[node name="Line2D2" type="Line2D" parent="Plus"]
+points = PackedVector2Array(-16, 0, 16, 0)
+default_color = Color(0, 1, 0, 1)
+
+[connection signal="body_entered" from="PickupComponent" to="." method="_on_pickup_component_body_entered"]

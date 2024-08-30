@@ -12,7 +12,7 @@ var movement_inputs = {"right": Vector2.RIGHT,
 			"down": Vector2.DOWN,
 			}
 
-@onready var ray = $RayCast2D
+@onready var ray = %RayCast2D
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("from player") and area.is_in_group("spell"):
@@ -24,7 +24,11 @@ func _on_defeat():
 	$Area2D.set_deferred("monitorable", false)
 	return
 
-func move(dir):
+func _on_receive_movement_request(dir):
+	move(dir)
+	return
+
+func move(dir) -> bool:
 	ray.target_position = movement_inputs[dir] * tile_size
 	ray.force_raycast_update()
 	if !ray.is_colliding() or ray.get_collider().is_in_group("pickup"):
@@ -44,3 +48,4 @@ func move(dir):
 		await tween.finished
 		position -= movement_inputs[dir] * (tile_size*0.1)
 		return false
+	return false

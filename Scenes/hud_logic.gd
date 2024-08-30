@@ -17,9 +17,14 @@ func _ready() -> void:
 	GameLogic.add_listener("health_changed", self, "_update_health(current_health)")
 	GameLogic.add_listener("max_health_changed", self, "_set_max_health(amount: int = 1)")
 	GameLogic.add_listener("round_passed", self, "_on_round_passed(new_entity :Variant)")
-	GameLogic.add_listener("combat_start", self, "_on_combat_start()")
+	GameLogic.add_listener("combat_started", self, "_on_combat_start()")
 	GameLogic.add_listener("combat_end", self, "_on_combat_end()")
 	GameLogic.add_listener('game_over', self, '_on_game_over')
+	resource_labels.visible = GameLogic.in_combat
+	turn_label.visible = GameLogic.in_combat
+	$CalorieMeter.value = PlayerData.current_data["Calories"]
+	$CalorieMeter.max_value = PlayerData.current_data["MaxCalories"]
+	$CalorieMeter/Label.text = str(PlayerData.current_data["Calories"], "/", PlayerData.current_data["MaxCalories"])
 	#player_reference = %CiranaPlayer
 	#player_reference.health_changed().connect(self._update_health(3))
 
@@ -42,7 +47,7 @@ func _set_max_health(amount: int = 1):
 	return
 
 func _update_calories(new_amount: int = 0, _difference: int = 0):
-	#print_debug("Updating calorie meter to value ", new_amount)
+	print_debug("Updating calorie meter to value ", new_amount)
 	$CalorieMeter/Label.text = str(new_amount, "/", $CalorieMeter.max_value)
 	var tween = get_tree().create_tween()
 	tween.tween_property($CalorieMeter, "value", new_amount, 0.5).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
@@ -57,20 +62,27 @@ func _update_hotbar():
 	pass
 
 func _on_combat_start():
-	turn_label.text = "Player turn"
+	turn_label.text = "Combat started"
 	resource_labels.visible = true
 
-func _on_round_passed(new_entity :Variant):
-	if new_entity.is_in_group("monster"):
-		turn_label.text = "Enemy turn"
-	elif new_entity.is_in_group("player"):
-		turn_label.text = "Player turn"
-	else: turn_label.text = "idk how you managed to get this text"
+##unnecessary with player and enemy turn global signals
+#func _on_new_turn(new_entity :Variant):
+	#if new_entity.is_in_group("monster"):
+		#turn_label.text = "Enemy turn"
+	#elif new_entity.is_in_group("player"):
+		#turn_label.text = "Player turn"
+	#else: turn_label.text = "idk how you managed to get this text"
+	
+func _on_player_turn():
+	turn_label.text = "Player turn"
+
+func _on_enemy_turn():
+	turn_label.text = "Enemy turn"
 
 func _on_combat_end():
 	turn_label.text = "Not in combat"
 	resource_labels.visible = false
-	pass
+	return
 
 func _on_pause_button_pressed() -> void:
 	$PauseMenu.reveal("Pause")

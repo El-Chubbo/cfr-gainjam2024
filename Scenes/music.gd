@@ -45,6 +45,26 @@ func update_state() -> void:
 		
 	return
 
+func backing_only():
+	var clip = $Mystic.stream.get_clip_stream(2)
+	var clip2 = $Mystic.stream.get_clip_stream(3)
+	clip.set_sync_stream_volume(0, -60.0)
+	clip.set_sync_stream_volume(3, -60.0)
+	clip2.set_sync_stream_volume(0, -60.0)
+	clip2.set_sync_stream_volume(3, -60.0)
+
+func lead_only():
+	var clip = $Mystic.stream.get_clip_stream(2)
+	var clip2 = $Mystic.stream.get_clip_stream(3)
+	clip.set_sync_stream_volume(0, 0)
+	clip.set_sync_stream_volume(1, -60.0)
+	clip.set_sync_stream_volume(2, -60.0)
+	clip.set_sync_stream_volume(3, -60.0)
+	clip2.set_sync_stream_volume(0, 0.0)
+	clip2.set_sync_stream_volume(1, -60.0)
+	clip2.set_sync_stream_volume(2, -60.0)
+	clip2.set_sync_stream_volume(3, -60.0)
+
 func _on_combat_start() -> void:
 	in_combat = true
 	return
@@ -63,6 +83,7 @@ func _on_enemy_turn() -> void:
 	
 func _on_game_paused() -> void:
 	is_paused = true
+	print_debug("Received pause signal, muffling music")
 	AudioServer.set_bus_effect_enabled(1, 0, true)
 	AudioServer.set_bus_effect_enabled(1, 1, true)
 	AudioServer.set_bus_effect_enabled(1, 2, true)
@@ -70,6 +91,7 @@ func _on_game_paused() -> void:
 	
 func _on_game_unpaused() -> void:
 	is_paused = false
+	print_debug("Received unpause signal, muffling music")
 	AudioServer.set_bus_effect_enabled(1, 0, false)
 	AudioServer.set_bus_effect_enabled(1, 1, false)
 	AudioServer.set_bus_effect_enabled(1, 2, false)

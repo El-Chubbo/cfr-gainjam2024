@@ -1,15 +1,83 @@
-[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://73aonnlj4cly"]
+[gd_resource type="TileSet" load_steps=38 format=3 uid="uid://73aonnlj4cly"]
 
 [ext_resource type="PackedScene" uid="uid://bfqyxkto0uv5u" path="res://Scenes/Pickups/apple_pickup.tscn" id="1_iqh0k"]
 [ext_resource type="PackedScene" uid="uid://b8lf8ia416yc" path="res://Scenes/Pickups/health_pickup.tscn" id="2_mjh15"]
+[ext_resource type="PackedScene" uid="uid://d3uvmorwaf3bb" path="res://Scenes/Pickups/burger_pickup.tscn" id="2_rlobp"]
 [ext_resource type="PackedScene" uid="uid://b017yaqtm70yh" path="res://Scenes/Pickups/maxhealth_pickup.tscn" id="3_lqviy"]
+[ext_resource type="PackedScene" uid="uid://cxb1v64iplkoo" path="res://Scenes/Pickups/cake_pickup.tscn" id="3_o73ct"]
+[ext_resource type="PackedScene" uid="uid://bwwub6oudj27n" path="res://Scenes/Entities/cake_monster.tscn" id="4_f8now"]
+[ext_resource type="PackedScene" uid="uid://dn8hwb1fn0bfj" path="res://Scenes/Pickups/candy_pickup.tscn" id="4_s3jfv"]
+[ext_resource type="PackedScene" uid="uid://d6apwl8knx0y" path="res://Scenes/Pickups/carrot_pickup.tscn" id="5_6lhip"]
+[ext_resource type="PackedScene" uid="uid://4rsigq3m00mf" path="res://Scenes/Pickups/cheese_pickup.tscn" id="6_ajcub"]
+[ext_resource type="PackedScene" uid="uid://dbe053a8oveus" path="res://Scenes/Pickups/cherry_pickup.tscn" id="7_js5nf"]
+[ext_resource type="PackedScene" uid="uid://df8dmbwrtaklp" path="res://Scenes/Pickups/dango_pickup.tscn" id="8_14sld"]
+[ext_resource type="PackedScene" uid="uid://cf5cnsmrhkiwq" path="res://Scenes/Pickups/donut_pickup.tscn" id="9_6yowh"]
+[ext_resource type="PackedScene" uid="uid://bhsiigyfllivd" path="res://Scenes/Pickups/drumstick_pickup.tscn" id="10_lmbx0"]
+[ext_resource type="PackedScene" uid="uid://cy88unvvladeh" path="res://Scenes/Pickups/hotdog_pickup.tscn" id="12_8467i"]
+[ext_resource type="PackedScene" uid="uid://b4hdqsxbxovj7" path="res://Scenes/Pickups/mushroom_pickup.tscn" id="14_h86pk"]
+[ext_resource type="PackedScene" uid="uid://ckw3skw7ltucx" path="res://Scenes/Pickups/orange_pickup.tscn" id="15_uy4vf"]
+[ext_resource type="PackedScene" uid="uid://byheudsuqm4j8" path="res://Scenes/Pickups/pear_pickup.tscn" id="16_qnuwg"]
+[ext_resource type="PackedScene" uid="uid://c6dmfuw88unof" path="res://Scenes/Pickups/pepper_pickup.tscn" id="17_yfsc1"]
+[ext_resource type="PackedScene" uid="uid://diak4qkb3qp7x" path="res://Scenes/Pickups/pizza_pickup.tscn" id="18_4jkbe"]
+[ext_resource type="PackedScene" uid="uid://fnb05ea35kgx" path="res://Scenes/Pickups/pretzel_pickup.tscn" id="19_d1fys"]
+[ext_resource type="PackedScene" uid="uid://wi1j41l8g02d" path="res://Scenes/Pickups/pumpkin_pickup.tscn" id="20_go8hi"]
+[ext_resource type="PackedScene" uid="uid://cr1nbhf02nato" path="res://Scenes/Pickups/raspberry_pickup.tscn" id="21_v1buk"]
+[ext_resource type="PackedScene" uid="uid://d1jaemoyae7w6" path="res://Scenes/Pickups/rice_pickup.tscn" id="22_8n6ft"]
+[ext_resource type="PackedScene" uid="uid://dool4o7tonmfb" path="res://Scenes/Pickups/scone_pickup.tscn" id="23_t8b3u"]
+[ext_resource type="PackedScene" uid="uid://dwxcdudlcl4ot" path="res://Scenes/Pickups/soda_pickup.tscn" id="24_h8epi"]
+[ext_resource type="PackedScene" uid="uid://d2theungap8vm" path="res://Scenes/Pickups/sushi_pickup2.tscn" id="25_i61sm"]
+[ext_resource type="PackedScene" uid="uid://0m2kj6vmmhp4" path="res://Scenes/Pickups/sushi_pickup3.tscn" id="26_w2wmy"]
+[ext_resource type="PackedScene" uid="uid://d3hwsxex2sqa0" path="res://Scenes/Pickups/sushi_pickup.tscn" id="27_8815e"]
+[ext_resource type="PackedScene" uid="uid://gruol4gtn0mt" path="res://Scenes/Pickups/takeout_pickup.tscn" id="28_xgarm"]
+[ext_resource type="PackedScene" uid="uid://n1gvgrqnoflk" path="res://Scenes/Pickups/watermelon_pickup.tscn" id="29_wbgxl"]
+[ext_resource type="PackedScene" uid="uid://ceeutkyv6oifa" path="res://Scenes/Pickups/apple_pickup2.tscn" id="30_ei02c"]
+[ext_resource type="PackedScene" uid="uid://bv5lo2lx10lfn" path="res://Scenes/Pickups/banana_pickup.tscn" id="31_5ykg1"]
+[ext_resource type="PackedScene" uid="uid://dn4m0jm7as8qm" path="res://Scenes/Pickups/beer_pickup.tscn" id="32_mma6k"]
+[ext_resource type="PackedScene" uid="uid://ch5yh7mwddmfk" path="res://Scenes/Pickups/bread_pickup.tscn" id="33_6m5oh"]
+[ext_resource type="PackedScene" uid="uid://18kjo3obyfo0" path="res://Scenes/Pickups/broccoli_pickup.tscn" id="34_oodel"]
 
-[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_7t6mw"]
-resource_name = "Pickups"
-scenes/1/scene = ExtResource("1_iqh0k")
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_1nxxn"]
+resource_name = "pickups"
+scenes/1/scene = ExtResource("3_lqviy")
 scenes/2/scene = ExtResource("2_mjh15")
-scenes/3/scene = ExtResource("3_lqviy")
+scenes/3/scene = ExtResource("31_5ykg1")
+scenes/4/scene = ExtResource("30_ei02c")
+scenes/5/scene = ExtResource("1_iqh0k")
+scenes/6/scene = ExtResource("32_mma6k")
+scenes/7/scene = ExtResource("33_6m5oh")
+scenes/8/scene = ExtResource("34_oodel")
+scenes/9/scene = ExtResource("2_rlobp")
+scenes/10/scene = ExtResource("3_o73ct")
+scenes/11/scene = ExtResource("4_s3jfv")
+scenes/12/scene = ExtResource("5_6lhip")
+scenes/13/scene = ExtResource("6_ajcub")
+scenes/14/scene = ExtResource("7_js5nf")
+scenes/15/scene = ExtResource("8_14sld")
+scenes/16/scene = ExtResource("9_6yowh")
+scenes/17/scene = ExtResource("10_lmbx0")
+scenes/18/scene = ExtResource("12_8467i")
+scenes/19/scene = ExtResource("14_h86pk")
+scenes/20/scene = ExtResource("15_uy4vf")
+scenes/21/scene = ExtResource("16_qnuwg")
+scenes/22/scene = ExtResource("17_yfsc1")
+scenes/23/scene = ExtResource("18_4jkbe")
+scenes/24/scene = ExtResource("19_d1fys")
+scenes/25/scene = ExtResource("20_go8hi")
+scenes/26/scene = ExtResource("21_v1buk")
+scenes/27/scene = ExtResource("22_8n6ft")
+scenes/28/scene = ExtResource("23_t8b3u")
+scenes/29/scene = ExtResource("24_h8epi")
+scenes/30/scene = ExtResource("25_i61sm")
+scenes/31/scene = ExtResource("26_w2wmy")
+scenes/32/scene = ExtResource("27_8815e")
+scenes/33/scene = ExtResource("28_xgarm")
+scenes/34/scene = ExtResource("29_wbgxl")
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_egtqx"]
+resource_name = "Enemies"
+scenes/1/scene = ExtResource("4_f8now")
 
 [resource]
 tile_size = Vector2i(256, 256)
-sources/0 = SubResource("TileSetScenesCollectionSource_7t6mw")
+sources/2 = SubResource("TileSetScenesCollectionSource_egtqx")
+sources/0 = SubResource("TileSetScenesCollectionSource_1nxxn")

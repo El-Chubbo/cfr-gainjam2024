@@ -1,0 +1,21 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://be3gismalb6ry"]
+
+[ext_resource type="Texture2D" uid="uid://hnsxwwrcqt2i" path="res://Art Assets/tilesetOverlays.png" id="1_jg06f"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sslt3"]
+resource_name = "overlays"
+texture = ExtResource("1_jg06f")
+texture_region_size = Vector2i(512, 512)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+
+[resource]
+tile_size = Vector2i(512, 512)
+sources/0 = SubResource("TileSetAtlasSource_sslt3")

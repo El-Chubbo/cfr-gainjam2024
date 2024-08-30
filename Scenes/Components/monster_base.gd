@@ -2,7 +2,7 @@ extends Node2D
 
 ##I'd normally reference an external file to get monster stats, but for the game jam I think it'll be quicker to hardcode
 #@export var monster_stats: Resource
-@onready var health_component = $"Health Component"
+@onready var health_component = %HealthComponent
 @onready var nav = $NavigationAgent2D
 
 signal turn_ended(reference)
@@ -20,6 +20,7 @@ func _ready() -> void:
 	#set up global signals
 	GameLogic.add_emitter("turn_ended", self)
 	GameLogic.add_listener("turn_started", self, "_on_turn_start()")
+	GameLogic.add_emitter("defeated", self)
 	
 	return
 
@@ -31,7 +32,15 @@ func _on_turn_start():
 	current_MOV = max_MOV
 	current_AP = max_AP
 	#do more things
+	#calculate path using navigation Agent
+	#check if AP is available, if yes check if player is in range to attack
+	#if no, attempt following navigation path
+	#end when either AP reaches 0 or there are no valid moves (monster is either stuck or out of MOV)
 	turn_ended.emit(self)
+	return
+
+func calculate_path():
+	
 	return
 
 func get_MOV():
