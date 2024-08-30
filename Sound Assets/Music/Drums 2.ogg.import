@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dd1i1w3d8nivh"
+path="res://.godot/imported/Drums 2.ogg-2a05be09236e47a50ee3c8163f94112d.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound Assets/Music/Drums 2.ogg"
+dest_files=["res://.godot/imported/Drums 2.ogg-2a05be09236e47a50ee3c8163f94112d.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=120.0
+beat_count=0
+bar_beats=4

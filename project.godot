@@ -20,6 +20,7 @@ config/icon="res://Art Assets/CiranaIcon.png"
 DietMode="*res://diet_mode.gd"
 PlayerData="*res://player_data.gd"
 GameLogic="*res://Scenes/game_logic.gd"
+MusicPlayer="*res://Scenes/music.tscn"
 
 [display]
 

@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://drifi3ffp4mck"
-path="res://.godot/imported/Melee Target Break.wav-43144ecd27850109de7d8153dc497669.sample"
+path="res://.godot/imported/Melee Target Break.wav-5924e3130d20b0ae8a4e654438e93983.sample"
 
 [deps]
 
-source_file="res://Sound Assets/Melee Target Break.wav"
-dest_files=["res://.godot/imported/Melee Target Break.wav-43144ecd27850109de7d8153dc497669.sample"]
+source_file="res://Sound Assets/SFX/Melee Target Break.wav"
+dest_files=["res://.godot/imported/Melee Target Break.wav-5924e3130d20b0ae8a4e654438e93983.sample"]
 
 [params]
 

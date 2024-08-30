@@ -1,3 +1,68 @@
-[gd_scene format=3 uid="uid://kmhjviuwrmn7"]
+[gd_scene load_steps=12 format=3 uid="uid://kmhjviuwrmn7"]
 
-[node name="Music" type="AudioStreamPlayer2D"]
+[ext_resource type="Script" path="res://Scenes/music.gd" id="1_uv2i1"]
+[ext_resource type="AudioStream" uid="uid://b0bei8ni8firk" path="res://Sound Assets/Music/Lead 1.ogg" id="2_8fgx0"]
+[ext_resource type="AudioStream" uid="uid://c1pwexf3ub4d6" path="res://Sound Assets/Music/Backing 1.ogg" id="3_7vgv8"]
+[ext_resource type="AudioStream" uid="uid://cex7mcs2vx5ah" path="res://Sound Assets/Music/Drums 1.ogg" id="4_sgehw"]
+[ext_resource type="AudioStream" uid="uid://bkiv6cyu1asd4" path="res://Sound Assets/Music/Backing 2.ogg" id="6_gftu6"]
+[ext_resource type="AudioStream" uid="uid://dd1i1w3d8nivh" path="res://Sound Assets/Music/Drums 2.ogg" id="7_lkrcg"]
+[ext_resource type="AudioStream" uid="uid://veshw3ouw4ix" path="res://Sound Assets/Music/Guitar 2.ogg" id="8_u0xs7"]
+
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_h0pxi"]
+stream_count = 4
+stream_0/stream = ExtResource("2_8fgx0")
+stream_0/volume = 0.0
+stream_1/stream = ExtResource("3_7vgv8")
+stream_1/volume = 0.0
+stream_2/stream = ExtResource("4_sgehw")
+stream_2/volume = 0.0
+stream_3/volume = 0.0
+
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_kmqhg"]
+stream_count = 4
+stream_0/stream = ExtResource("2_8fgx0")
+stream_0/volume = 0.0
+stream_1/stream = ExtResource("6_gftu6")
+stream_1/volume = 0.0
+stream_2/stream = ExtResource("7_lkrcg")
+stream_2/volume = 0.0
+stream_3/stream = ExtResource("8_u0xs7")
+stream_3/volume = 0.0
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_gi6qa"]
+clip_count = 2
+clip_0/name = &"Act1"
+clip_0/stream = SubResource("AudioStreamSynchronized_h0pxi")
+clip_0/auto_advance = 0
+clip_1/name = &"Act2"
+clip_1/stream = SubResource("AudioStreamSynchronized_kmqhg")
+clip_1/auto_advance = 0
+_transitions = {
+Vector2i(0, 1): {
+"fade_beats": 1,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 0
+},
+Vector2i(1, 0): {
+"fade_beats": 1,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 0
+}
+}
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_xlav5"]
+
+[node name="Music Control" type="Node"]
+process_mode = 3
+script = ExtResource("1_uv2i1")
+
+[node name="Mystic" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamInteractive_gi6qa")
+volume_db = -16.0
+bus = &"Music"
+
+[node name="Hyrule" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamInteractive_xlav5")
+bus = &"Music"

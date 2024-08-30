@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://3mm4qee4noom"
-path="res://.godot/imported/FGHTImpt_Anime Melee 10-A.wav-d1b2185053946a145180531abaa43985.sample"
+path="res://.godot/imported/FGHTImpt_Anime Melee 10-A.wav-031849af0446e6409a69205f6d222c2a.sample"
 
 [deps]
 
-source_file="res://Sound Assets/FGHTImpt_Anime Melee 10-A.wav"
-dest_files=["res://.godot/imported/FGHTImpt_Anime Melee 10-A.wav-d1b2185053946a145180531abaa43985.sample"]
+source_file="res://Sound Assets/SFX/FGHTImpt_Anime Melee 10-A.wav"
+dest_files=["res://.godot/imported/FGHTImpt_Anime Melee 10-A.wav-031849af0446e6409a69205f6d222c2a.sample"]
 
 [params]
 

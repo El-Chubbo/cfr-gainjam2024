@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://c7qu2ferdcne8"
+path="res://.godot/imported/Lead 2.ogg-ec3568618820dc81e4493658fbe1e8d4.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound Assets/Music/Lead 2.ogg"
+dest_files=["res://.godot/imported/Lead 2.ogg-ec3568618820dc81e4493658fbe1e8d4.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=120.0
+beat_count=0
+bar_beats=4

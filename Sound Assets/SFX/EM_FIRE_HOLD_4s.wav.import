@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://7yyf4sb312pf"
-path="res://.godot/imported/EM_FIRE_HOLD_4s.wav-8ab070149fc9115987a0a318fd4ab1ec.sample"
+path="res://.godot/imported/EM_FIRE_HOLD_4s.wav-fa178acbbc7c54f94f1d9331981523bb.sample"
 
 [deps]
 
-source_file="res://Sound Assets/EM_FIRE_HOLD_4s.wav"
-dest_files=["res://.godot/imported/EM_FIRE_HOLD_4s.wav-8ab070149fc9115987a0a318fd4ab1ec.sample"]
+source_file="res://Sound Assets/SFX/EM_FIRE_HOLD_4s.wav"
+dest_files=["res://.godot/imported/EM_FIRE_HOLD_4s.wav-fa178acbbc7c54f94f1d9331981523bb.sample"]
 
 [params]
 

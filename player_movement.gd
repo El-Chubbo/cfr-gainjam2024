@@ -19,6 +19,14 @@ var spell_1 = preload("res://Scenes/fireball.tscn")
 var using_preset = true ##temporary variable for using the static gameplay sprites, no dynamic face animations
 var weight_level = 0 #used for determining some cosmetic effects, doesn't affect gameplay
 
+#Readied means the player has input a dodge or parry and is waiting for a hitbox collision
+#Inactive means no dodge or parry has been input, and the status is off cooldown
+#Cooldown means a dodge or parry input failed and cannot be reinput again until the cooldown expires and status returns to inactive
+#Dodging means that an attack hitbox was detected while readied and now the player is moving attempting to dodge the attack
+#Parrying means that an attack hitbox was detected while readied and now the player is nullifying the attack
+enum parry_dodge_statuses {INACTIVE, READIED, COOLDOWN, DODGING, PARRYING}
+var parry_dodge = parry_dodge_statuses.INACTIVE
+
 var is_casting = false
 var has_turn = true
 var in_combat = false #no limitations on movement and actions while out of combat
@@ -55,8 +63,8 @@ var movement_inputs = {"right": Vector2.RIGHT,
 			"down": Vector2.DOWN,
 			}
 var action_inputs = {"spell_1": "Fireball",
-			"spell_2": "Placeholder1",
-			"spell_3": "Placeholder2",
+			"spell_2": "FlameThrower",
+			"spell_3": "Explosion",
 			"spell_4": "Feast",
 			"spell_5": "Teleport"
 			}
@@ -101,8 +109,11 @@ func _ready():
 	#print_debug("Emitters in GameLogic: ", GameLogic._emitters)
 
 func _unhandled_input(event):
-	if moving or !has_turn:
+	if moving:
 		return
+	#if !has_turn() and GameLogic.:
+		#checkParryDodge(event)
+		#return
 	for dir in movement_inputs.keys():
 		if event.is_action_pressed(dir) and !is_casting:
 			move(dir)
@@ -210,6 +221,29 @@ func attack(dir):
 func teleport(dir):
 	pass
 	#todo
+
+func checkParryDodge(input):
+	if parry_dodge == parry_dodge_statuses.INACTIVE:
+		#activate parry-dodge state (they share the same states and cooldown)
+		#trigger parry or dodge function based on input (directions for dodge or Feast for parry)
+		pass
+	else: return
+
+func parry() -> void:
+	#enable 'parrying' state
+	#if an enemy attack is detected that can be eaten during the time frame the parrying state is active,
+	#the _on_area_2d_area_entered() script will ignore the damage and will instead add calories
+	#after time expires, parrying state is disabled and a cooldown is started
+	#
+	pass
+	
+func dodge() -> void:
+	#enable 'dodging' state
+	#does NOT give invincibility frames
+	#if an enemy attack is detected during the time frame the dodging state is active,
+	#attempt moving in direction input (dodging towards walls won't work)
+	#multi-space attacks should still deal damage if the player doesn't successfully dodge out of it
+	pass
 
 func _on_action_performed(action: String = "unspecified"):
 	AP -= 1

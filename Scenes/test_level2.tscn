@@ -1,20 +1,16 @@
 [gd_scene load_steps=4 format=3 uid="uid://ctaps8hxsfflp"]
 
-[ext_resource type="Script" path="res://Scenes/game_logic.gd" id="1_b75ri"]
+[ext_resource type="TileSet" uid="uid://cfsc5odf3wfjk" path="res://Scenes/placeholder_tiles.tres" id="1_g8ura"]
+[ext_resource type="TileSet" uid="uid://73aonnlj4cly" path="res://Scenes/Pickups/pickup_tiles.tres" id="2_u0oll"]
 [ext_resource type="PackedScene" uid="uid://joo0ehc63rqi" path="res://Scenes/cirana_player.tscn" id="2_yr85u"]
-
-[sub_resource type="TileSet" id="TileSet_c6bw7"]
-tile_size = Vector2i(256, 256)
 
 [node name="TestLevel2" type="Node2D"]
 
-[node name="GameStatus" type="Node" parent="." node_paths=PackedStringArray("player_reference")]
-script = ExtResource("1_b75ri")
-player_reference = NodePath("../CiranaPlayer")
-
 [node name="Ground" type="TileMapLayer" parent="."]
-tile_set = SubResource("TileSet_c6bw7")
+tile_set = ExtResource("1_g8ura")
 
 [node name="Entities" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_u0oll")
 
 [node name="CiranaPlayer" parent="." instance=ExtResource("2_yr85u")]
+position = Vector2(130, 114)

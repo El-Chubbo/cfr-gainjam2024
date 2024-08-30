@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://f8dog3numfub" path="res://Scenes/fire_trail_particle.tscn" id="2_b843l"]
 [ext_resource type="Texture2D" uid="uid://bs7dbvi3nxmii" path="res://Art Assets/tilesetSpells.png" id="2_dorus"]
 [ext_resource type="PackedScene" uid="uid://ceqsiixtm6gxp" path="res://Scenes/fire_impact_particle.tscn" id="2_hfiqc"]
-[ext_resource type="AudioStream" uid="uid://bb347o2lhmxwd" path="res://Sound Assets/EM_FIRE_IMPACT_01.wav" id="3_gvds4"]
+[ext_resource type="AudioStream" uid="uid://bb347o2lhmxwd" path="res://Sound Assets/SFX/EM_FIRE_IMPACT_01.wav" id="3_gvds4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kurqc"]
 size = Vector2(128, 128)

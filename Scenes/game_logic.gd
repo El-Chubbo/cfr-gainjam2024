@@ -4,14 +4,16 @@ extends Node
 signal round_passed
 signal player_turn
 signal enemy_turn
-signal combat_starting
+signal combat_started
 signal combat_end
-signal start_turn(entity)
-signal camera_quick_pan(target: Vector2)
+signal start_turn(entity) #emitted to all monsters, if the entity reference matches
+signal camera_quick_pan(target: Vector2, type)
 
 @export var saved_data_exists = false
 
 @export var debug_mode = false
+
+enum game_status {CUTSCENE, PLAYERTURN, ENEMYTURN, FREEMOVE}
 
 var _emitters = {}
 var _listeners = {}
@@ -43,6 +45,7 @@ func _ready() -> void:
 		get_tree().debug_navigation_hint = true
 		get_tree().debug_paths_hint = true
 	game_logic_listeners()
+	game_logic_emitters()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -157,7 +160,12 @@ func _on_turn_end():
 	current_turn_index += 1
 	if current_turn_index >= turn_order.size():
 		current_turn_index = 0
-	start_turn.emit(turn_order[current_turn_index])
+
+func _on_turn_start():
+	
+	
+	
+	return
 
 ##intended turn order examples
 #p p m
@@ -180,13 +188,25 @@ func combat_start():
 		if turn_order.size() % 2 == 1:
 			insertion_point += 1
 		turn_order.insert(insertion_point,player_reference)
-		combat_starting.emit()
+		combat_started.emit()
+
+func _combat_loop() ->void:
+	while(in_combat):
+		#signal logic and checks for whose turn it is
+		#sending signals to whichever entity has the turn
+		#entity sends signal back confirming it received the signal
+		#game logic gives the go ahead for the entity to begin action
+		#waits until the entity emits its "turn_ended" signal
+		start_turn.emit(turn_order[current_turn_index])
+		round_passed.emit()
+	return
 
 func _on_enemy_defeated(enemy: Node2D):
 	#remove enemy from turn order and entity list
 	print_debug(enemy, "defeated")
 	turn_order.erase(enemy)
 	entities.erase(enemy)
+	print_debug("Turn order is now", turn_order)
 	camera_quick_pan.emit(enemy.global_position)
 	#await camera_reference.quick_pan_completed
 	#if there's no enemies left, in_combat = false
@@ -231,4 +251,13 @@ func _on_game_over():
 
 func game_logic_listeners():
 	#add_listener function calls for global listeners
-	pass
+	
+	return
+
+func game_logic_emitters():
+	#add_emitters function calls for global emitters
+	add_emitter("player_turn", self)
+	add_emitter("enemy_turn", self)
+	add_emitter("combat_started", self)
+	add_emitter("combat_ended", self)
+	return

@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bb347o2lhmxwd"
-path="res://.godot/imported/EM_FIRE_IMPACT_01.wav-5a6bbc0b924e3dc9639e47d4bf93c261.sample"
+path="res://.godot/imported/EM_FIRE_IMPACT_01.wav-8eb1feb9da5fb64a4dadfa9a0c91ab9b.sample"
 
 [deps]
 
-source_file="res://Sound Assets/EM_FIRE_IMPACT_01.wav"
-dest_files=["res://.godot/imported/EM_FIRE_IMPACT_01.wav-5a6bbc0b924e3dc9639e47d4bf93c261.sample"]
+source_file="res://Sound Assets/SFX/EM_FIRE_IMPACT_01.wav"
+dest_files=["res://.godot/imported/EM_FIRE_IMPACT_01.wav-8eb1feb9da5fb64a4dadfa9a0c91ab9b.sample"]
 
 [params]
 

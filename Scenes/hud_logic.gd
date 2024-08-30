@@ -13,6 +13,7 @@ func _ready() -> void:
 	#var scene = SceneTree.new()
 	hearts.setMaxHearts(PlayerData.default_data["MaxHealth"])
 	GameLogic.add_listener('game_over', self, '_on_game_over')
+	
 	#player_reference = %CiranaPlayer
 	#player_reference.health_changed().connect(self._update_health(3))
 

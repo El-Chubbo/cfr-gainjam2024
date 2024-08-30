@@ -17,8 +17,9 @@ var current_AP = max_AP
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
-	pass
+	#set up global signals
+	GameLogic.add_emitter("finished_turn", self)
+	return
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta: float) -> void:

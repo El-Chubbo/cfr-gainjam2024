@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://test_monster.gd" id="1_1qijs"]
 [ext_resource type="Texture2D" uid="uid://douyvrvwn6151" path="res://Art Assets/TargetDummy.png" id="1_4tmcf"]
-[ext_resource type="AudioStream" uid="uid://drifi3ffp4mck" path="res://Sound Assets/Melee Target Break.wav" id="3_if70x"]
+[ext_resource type="AudioStream" uid="uid://drifi3ffp4mck" path="res://Sound Assets/SFX/Melee Target Break.wav" id="3_if70x"]
 [ext_resource type="PackedScene" uid="uid://b30id1vnhmleh" path="res://Scenes/Components/health_component.tscn" id="4_flpil"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k57pc"]

@@ -1,0 +1,8 @@
+extends Node2D
+
+enum eyebrow_emotions {NEUTRAL, LOWERED, ANGRY, WORRIED, SURPRISED}
+enum eyes_emotions {NEUTRAL, SMUG, HURT, LOOKDOWN, LOOKDOWN_SMUG, CLOSED, CLOSED_HAPPY}
+enum mouth_emotions {HAPPY, NEUTRAL, SMILE, GRIN, OPEN_CURIOUS, OPEN_WIDE, GRIMACE}
+enum external_emotions {NONE, GLOOMY, CHATTY, ANGRY, SWEATDROP, SWEAT}
+enum belly_sizes {NEUTRAL, STUFFED, STUFFED2, STUFFED3}
+enum weight_sizes {NEUTRAL, FAT, FAT2}

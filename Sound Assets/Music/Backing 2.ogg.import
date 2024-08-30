@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bkiv6cyu1asd4"
+path="res://.godot/imported/Backing 2.ogg-9e7669a4b65826c68d0599cb4d63ab00.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound Assets/Music/Backing 2.ogg"
+dest_files=["res://.godot/imported/Backing 2.ogg-9e7669a4b65826c68d0599cb4d63ab00.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=120.0
+beat_count=0
+bar_beats=4
