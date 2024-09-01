@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cphsurogcqdcb"]
+
+[ext_resource type="Script" path="res://Scenes/Components/attack_component.gd" id="1_c4jcg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j3lob"]
+resource_local_to_scene = true
+size = Vector2(64, 64)
+
+[node name="AttackComponent" type="Node2D"]
+script = ExtResource("1_c4jcg")
+
+[node name="MeleeRange" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeRange"]
+shape = SubResource("RectangleShape2D_j3lob")
