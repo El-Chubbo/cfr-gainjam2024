@@ -57,7 +57,11 @@ var action_buffer = "none"
 @export var percentage_attack_modifier = 1.0
 @export var base_attack = 100
 @export var animation_speed = 6
+
+##put dictionary of player stats here
+
 var moving = false
+##this should eventually get replaced with turn_state
 
 #this variable is used for calculating how much movement the player has left per turn
 #moving back to where they started effectively refunds movement
@@ -131,6 +135,10 @@ func _ready():
 	print_debug("sent calories changed signal")
 	%StatChangeSounds.enabled = true
 
+
+##hold inputs should be supported eventually
+##hold a direction to continue inputting that direction
+##holding a casting input will have the player remain in the casting state
 func _unhandled_input(event):
 	if moving or control_state == control_states.MOVING:
 		return
@@ -172,6 +180,7 @@ func move(dir) -> bool:
 		return true
 	#small tween wiggle for invalid movement
 	elif ray.is_colliding():
+		##eventually the "feast" move should be added here if colliding with an edible enemy
 		var tween = create_tween()
 		tween.tween_property(self, "position",
 			position + movement_inputs[dir] * (tile_size*0.1), 1.0/animation_speed).set_trans(Tween.TRANS_ELASTIC)
