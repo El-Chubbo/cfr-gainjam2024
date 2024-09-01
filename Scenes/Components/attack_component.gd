@@ -21,6 +21,8 @@ func check_attack_in_range(attack: Node2D = null) -> bool:
 	#raycast checks, or one large hitbox check for each type respectively
 	#Enable the relevant check, if it detects the player node, return true
 	
+	#ultimately, the monster ONLY attacks if it knows it will be guaranteed to hit
+	
 	##Ideally I'd like to do this without instancing the spell itself,
 	##not only does it save on wastefully loading the spell, but it'd mean I don't have to code despawning it either
 	return false

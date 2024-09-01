@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b30id1vnhmleh"]
+[gd_scene load_steps=8 format=3 uid="uid://b30id1vnhmleh"]
 
 [ext_resource type="Script" path="res://Scenes/Components/health_component.gd" id="1_wxxff"]
 
@@ -26,7 +26,10 @@ bg_color = Color(0.6, 0.6, 0.6, 0.521569)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kfysu"]
 bg_color = Color(1, 0.207843, 0.207843, 1)
 
+[sub_resource type="SystemFont" id="SystemFont_xra6a"]
+
 [sub_resource type="LabelSettings" id="LabelSettings_cahmj"]
+font = SubResource("SystemFont_xra6a")
 font_size = 32
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)

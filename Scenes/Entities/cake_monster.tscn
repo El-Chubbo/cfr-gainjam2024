@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bwwub6oudj27n"]
+[gd_scene load_steps=13 format=3 uid="uid://bwwub6oudj27n"]
 
 [ext_resource type="Script" path="res://Scenes/Components/monster_base.gd" id="1_551yx"]
 [ext_resource type="PackedScene" uid="uid://cp4dtj0hqoh3x" path="res://Scenes/Components/movement_component.tscn" id="2_fok58"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bd3uv511n1h4s" path="res://Art Assets/Monsters/cake knife 2.png" id="7_uaqt5"]
 [ext_resource type="Texture2D" uid="uid://dvb8kscfdemsg" path="res://Art Assets/Monsters/cake sword 1.png" id="8_qf6tc"]
 [ext_resource type="Texture2D" uid="uid://beowmytj4hxep" path="res://Art Assets/Monsters/cake sword 2.png" id="9_li2iv"]
+[ext_resource type="PackedScene" uid="uid://cphsurogcqdcb" path="res://Scenes/Components/attack_component.tscn" id="10_ocs2t"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xfuja"]
 
@@ -52,7 +53,7 @@ animations = [{
 script = ExtResource("1_551yx")
 max_health = 110
 
-[node name="MovementComponent" parent="." groups=["component", "monster"] instance=ExtResource("2_fok58")]
+[node name="MovementComponent" parent="." groups=["component"] instance=ExtResource("2_fok58")]
 unique_name_in_owner = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
@@ -118,5 +119,8 @@ position = Vector2(0, 128)
 rotation = 1.5708
 gizmo_extents = 64.0
 
+[node name="AttackComponent" parent="." instance=ExtResource("10_ocs2t")]
+
 [connection signal="defeated" from="." to="." method="_on_defeat"]
+[connection signal="defeated" from="." to="MovementComponent" method="_on_defeat"]
 [connection signal="damage_collision" from="MovementComponent" to="." method="_on_damage_received"]

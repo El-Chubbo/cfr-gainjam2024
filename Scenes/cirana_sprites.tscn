@@ -23,3 +23,5 @@ script = ExtResource("1_ushbh")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="SpriteSet1"]
 root_node = NodePath("../..")
+
+[node name="Skeleton2D" type="Skeleton2D" parent="."]

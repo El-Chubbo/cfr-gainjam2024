@@ -48,6 +48,8 @@ func _ready() -> void:
 		get_tree().debug_paths_hint = true
 	game_logic_listeners()
 	game_logic_emitters()
+	#preload("res://Scenes/fire_trail_particle.tscn")
+	#preload("res://Scenes/fire_impact_particle.tscn")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:

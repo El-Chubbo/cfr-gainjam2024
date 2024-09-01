@@ -6,7 +6,7 @@ signal action_performed(action)
 signal action_failed(action)
 signal action_canceled
 signal ended_turn
-signal moved
+signal moved(new_amount)
 signal health_changed(new_amount)
 signal took_damage(amount)
 signal healed_damage(amount)
@@ -28,24 +28,26 @@ var weight_level = 0 #used for determining some cosmetic effects, doesn't affect
 enum defensive_states {INACTIVE, READIED, COOLDOWN, DODGING, PARRYING}
 var defensive_state = defensive_states.INACTIVE
 
+#Idle means no input has been given to Cirana, starting a spell cast or moving is available
+#Casting means a spell has been prepared, inputing a movement direction with launch it
+#Moving means Cirana is mid movement animation and is locked out of other inputs
 enum control_states {IDLE, CASTING, MOVING}
 var control_state = control_states.IDLE
 
 enum turn_states {FREEMOVE, PLAYER_TURN, ENEMY_TURN}
 var turn_state = turn_states.FREEMOVE
-##these enums aren't used for now, but should be refactored into the code later
-
+##these enums should be refactored into the code later replacing a lot of the booleans like has_turn and is_casting
 
 var is_casting = false
 var has_turn = true
 #var in_combat = false #no limitations on movement and actions while out of combat
-##removed to use the global variable instead
+##removed to use the state instead
 var tile_size = 256
 @export var override_stats = false ##this is for when stats are enforced for a particular room
 @export var max_movement = 3
 @export var max_actions = 2
-var MOV = max_movement
-var AP = max_actions
+var current_MOV = max_movement
+var current_AP = max_actions
 @export var max_health: int = 3
 var current_health = max_health
 @export var max_calories = 2000
@@ -87,6 +89,7 @@ func _ready():
 	GameLogic.add_emitter("calories_changed", self)
 	GameLogic.add_emitter("health_changed", self)
 	GameLogic.add_emitter("max_health_changed", self)
+	GameLogic.add_emitter("moved", self)
 	PlayerData.reference = self
 	#in hindsight I should've put all the player stats in this script in a dictionary too
 	if override_stats:
@@ -129,55 +132,65 @@ func _ready():
 	%StatChangeSounds.enabled = true
 
 func _unhandled_input(event):
-	if moving:
+	if moving or control_state == control_states.MOVING:
 		return
-	#if !has_turn() and GameLogic.:
+	if turn_state != turn_states.ENEMY_TURN:
+		for dir in movement_inputs.keys():
+			if event.is_action_pressed(dir) and !is_casting:
+				move(dir)
+				return
+			elif event.is_action_pressed(dir) and is_casting:
+				#print_debug("Received attack input for ", action_buffer, " in ", dir)
+				attack(dir)
+				return
+		for action in action_inputs.keys():
+			if event.is_action_pressed(action):
+				cast(action)
+				return
+	else:
 		#checkParryDodge(event)
 		#return
-	for dir in movement_inputs.keys():
-		if event.is_action_pressed(dir) and !is_casting:
-			move(dir)
-			return
-		elif event.is_action_pressed(dir) and is_casting:
-			#print_debug("Received attack input for ", action_buffer, " in ", dir)
-			attack(dir)
-			return
-	for action in action_inputs.keys():
-		if event.is_action_pressed(action):
-			cast(action)
-			return
+		return
 
-func move(dir):
+func move(dir) -> bool:
 	ray.target_position = movement_inputs[dir] * tile_size
 	ray.force_raycast_update()
 	#print_debug("Raycast is colliding with ", ray.get_collider())
-	if !ray.is_colliding() or ray.get_collider().is_in_group("pickup") or ray.get_collider().is_in_group("trigger") or ray.get_collider().is_in_group("spell") and !ray.get_collider().is_in_group("monster") and MOV > 0:
+	##this is a nasty if statement and probably should be cleaned up
+	if !ray.is_colliding() or ray.get_collider().is_in_group("pickup") or ray.get_collider().is_in_group("trigger") or ray.get_collider().is_in_group("spell") and !ray.get_collider().is_in_group("monster") and current_MOV > 0:
 		#position += inputs[dir] * tile_size #instant movement
-		moved.emit()
+		moved.emit(current_MOV)
 		var tween = create_tween()
 		tween.tween_property(self, "position",
 			position + movement_inputs[dir] * tile_size, 1.0/animation_speed).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+		control_state = control_states.MOVING
 		moving = true
 		await tween.finished
+		control_state = control_states.IDLE
 		moving = false
-		#calculate MOV difference function
+		#todo: calculate MOV difference function
+		return true
 	#small tween wiggle for invalid movement
 	elif ray.is_colliding():
 		var tween = create_tween()
 		tween.tween_property(self, "position",
 			position + movement_inputs[dir] * (tile_size*0.1), 1.0/animation_speed).set_trans(Tween.TRANS_ELASTIC)
 		moving = true
+		control_state = control_states.MOVING
 		await tween.finished
 		position -= movement_inputs[dir] * (tile_size*0.1)
 		moving = false
-	return
+		control_state = control_states.IDLE
+		return false
+	return false
 
 #new position is recorded as where the player has moved since the beginning of the turn
 #they are only allowed to move a certain amount of spaces away from their origin point, but can move back toward their origin point freely
 #elsewhere in the code, if an action is performed, the old position gets updated.
 func update_movement_resource(dir: Vector2):
 	new_position += dir
-	MOV = max_movement - new_position.distance_to(old_position)
+	current_MOV = max_movement - new_position.distance_to(old_position)
+	##I need to get the tile difference between the positions rather than global position amounts
 	return
 
 #Trigger relevant animations
@@ -238,7 +251,6 @@ func attack(dir):
 	action_performed.emit(action_buffer)
 	cancel()
 
-
 func teleport(dir) -> bool:
 	return false
 	#todo
@@ -267,11 +279,12 @@ func dodge() -> void:
 	pass
 
 func _on_action_performed(action: String = "unspecified"):
-	AP -= 1
+	current_AP -= 1
 	old_position = new_position
-	if AP <= 0:
+	if current_AP <= 0 and turn_state == turn_states.PLAYER_TURN:
 		has_turn = false
 		ended_turn.emit()
+		turn_state = turn_states.ENEMY_TURN
 	return
 
 #observer for receiving signal that the player turn has begun
@@ -280,9 +293,10 @@ func _on_action_performed(action: String = "unspecified"):
 func _on_turn_begin(entity_ID: Variant):
 	if entity_ID.get_rid() == self.get_rid():
 		new_position = Vector2.ZERO
-		MOV = max_movement
-		AP = max_actions
+		current_MOV = max_movement
+		current_AP = max_actions
 		has_turn = true
+		turn_state = turn_states.PLAYER_TURN
 	return
 
 #observer for receiving a spell cast input from the player
@@ -303,13 +317,13 @@ func _on_cancel_cast():
 	$Area2D/MarkerLeft.visible = false
 	$Area2D/MarkerDown.visible = false
 
-#func _on_combat_end():
-	#in_combat = false
-	#pass
+func _on_combat_end():
+	turn_state = turn_states.FREEMOVE
+	return
 
-#func _on_combat_start():
-	#in_combat = true
-	#pass
+func _on_combat_start():
+	turn_state = turn_states.PLAYER_TURN
+	return
 
 func take_damage(amount: int = 1, type: String = "none"): #default 1 if nothing specified
 	if amount == 0:
@@ -417,7 +431,7 @@ func _on_health_changed(amount: int = 1) -> void:
 		pass
 	return
 
-func preset_animation(): #this should be replaced with an animation mixer in the future for more complex facial expression combinations and saving on texture size
+func preset_animation(): #this should be replaced with an animation mixer and skeleton2D in the future for more complex facial expression combinations and saving on texture size
 	if !using_preset:
 		return
 	var stuffed = false
@@ -446,13 +460,13 @@ func preset_animation(): #this should be replaced with an animation mixer in the
 		return
 
 func get_MOV():
-	return MOV
+	return current_MOV
 
 func get_max_health():
 	return max_health
 
 func get_AP():
-	return AP
+	return current_AP
 
 #function for walking over pickups or damage zones and taking damage from attacks
 func _on_area_2d_area_entered(entity: Area2D) -> void:

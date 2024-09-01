@@ -20,7 +20,7 @@ var default_data = {"Health": 3, "MaxHealth" : 3, "Calories" : 800, "MaxCalories
 var current_data = default_data.duplicate()
 var saved_data = default_data.duplicate()
 var saved_level : PackedScene
-var reference : Object
+var reference : Node2D
 
 ##important, use functions to update data rather than directly, so that way the script can handle everything else
 #future me: I ignored this
