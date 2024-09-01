@@ -15,6 +15,7 @@ signal calories_changed(new_amount: int, difference: int)
 signal game_over(cause: String)
 
 var spell_1 = preload("res://Scenes/fireball.tscn")
+var spell_2 = preload("res://Scenes/flamethrower.tscn")
 
 var using_preset = true ##temporary variable for using the static gameplay sprites, no dynamic face animations
 var weight_level = 0 #used for determining some cosmetic effects, doesn't affect gameplay
@@ -24,8 +25,16 @@ var weight_level = 0 #used for determining some cosmetic effects, doesn't affect
 #Cooldown means a dodge or parry input failed and cannot be reinput again until the cooldown expires and status returns to inactive
 #Dodging means that an attack hitbox was detected while readied and now the player is moving attempting to dodge the attack
 #Parrying means that an attack hitbox was detected while readied and now the player is nullifying the attack
-enum parry_dodge_statuses {INACTIVE, READIED, COOLDOWN, DODGING, PARRYING}
-var parry_dodge = parry_dodge_statuses.INACTIVE
+enum defensive_states {INACTIVE, READIED, COOLDOWN, DODGING, PARRYING}
+var defensive_state = defensive_states.INACTIVE
+
+enum control_states {IDLE, CASTING, MOVING}
+var control_state = control_states.IDLE
+
+enum turn_states {FREEMOVE, PLAYER_TURN, ENEMY_TURN}
+var turn_state = turn_states.FREEMOVE
+##these enums aren't used for now, but should be refactored into the code later
+
 
 var is_casting = false
 var has_turn = true
@@ -67,7 +76,7 @@ var movement_inputs = {"right": Vector2.RIGHT,
 var action_inputs = {"spell_1": "Fireball",
 			"spell_2": "FlameThrower",
 			"spell_3": "Explosion",
-			"spell_4": "Feast",
+			"spell_4": "Feast", ##I realized the other day I can probably consolidate Feast into a context-sensitive movement input rather than a cast input
 			"spell_5": "Teleport"
 			}
 
@@ -78,6 +87,7 @@ func _ready():
 	GameLogic.add_emitter("calories_changed", self)
 	GameLogic.add_emitter("health_changed", self)
 	GameLogic.add_emitter("max_health_changed", self)
+	PlayerData.reference = self
 	#in hindsight I should've put all the player stats in this script in a dictionary too
 	if override_stats:
 		PlayerData.current_data["MaxHealth"] = max_health
@@ -129,7 +139,7 @@ func _unhandled_input(event):
 			move(dir)
 			return
 		elif event.is_action_pressed(dir) and is_casting:
-			print_debug("Received attack input for ", action_buffer, " in ", dir)
+			#print_debug("Received attack input for ", action_buffer, " in ", dir)
 			attack(dir)
 			return
 	for action in action_inputs.keys():
@@ -193,7 +203,7 @@ func attack(dir):
 		print_debug("Unfinished spell, ignoring input")
 		#temporary statement to prevent crashes
 		return
-	print_debug("Launching ", action_buffer, " in the direction ", dir)
+	#print_debug("Launching ", action_buffer, " in the direction ", dir)
 	var spell_instance
 	#if action_buffer == "spell_1":
 		#var b = spell_1.instantiate()
@@ -228,12 +238,13 @@ func attack(dir):
 	action_performed.emit(action_buffer)
 	cancel()
 
-func teleport(dir):
-	pass
+
+func teleport(dir) -> bool:
+	return false
 	#todo
 
 func checkParryDodge(input):
-	if parry_dodge == parry_dodge_statuses.INACTIVE:
+	if defensive_state == defensive_states.INACTIVE:
 		#activate parry-dodge state (they share the same states and cooldown)
 		#trigger parry or dodge function based on input (directions for dodge or Feast for parry)
 		pass

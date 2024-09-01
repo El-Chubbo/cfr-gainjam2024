@@ -25,6 +25,7 @@ var cutscene_active = false
 var in_combat = false
 var entities = []
 var turn_order = []
+var active_entity : Object
 var current_turn_index = 0
 
 var current_level = null
@@ -221,6 +222,7 @@ func _combat_loop() ->void:
 		#entity sends signal back confirming it received the signal
 		#game logic gives the go ahead for the entity to begin action
 		#waits until the entity emits its "turn_ended" signal
+		
 		start_turn.emit(turn_order[current_turn_index])
 		round_passed.emit()
 	return
@@ -229,7 +231,7 @@ func _on_enemy_defeated(enemy: Node2D):
 	#remove enemy from turn order and entity list
 	print_debug(enemy, "defeated")
 	if turn_order.get_index(enemy) < current_turn_index:
-		pass
+		current_turn_index -= 1
 	turn_order.erase(enemy)
 	entities.erase(enemy)
 	print_debug("Turn order is now ", turn_order)
@@ -264,6 +266,7 @@ func load_level(path):
 	current_level = s.instantiate()
 	get_tree().root.add_child(current_level)
 	get_tree().current_scene = current_level
+	player_reference = get_tree().get_first_node_in_group("player")
 	return
 
 func goto_scene(path):

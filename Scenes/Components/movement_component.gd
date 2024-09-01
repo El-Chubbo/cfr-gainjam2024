@@ -3,6 +3,8 @@ extends CharacterBody2D
 signal damage_collision(entity)
 var tile_size = 256
 signal moved
+var MOV = 0
+
 
 @export var animation_speed = 10
 

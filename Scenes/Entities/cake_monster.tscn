@@ -53,12 +53,16 @@ script = ExtResource("1_551yx")
 max_health = 110
 
 [node name="MovementComponent" parent="." groups=["component", "monster"] instance=ExtResource("2_fok58")]
+unique_name_in_owner = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1
+avoidance_enabled = true
+avoidance_mask = 0
+debug_enabled = true
 
 [node name="CakeSprites" type="AnimatedSprite2D" parent="."]
-texture_filter = 5
+texture_filter = 3
 material = SubResource("ShaderMaterial_xfuja")
 position = Vector2(0, -64)
 scale = Vector2(12, 12)
@@ -75,9 +79,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -128.0
-offset_top = -128.0
+offset_top = -160.0
 offset_right = 128.0
-offset_bottom = 128.0
+offset_bottom = 96.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -114,4 +118,5 @@ position = Vector2(0, 128)
 rotation = 1.5708
 gizmo_extents = 64.0
 
+[connection signal="defeated" from="." to="." method="_on_defeat"]
 [connection signal="damage_collision" from="MovementComponent" to="." method="_on_damage_received"]

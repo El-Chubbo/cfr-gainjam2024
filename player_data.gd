@@ -20,6 +20,7 @@ var default_data = {"Health": 3, "MaxHealth" : 3, "Calories" : 800, "MaxCalories
 var current_data = default_data.duplicate()
 var saved_data = default_data.duplicate()
 var saved_level : PackedScene
+var reference : Object
 
 ##important, use functions to update data rather than directly, so that way the script can handle everything else
 #future me: I ignored this
@@ -36,6 +37,7 @@ func save_data_to_disk():
 func load_data_from_disk():
 	pass
 
+##I really should have the player's stats be a dictionary and be updated through here
 func _on_player_stat_updated(stat: String, value):
 	current_data[stat] = value
 	return
