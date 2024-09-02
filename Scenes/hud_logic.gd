@@ -13,13 +13,14 @@ func _ready() -> void:
 	#var scene = SceneTree.new()
 	hearts.setMaxHearts(PlayerData.default_data["MaxHealth"])
 	##these were originally connected manually, but with the new global signal system they can be readied here
-	GameLogic.add_listener("calories_changed", self, "_update_calories(new_amount: int = 0, _difference: int = 0)")
-	GameLogic.add_listener("health_changed", self, "_update_health(current_health)")
-	GameLogic.add_listener("max_health_changed", self, "_set_max_health(amount: int = 1)")
-	GameLogic.add_listener("round_passed", self, "_on_round_passed(new_entity :Variant)")
-	GameLogic.add_listener("combat_started", self, "_on_combat_start()")
-	GameLogic.add_listener("combat_end", self, "_on_combat_end()")
+	GameLogic.add_listener("calories_changed", self, "_update_calories")
+	GameLogic.add_listener("health_changed", self, "_update_health")
+	GameLogic.add_listener("max_health_changed", self, "_set_max_health")
+	GameLogic.add_listener("round_passed", self, "_on_round_passed")
+	GameLogic.add_listener("combat_started", self, "_on_combat_start")
+	GameLogic.add_listener("combat_end", self, "_on_combat_end")
 	GameLogic.add_listener('game_over', self, '_on_game_over')
+	GameLogic.add_listener('player_turn', self, '_on_player_turn')
 	resource_labels.visible = GameLogic.in_combat
 	turn_label.visible = GameLogic.in_combat
 	$CalorieMeter.value = PlayerData.current_data["Calories"]

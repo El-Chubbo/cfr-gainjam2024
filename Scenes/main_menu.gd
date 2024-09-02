@@ -48,7 +48,8 @@ func _on_credits_button_pressed() -> void:
 	$TestLevels.visible = false
 	%TitleGraphic.visible = false
 	%CiranaArt.visible = false
-	pass # Replace with function body.
+	$VolumeSliders.visible = true
+	return
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
@@ -60,6 +61,7 @@ func _on_back_button_pressed() -> void:
 	$HowToPlayControls.visible = false
 	%TitleGraphic.visible = true
 	%CiranaArt.visible = true
+	$VolumeSliders.visible = true
 	return
 	
 func _on_how_to_play_button_pressed() -> void:
@@ -68,7 +70,8 @@ func _on_how_to_play_button_pressed() -> void:
 	$TestLevels.visible = false
 	%TitleGraphic.visible = false
 	%CiranaArt.visible = false
-	return # Replace with function body.
+	$VolumeSliders.visible = false
+	return
 
 
 func _on_test_button1_pressed() -> void:
@@ -79,5 +82,6 @@ func _on_test_button1_pressed() -> void:
 
 func _on_test_button2_pressed() -> void:
 	GameLogic.goto_scene("res://Scenes/test_level2.tscn")
+	MusicPlayer.default_clips()
 	MusicPlayer.force_play(MusicPlayer.song_list.MYSTIC_ACT1)
 	return

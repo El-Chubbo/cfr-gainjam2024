@@ -328,6 +328,10 @@ max_polyphony = 3
 stream = ExtResource("26_3qlkv")
 volume_db = -12.0
 
+[node name="DefensiveCooldown" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="action_canceled" from="." to="." method="_on_cancel_cast"]
 [connection signal="action_canceled" from="." to="SpellCastAnimation" method="_on_cirana_player_action_canceled"]
 [connection signal="action_canceled" from="." to="SpellSounds" method="_on_cirana_player_action_canceled"]
@@ -342,3 +346,4 @@ volume_db = -12.0
 [connection signal="health_changed" from="." to="." method="_on_health_changed"]
 [connection signal="took_damage" from="." to="StatChangeSounds" method="_on_take_damage"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="DefensiveCooldown" to="." method="_on_defensive_cooldown_timeout"]

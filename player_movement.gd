@@ -59,6 +59,7 @@ var action_buffer = "none"
 @export var animation_speed = 6
 
 ##put dictionary of player stats here
+var player_stats : Dictionary
 
 var moving = false
 ##this should eventually get replaced with turn_state
@@ -176,7 +177,9 @@ func move(dir) -> bool:
 		await tween.finished
 		control_state = control_states.IDLE
 		moving = false
-		#todo: calculate MOV difference function
+		if turn_state == turn_states.PLAYER_TURN:
+			update_movement_resource(dir)
+			#todo: calculate MOV difference function
 		return true
 	#small tween wiggle for invalid movement
 	elif ray.is_colliding():
@@ -271,12 +274,13 @@ func checkParryDodge(input):
 		pass
 	else: return
 
+
+##notably, if a parry or dodge is successful, the cooldown immediately gets refreshed. This could potentially lead to dodge or parry strings.
 func parry() -> void:
 	#enable 'parrying' state
 	#if an enemy attack is detected that can be eaten during the time frame the parrying state is active,
 	#the _on_area_2d_area_entered() script will ignore the damage and will instead add calories
 	#after time expires, parrying state is disabled and a cooldown is started
-	#
 	pass
 	
 func dodge() -> void:
@@ -520,4 +524,8 @@ func _on_increase_weight():
 #this is here more for debug reasons, who would want the weight to decrease lmao
 func _on_decrease_weight():
 	weight_level = 0
+	return
+
+func _on_defensive_cooldown_timeout() -> void:
+	defensive_state = defensive_states.INACTIVE
 	return

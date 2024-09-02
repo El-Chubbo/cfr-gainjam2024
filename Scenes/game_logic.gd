@@ -82,6 +82,7 @@ func add_emitter(signal_name: String, emitter: Object) -> void:
 	if _listeners.has(signal_name):
 		_connect_emitter_to_listeners(signal_name, emitter)
 
+##IMPORTANT, when adding a listener, do not include the () in the method name
 func add_listener(signal_name: String, listener: Object, method: String) -> void:
 	#print_debug("Adding listener ", signal_name, " from ", listener)
 	var listener_data = {'object': listener, 'object_id': listener.get_instance_id(), 'method':method}
@@ -282,9 +283,9 @@ func _on_game_over():
 
 func game_logic_listeners():
 	#add_listener function calls for global listeners
-	add_listener("turn_ended", self, "_on_turn_end(entity: Object)")
-	add_listener("level_cleared", self, "_on_level_cleared()")
-	add_listener("defeated", self, "_on_enemy_defeated(enemy: Node2D)")
+	add_listener("turn_ended", self, "_on_turn_end")
+	add_listener("level_cleared", self, "_on_level_cleared")
+	add_listener("defeated", self, "_on_enemy_defeated")
 	return
 
 func game_logic_emitters():

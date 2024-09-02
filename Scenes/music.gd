@@ -13,7 +13,11 @@ extends Node
 enum song_list {NONE, MYSTIC_INTRO, MYSTIC_TRANSITION, MYSTIC_ACT1, MYSTIC_ACT2, HYRULE_ACT1, HYRULE_ACT2}
 var in_combat : bool = false
 var player_turn : bool = false
-var is_paused : bool = false
+#replace these variables with music_states
+enum music_states {FREEMOVE, PLAYER_TURN, ENEMY_TURN}
+#this is the second time I've had to make this state, should this be global?
+var music_state = music_states.FREEMOVE
+var is_paused : bool = false #pause can overlap in functionality so it stays separate
 var volume = 1.0
 var currently_playing : song_list
 
@@ -23,15 +27,22 @@ func _ready() -> void:
 	
 	GameLogic.add_listener("combat_start", self, "_on_combat_start()")
 	GameLogic.add_listener("combat_end", self, "_on_combat_end()")
-	GameLogic.add_listener("_on_player_turn", self, "_on_player_turn()")
+	GameLogic.add_listener("player_turn", self, "_on_player_turn()")
 	GameLogic.add_listener("enemy_turn", self, "_on_enemy_turn()")
+	##instead of separate listeners, this should probably just be one with an entity reference given and check the node group
 	GameLogic.add_listener("game_paused", self, "_on_game_paused()")
 	GameLogic.add_listener("game_unpaused", self, "_on_game_unpaused()")
-	
 	
 	return
 
 func update_state() -> void:
+	match music_state:
+		music_states.FREEMOVE:
+			pass
+		music_states.PLAYER_TURN:
+			pass
+		music_states.ENEMY_TURN:
+			pass
 	match currently_playing:
 		song_list.MYSTIC_ACT1:
 			#todo: logic for each song act
@@ -44,6 +55,18 @@ func update_state() -> void:
 			pass
 		
 	return
+
+func default_clips():
+	var clip = $Mystic.stream.get_clip_stream(2)
+	var clip2 = $Mystic.stream.get_clip_stream(3)
+	clip.set_sync_stream_volume(0, 0)
+	clip.set_sync_stream_volume(1, 0)
+	clip.set_sync_stream_volume(2, 0)
+	clip.set_sync_stream_volume(3, -60.0)
+	clip2.set_sync_stream_volume(0, 0.0)
+	clip2.set_sync_stream_volume(1, 0)
+	clip2.set_sync_stream_volume(2, 0)
+	clip2.set_sync_stream_volume(3, 0)
 
 func backing_only():
 	var clip = $Mystic.stream.get_clip_stream(2)

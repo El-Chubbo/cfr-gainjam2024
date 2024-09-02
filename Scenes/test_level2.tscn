@@ -35,10 +35,6 @@ scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAAAAPH/AAABAAEAAAA=")
 tile_set = ExtResource("3_v6bpj")
 
-[node name="ControllableCamera" parent="." instance=ExtResource("4_1jqkb")]
-position = Vector2(123, -78)
-zoom_min = 0.2
-
 [node name="Area2D" type="Area2D" parent="." groups=["trigger"]]
 position = Vector2(130, -3710)
 script = ExtResource("7_hgkqc")
@@ -60,8 +56,20 @@ label_settings = SubResource("LabelSettings_gqvdb")
 debug_mode = true
 
 [node name="CiranaPlayer" parent="." instance=ExtResource("2_yr85u")]
-position = Vector2(130, -130)
+position = Vector2(-128, -384)
 
+[node name="ControllableCamera" parent="CiranaPlayer" instance=ExtResource("4_1jqkb")]
+zoom_min = 0.2
+pan_keyboard = true
+
+[connection signal="defeated" from="Entities/CakeMonster" to="Entities/CakeMonster" method="_on_defeat"]
+[connection signal="defeated" from="Entities/CakeMonster" to="Entities/CakeMonster/MovementComponent" method="_on_defeat"]
+[connection signal="defeated" from="Entities/@Node2D@22392" to="Entities/@Node2D@22392" method="_on_defeat"]
+[connection signal="defeated" from="Entities/@Node2D@22392" to="Entities/@Node2D@22392/MovementComponent" method="_on_defeat"]
+[connection signal="defeated" from="Entities/@Node2D@22393" to="Entities/@Node2D@22393" method="_on_defeat"]
+[connection signal="defeated" from="Entities/@Node2D@22393" to="Entities/@Node2D@22393/MovementComponent" method="_on_defeat"]
+[connection signal="defeated" from="Entities/@Node2D@22394" to="Entities/@Node2D@22394" method="_on_defeat"]
+[connection signal="defeated" from="Entities/@Node2D@22394" to="Entities/@Node2D@22394/MovementComponent" method="_on_defeat"]
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
 [connection signal="calories_changed" from="CiranaPlayer" to="GameplayHud" method="_update_calories"]
 [connection signal="health_changed" from="CiranaPlayer" to="GameplayHud" method="_update_health"]

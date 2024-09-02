@@ -44,7 +44,7 @@ signal quick_pan_completed
 func _ready():
 	_pan_direction = Vector2.ZERO
 	get_viewport().size_changed.connect(clamp_offset)
-	GameLogic.add_listener("camera_quick_pan", self, "_on_quick_pan_event(new_position: Vector2)")
+	GameLogic.add_listener("camera_quick_pan", self, "_on_quick_pan_event")
 
 func _process(delta):
 	if _drag_movement == Vector2.ZERO:
