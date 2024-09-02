@@ -173,9 +173,13 @@ func _unhandled_input(event):
 
 func move(dir) -> bool:
 	print("Current movement: ", current_MOV, " in direction ", dir)
-	if current_MOV == 0:
-		fail_move(dir)
-		return false
+	#if !check_possible_movement():
+		##THIS NEEDS TO BE UPDATED
+		#currently if the player reaches the edge of the movement at all, they get completely locked in place
+		#the intended behavior is to still let them return
+		##add a check if the following movement will exceed the limit
+		#fail_move(dir)
+		#return false
 	ray.target_position = movement_inputs[dir] * tile_size
 	ray.force_raycast_update()
 	#print_debug("Raycast is colliding with ", ray.get_collider())
@@ -223,6 +227,10 @@ func update_movement_resource(dir):
 	##I need to get the tile difference between the positions rather than global position amounts
 	mov_updated.emit(current_MOV)
 	return
+
+func check_possible_movement(dir):
+	
+	pass
 
 #Trigger relevant animations
 #Adjust state flags
