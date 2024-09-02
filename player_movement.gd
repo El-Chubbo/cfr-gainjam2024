@@ -141,7 +141,7 @@ func _ready():
 	##I only introduced global signals later when I realized I needed them
 	#health_changed.emit(current_health)
 	calories_changed.emit(current_calories, 0)
-	print_debug("sent calories changed signal")
+	#print_debug("sent calories changed signal")
 	%StatChangeSounds.enabled = true
 
 
@@ -172,6 +172,7 @@ func _unhandled_input(event):
 		return
 
 func move(dir) -> bool:
+	print("Current movement: ", current_MOV, " in direction ", dir)
 	if current_MOV == 0:
 		fail_move(dir)
 		return false
@@ -242,6 +243,11 @@ func cancel():
 
 #perform whatever action is being casted in the specified direction
 func attack(dir):
+	if current_AP == 0 and turn_state != turn_states.FREEMOVE:
+		print_debug("Somehow you were allowed to start casting a spell while having 0 action points")
+		action_failed.emit(action_buffer)
+		cancel()
+		return
 	if action_buffer != "spell_1":
 		print_debug("Unfinished spell, ignoring input")
 		#temporary statement to prevent crashes
@@ -310,9 +316,10 @@ func dodge() -> void:
 	pass
 
 func _on_action_performed(action: String = "unspecified"):
-	current_AP -= 1
-	ap_updated.emit(current_AP)
-	old_position = new_position
+	if turn_state != turn_states.FREEMOVE:
+		current_AP -= 1
+		ap_updated.emit(current_AP)
+		old_position = new_position
 	if current_AP <= 0 and turn_state == turn_states.PLAYER_TURN:
 		has_turn = false
 		ended_turn.emit()

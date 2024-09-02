@@ -59,6 +59,10 @@ func _process(_delta: float) -> void:
 		set_physics_process(false)
 	#pass
 
+func reset_status() -> void:
+	in_combat = false
+	current_game_status = game_status.MENU
+
 #function for quickly panning camera on right click
 func _unhandled_input(event: InputEvent):
 	##I forgot I added a right click to the input map, I should replace this later
@@ -274,9 +278,27 @@ func load_level(path):
 	player_reference = get_tree().get_first_node_in_group("player")
 	return
 
+func load_level_status(path):
+	##This is a terrible way of enforcing game state on level load
+	##but I'm not sure about the alternative?
+	##I don't want every level to require it's own script just so it can change the state on load
+	##It could be an exportable variable like "state on level load" but the effect is basically the same?
+	##only difference being where to actually set it
+	match path:
+		"res://Scenes/test_level.tscn":
+			current_game_status = game_status.FREEMOVE
+		"res://Scenes/test_level2.tscn":
+			current_game_status = game_status.FREEMOVE
+		"res://Scenes/main_menu.tscn":
+			current_game_status = game_status.MENU
+	in_combat = false
+	turn_order.clear()
+	entities.clear()
+
 func goto_scene(path):
 	print_debug("Attempting to load level ", path)
 	call_deferred("load_level", path)
+	load_level_status(path)
 	get_tree().paused = false
 
 func _on_game_over():

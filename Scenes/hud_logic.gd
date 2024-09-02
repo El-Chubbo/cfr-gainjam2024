@@ -63,6 +63,7 @@ func _update_hotbar():
 	pass
 
 func _on_combat_start():
+	turn_label.visible = true
 	turn_label.text = "Combat started"
 	resource_labels.visible = true
 
