@@ -55,21 +55,14 @@ label_settings = SubResource("LabelSettings_gqvdb")
 [node name="GameplayHud" parent="." instance=ExtResource("3_ehk5u")]
 debug_mode = true
 
-[node name="CiranaPlayer" parent="." instance=ExtResource("2_yr85u")]
+[node name="ControllableCamera" parent="." instance=ExtResource("4_1jqkb")]
 position = Vector2(-128, -384)
-
-[node name="ControllableCamera" parent="CiranaPlayer" instance=ExtResource("4_1jqkb")]
 zoom_min = 0.2
 pan_keyboard = true
 
-[connection signal="defeated" from="Entities/CakeMonster" to="Entities/CakeMonster" method="_on_defeat"]
-[connection signal="defeated" from="Entities/CakeMonster" to="Entities/CakeMonster/MovementComponent" method="_on_defeat"]
-[connection signal="defeated" from="Entities/@Node2D@22392" to="Entities/@Node2D@22392" method="_on_defeat"]
-[connection signal="defeated" from="Entities/@Node2D@22392" to="Entities/@Node2D@22392/MovementComponent" method="_on_defeat"]
-[connection signal="defeated" from="Entities/@Node2D@22393" to="Entities/@Node2D@22393" method="_on_defeat"]
-[connection signal="defeated" from="Entities/@Node2D@22393" to="Entities/@Node2D@22393/MovementComponent" method="_on_defeat"]
-[connection signal="defeated" from="Entities/@Node2D@22394" to="Entities/@Node2D@22394" method="_on_defeat"]
-[connection signal="defeated" from="Entities/@Node2D@22394" to="Entities/@Node2D@22394/MovementComponent" method="_on_defeat"]
+[node name="CiranaPlayer" parent="." instance=ExtResource("2_yr85u")]
+position = Vector2(-128, -384)
+
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
 [connection signal="calories_changed" from="CiranaPlayer" to="GameplayHud" method="_update_calories"]
 [connection signal="health_changed" from="CiranaPlayer" to="GameplayHud" method="_update_health"]

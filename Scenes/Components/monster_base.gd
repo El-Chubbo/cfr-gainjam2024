@@ -15,7 +15,7 @@ var target: Node2D = null
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
 signal turn_ended(reference)
-signal defeated
+signal defeated(reference)
 
 @export var max_health = 50
 var current_health = max_health
@@ -30,7 +30,7 @@ var directions = ["up", "down", "left", "right"]
 func _ready() -> void:
 	#set up global signals
 	GameLogic.add_emitter("turn_ended", self)
-	GameLogic.add_listener("turn_started", self, "_on_turn_start()")
+	GameLogic.add_listener("turn_started", self, "_on_turn_start")
 	GameLogic.add_emitter("defeated", self)
 	return
 
@@ -88,10 +88,11 @@ func _on_damage_received(entity):
 	current_health -= amount
 	health_component._on_took_damage(amount)
 	if current_health <=0:
-		defeated.emit()
+		defeated.emit(self)
+		on_defeat()
 		return
 
-func _on_defeat():
+func on_defeat():
 	#todo: visual effects like vanish shader
 	visible = false
 	queue_free()

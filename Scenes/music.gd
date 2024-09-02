@@ -25,13 +25,13 @@ var music_bus = AudioServer.get_bus_index("Music")
 
 func _ready() -> void:
 	
-	GameLogic.add_listener("combat_start", self, "_on_combat_start()")
-	GameLogic.add_listener("combat_end", self, "_on_combat_end()")
-	GameLogic.add_listener("player_turn", self, "_on_player_turn()")
-	GameLogic.add_listener("enemy_turn", self, "_on_enemy_turn()")
+	GameLogic.add_listener("combat_start", self, "_on_combat_start")
+	GameLogic.add_listener("combat_end", self, "_on_combat_end")
+	GameLogic.add_listener("player_turn", self, "_on_player_turn")
+	GameLogic.add_listener("enemy_turn", self, "_on_enemy_turn")
 	##instead of separate listeners, this should probably just be one with an entity reference given and check the node group
-	GameLogic.add_listener("game_paused", self, "_on_game_paused()")
-	GameLogic.add_listener("game_unpaused", self, "_on_game_unpaused()")
+	GameLogic.add_listener("game_paused", self, "_on_game_paused")
+	GameLogic.add_listener("game_unpaused", self, "_on_game_unpaused")
 	
 	return
 

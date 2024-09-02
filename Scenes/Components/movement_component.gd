@@ -22,7 +22,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		damage_collision.emit(area)
 	pass # Replace with function body.
 
-func _on_defeat():
+func _on_defeat(argument):
 	$Area2D.set_deferred("monitoring", false)
 	$Area2D.set_deferred("monitorable", false)
 	return

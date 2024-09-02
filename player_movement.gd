@@ -12,6 +12,8 @@ signal took_damage(amount)
 signal healed_damage(amount)
 signal max_health_changed(increase)
 signal calories_changed(new_amount: int, difference: int)
+signal mov_updated(new_amount: int)
+signal ap_updated(new_amount: int)
 signal game_over(cause: String)
 
 var spell_1 = preload("res://Scenes/fireball.tscn")
@@ -90,11 +92,17 @@ var action_inputs = {"spell_1": "Fireball",
 func _ready():
 	position = position.snapped(Vector2.ONE * tile_size)
 	position += Vector2.ONE * tile_size/2
+	##the amount of emitters and listeners I have to add, the better move probably would've been to make the player global entirely
 	GameLogic.add_emitter("game_over", self)
 	GameLogic.add_emitter("calories_changed", self)
 	GameLogic.add_emitter("health_changed", self)
 	GameLogic.add_emitter("max_health_changed", self)
 	GameLogic.add_emitter("moved", self)
+	GameLogic.add_emitter("ap_updated", self)
+	GameLogic.add_emitter("mov_updated", self)
+	GameLogic.add_listener("turn_started", self, "_on_turn_begin")
+	GameLogic.add_listener("combat_started", self, "_on_combat_start")
+	GameLogic.add_listener("combat_end", self, "_on_combat_end")
 	PlayerData.reference = self
 	#in hindsight I should've put all the player stats in this script in a dictionary too
 	if override_stats:
@@ -144,6 +152,7 @@ func _unhandled_input(event):
 	if moving or control_state == control_states.MOVING:
 		return
 	if turn_state != turn_states.ENEMY_TURN:
+		#print("Cirana's current turn state: ", turn_state)
 		for dir in movement_inputs.keys():
 			if event.is_action_pressed(dir) and !is_casting:
 				move(dir)
@@ -157,11 +166,15 @@ func _unhandled_input(event):
 				cast(action)
 				return
 	else:
+		#print("Received input while it's not Cirana's turn")
 		#checkParryDodge(event)
 		#return
 		return
 
 func move(dir) -> bool:
+	if current_MOV == 0:
+		fail_move(dir)
+		return false
 	ray.target_position = movement_inputs[dir] * tile_size
 	ray.force_raycast_update()
 	#print_debug("Raycast is colliding with ", ray.get_collider())
@@ -184,25 +197,30 @@ func move(dir) -> bool:
 	#small tween wiggle for invalid movement
 	elif ray.is_colliding():
 		##eventually the "feast" move should be added here if colliding with an edible enemy
-		var tween = create_tween()
-		tween.tween_property(self, "position",
-			position + movement_inputs[dir] * (tile_size*0.1), 1.0/animation_speed).set_trans(Tween.TRANS_ELASTIC)
-		moving = true
-		control_state = control_states.MOVING
-		await tween.finished
-		position -= movement_inputs[dir] * (tile_size*0.1)
-		moving = false
-		control_state = control_states.IDLE
+		fail_move(dir)
 		return false
 	return false
+
+func fail_move(dir):
+	var tween = create_tween()
+	tween.tween_property(self, "position",
+		position + movement_inputs[dir] * (tile_size*0.1), 1.0/animation_speed).set_trans(Tween.TRANS_ELASTIC)
+	moving = true
+	control_state = control_states.MOVING
+	await tween.finished
+	position -= movement_inputs[dir] * (tile_size*0.1)
+	moving = false
+	control_state = control_states.IDLE
+	return
 
 #new position is recorded as where the player has moved since the beginning of the turn
 #they are only allowed to move a certain amount of spaces away from their origin point, but can move back toward their origin point freely
 #elsewhere in the code, if an action is performed, the old position gets updated.
-func update_movement_resource(dir: Vector2):
-	new_position += dir
+func update_movement_resource(dir):
+	new_position += movement_inputs[dir]
 	current_MOV = max_movement - new_position.distance_to(old_position)
 	##I need to get the tile difference between the positions rather than global position amounts
+	mov_updated.emit(current_MOV)
 	return
 
 #Trigger relevant animations
@@ -293,11 +311,13 @@ func dodge() -> void:
 
 func _on_action_performed(action: String = "unspecified"):
 	current_AP -= 1
+	ap_updated.emit(current_AP)
 	old_position = new_position
 	if current_AP <= 0 and turn_state == turn_states.PLAYER_TURN:
 		has_turn = false
 		ended_turn.emit()
 		turn_state = turn_states.ENEMY_TURN
+		print("Cirana has ended her turn")
 	return
 
 #observer for receiving signal that the player turn has begun

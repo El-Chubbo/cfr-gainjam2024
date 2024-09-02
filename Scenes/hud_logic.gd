@@ -48,7 +48,7 @@ func _set_max_health(amount: int = 1):
 	return
 
 func _update_calories(new_amount: int = 0, _difference: int = 0):
-	print_debug("Updating calorie meter to value ", new_amount)
+	#print_debug("Updating calorie meter to value ", new_amount)
 	$CalorieMeter/Label.text = str(new_amount, "/", $CalorieMeter.max_value)
 	var tween = get_tree().create_tween()
 	tween.tween_property($CalorieMeter, "value", new_amount, 0.5).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)

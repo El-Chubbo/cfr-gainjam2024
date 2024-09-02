@@ -12,7 +12,7 @@ signal turn_ended(reference)
 func _ready() -> void:
 	health.set_initial_health(initial_health)
 	GameLogic.add_emitter("turn_ended", self)
-	GameLogic.add_listener("start_turn", self, "_on_turn_start(entity)")
+	GameLogic.add_listener("start_turn", self, "_on_turn_start")
 	return
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

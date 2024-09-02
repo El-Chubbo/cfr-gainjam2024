@@ -339,6 +339,7 @@ one_shot = true
 [connection signal="action_casted" from="." to="SpellCastAnimation" method="_on_cirana_player_action_casted"]
 [connection signal="action_casted" from="." to="SpellSounds" method="_on_cirana_player_action_casted"]
 [connection signal="action_failed" from="." to="StatChangeSounds" method="_on_action_failed"]
+[connection signal="action_performed" from="." to="." method="_on_action_performed"]
 [connection signal="action_performed" from="." to="SpellSounds" method="_on_cirana_player_action_performed"]
 [connection signal="calories_changed" from="." to="." method="_on_calories_changed"]
 [connection signal="calories_changed" from="." to="StatChangeSounds" method="_on_calories_changed"]

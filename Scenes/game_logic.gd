@@ -39,7 +39,7 @@ func _ready() -> void:
 	DietMode.enabled = quick_diet_mode
 	var root = get_tree().root
 	current_level = root.get_child(root.get_child_count() - 1)
-	print_debug("Current level is ", current_level)
+	#print_debug("Current level is ", current_level)
 	if !player_reference:
 		player_reference = get_tree().get_first_node_in_group("player")
 	if debug_mode:
@@ -63,7 +63,7 @@ func _process(_delta: float) -> void:
 func _unhandled_input(event: InputEvent):
 	##I forgot I added a right click to the input map, I should replace this later
 	if event == InputEventMouseButton:
-		print_debug("Game Logic received input ", event)
+		#print_debug("Game Logic received input ", event)
 		if event.button_index == MOUSE_BUTTON_RIGHT:
 			camera_quick_pan.emit(event.global_position)
 		pass
@@ -218,7 +218,7 @@ func combat_start():
 		print_debug("Turn order generated: ", turn_order)
 		combat_started.emit()
 
-func _combat_loop() ->void:
+func combat_loop() ->void:
 	while(in_combat):
 		#signal logic and checks for whose turn it is
 		#sending signals to whichever entity has the turn
@@ -232,8 +232,10 @@ func _combat_loop() ->void:
 
 func _on_enemy_defeated(enemy: Node2D):
 	#remove enemy from turn order and entity list
+	if !in_combat:
+		return
 	print_debug(enemy, "defeated")
-	if turn_order.get_index(enemy) < current_turn_index:
+	if turn_order.find(enemy) < current_turn_index:
 		current_turn_index -= 1
 	turn_order.erase(enemy)
 	entities.erase(enemy)

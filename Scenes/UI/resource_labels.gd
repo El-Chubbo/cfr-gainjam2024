@@ -6,6 +6,8 @@ extends VBoxContainer
 func _ready() -> void:
 	ap_label.text = ("AP: ") + str(PlayerData.current_data["MaxActionPoints"])
 	mov_label.text = ("MOV: ") + str(PlayerData.current_data["MaxMovement"])
+	GameLogic.add_listener("ap_updated", self, "_on_AP_update")
+	GameLogic.add_listener("mov_updated", self, "_on_MOV_update")
 	return
 
 func _on_AP_update(current_AP : int) -> void:
