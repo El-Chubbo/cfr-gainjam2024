@@ -30,7 +30,7 @@ var directions = ["up", "down", "left", "right"]
 func _ready() -> void:
 	#set up global signals
 	GameLogic.add_emitter("turn_ended", self)
-	GameLogic.add_listener("turn_started", self, "_on_turn_start")
+	GameLogic.add_listener("start_turn", self, "_on_turn_start")
 	GameLogic.add_emitter("defeated", self)
 	return
 
@@ -38,7 +38,9 @@ func _ready() -> void:
 #func _process(delta: float) -> void:
 	#pass
 
-func _on_turn_start():
+func _on_turn_start(entity: Variant):
+	if entity != self:
+		return
 	print_debug("Received turn start signal")
 	current_MOV = max_MOV
 	current_AP = max_AP
@@ -47,19 +49,23 @@ func _on_turn_start():
 	#if no attacks are in range, follow nav agent path with MOV
 	#if it's impossible for the monster to move or there's no MOV left, then end turn
 	while (current_AP > 0):
+		await get_tree().create_timer(0.5) #small interval between moves so not everything is moving instantly
 		##still needs a mean of checking attacks in the monster's movepool
 		if attack_component.check_attack_in_range() == true:
 			current_AP -= 1
 			continue
 	#calculate path using navigation Agent
 		else:	
-			var direction = calculate_path()
-			#get the direction of the nearest path stage, then attempt moving that direction
-			if current_MOV > 0 and move_component.move(direction) == true:
-				current_MOV-= 1
-				continue
-			else:
+			if current_MOV <= 0:
 				break
+			else:
+				var direction = calculate_path()
+				print_debug("Attempting to move ", direction)
+				var successful_move = await move_component.move(direction)
+				if successful_move:	
+					current_MOV-= 1
+				else: break
+				#get the direction of the nearest path stage, then attempt moving that direction
 	print_debug("No more valid moves found, ending turn")
 	turn_ended.emit(self)
 	return
@@ -69,13 +75,13 @@ func calculate_path() -> Vector2:
 	##ranged monsters should priortize finding an angle that can hit the player, not getting close
 	##this interaction may be too complicated to be worth implementing in a project of this scope
 	target = PlayerData.reference
-	nav_agent.current_agent_position = global_position
-	nav_agent.target_position = target.global_position
+	#nav_agent.current_agent_position = global_position
+	nav_agent.set_target_position(target.global_position)
 	var next_path_position = nav_agent.get_next_path_position()
 	#get the nearest direction to take for the path
 	##I need to get the vector between the current position and next path position
 	##then I need to convert that into a perpendicular direction
-	return nav_agent.current_agent_position.direction_to(next_path_position)
+	return global_position.direction_to(next_path_position)
 
 func get_MOV():
 	return current_MOV
@@ -94,6 +100,7 @@ func _on_damage_received(entity):
 
 func on_defeat():
 	#todo: visual effects like vanish shader
+	turn_ended.emit(self)
 	visible = false
 	queue_free()
 	return

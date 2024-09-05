@@ -52,9 +52,12 @@ animations = [{
 [node name="CakeMonster" type="Node2D" groups=["monster"]]
 script = ExtResource("1_551yx")
 max_health = 110
+max_MOV = 2
 
-[node name="MovementComponent" parent="." groups=["component"] instance=ExtResource("2_fok58")]
+[node name="MovementComponent" parent="." node_paths=PackedStringArray("parent") groups=["component"] instance=ExtResource("2_fok58")]
 unique_name_in_owner = true
+parent = NodePath("..")
+animation_speed = 6
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1

@@ -5,7 +5,7 @@ signal action_casted(input_action)
 signal action_performed(action)
 signal action_failed(action)
 signal action_canceled
-signal ended_turn
+signal turn_ended(reference)
 signal moved(new_amount)
 signal health_changed(new_amount)
 signal took_damage(amount)
@@ -49,6 +49,7 @@ var tile_size = 256
 @export var max_movement = 3
 @export var max_actions = 2
 var current_MOV = max_movement
+var turn_move_cap : int = max_movement
 var current_AP = max_actions
 @export var max_health: int = 3
 var current_health = max_health
@@ -100,7 +101,8 @@ func _ready():
 	GameLogic.add_emitter("moved", self)
 	GameLogic.add_emitter("ap_updated", self)
 	GameLogic.add_emitter("mov_updated", self)
-	GameLogic.add_listener("turn_started", self, "_on_turn_begin")
+	GameLogic.add_emitter("turn_ended", self)
+	GameLogic.add_listener("start_turn", self, "_on_turn_begin")
 	GameLogic.add_listener("combat_started", self, "_on_combat_start")
 	GameLogic.add_listener("combat_end", self, "_on_combat_end")
 	PlayerData.reference = self
@@ -221,14 +223,22 @@ func fail_move(dir):
 #new position is recorded as where the player has moved since the beginning of the turn
 #they are only allowed to move a certain amount of spaces away from their origin point, but can move back toward their origin point freely
 #elsewhere in the code, if an action is performed, the old position gets updated.
+##in retrospect, old position is always 0,0 relative to new position
+##so shouldn't the entire calculation just be with a Vector2.zero?
+##should be refactored later
 func update_movement_resource(dir):
+	print("Old position coordinates: ", old_position)
 	new_position += movement_inputs[dir]
-	current_MOV = max_movement - new_position.distance_to(old_position)
-	##I need to get the tile difference between the positions rather than global position amounts
+	print("New position coordinates: ", new_position)
+	var total_distance = abs(new_position.x - old_position.x) + abs(new_position.y - old_position.y)
+	print("Distance between positions: ", total_distance)
+	current_MOV = turn_move_cap - total_distance
 	mov_updated.emit(current_MOV)
 	return
 
-func check_possible_movement(dir):
+#this function is ONLY for the player reaching the edge of their allowed movement spaces
+#it can't be a simple "if current_movement == 0" since the player is allowed to go backwards.
+func check_movement_limit(dir):
 	
 	pass
 
@@ -272,6 +282,8 @@ func attack(dir):
 				#print_debug(spell_1, " spell cast failed. Too few calories!")
 				action_failed.emit(action_buffer)
 				cancel()
+				##the issue here is that I need to fetch information from the spell, but I can't get that information without isntantiating it first
+				##unless there's another way?
 				return
 			spell_instance = spell_1.instantiate()
 			spell_instance.set_damage(final_attack) #this feels really gross to modify from here, oops coupling
@@ -321,6 +333,8 @@ func dodge() -> void:
 	#if an enemy attack is detected during the time frame the dodging state is active,
 	#attempt moving in direction input (dodging towards walls won't work)
 	#multi-space attacks should still deal damage if the player doesn't successfully dodge out of it
+	##Maybe a raycast or another area 2D can be used to check if the dodge was successful?
+	##Ideally the check should be isntantaneous and not be delayed until after the movement was performed
 	pass
 
 func _on_action_performed(action: String = "unspecified"):
@@ -328,23 +342,26 @@ func _on_action_performed(action: String = "unspecified"):
 		current_AP -= 1
 		ap_updated.emit(current_AP)
 		old_position = new_position
+		turn_move_cap = current_MOV
 	if current_AP <= 0 and turn_state == turn_states.PLAYER_TURN:
-		has_turn = false
-		ended_turn.emit()
-		turn_state = turn_states.ENEMY_TURN
 		print("Cirana has ended her turn")
+		has_turn = false
+		turn_ended.emit(self)
+		turn_state = turn_states.ENEMY_TURN
 	return
 
 #observer for receiving signal that the player turn has begun
 #enable movement, replenish movement and AP to max
 #record current tile map position
 func _on_turn_begin(entity_ID: Variant):
-	if entity_ID.get_rid() == self.get_rid():
+	if entity_ID == self:
+		print_debug("Cirana received start turn signal")
 		new_position = Vector2.ZERO
 		current_MOV = max_movement
 		current_AP = max_actions
 		has_turn = true
 		turn_state = turn_states.PLAYER_TURN
+		#bug: Cirana softlocked even though this function went through?
 	return
 
 #observer for receiving a spell cast input from the player

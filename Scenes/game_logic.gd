@@ -185,6 +185,7 @@ func _on_turn_end(entity: Object):
 		current_turn_index += 1
 		if current_turn_index >= turn_order.size():
 			current_turn_index = 0
+		round_passed.emit()
 	else:
 		print_debug("Turn end signal from ", entity, " does not match turn index for ", turn_order[current_turn_index])
 		return
@@ -208,8 +209,8 @@ func _on_turn_start():
 #find all entities in the scene, add them to the list, then calculate the turn order
 func combat_start():
 	if !in_combat:
-		print_debug("Initiating combat")
 		in_combat = true
+		print_debug("Setting combat to", in_combat)
 		entities = get_tree().get_nodes_in_group("monster")
 		turn_order = entities.duplicate()
 		turn_order.shuffle()
@@ -221,17 +222,20 @@ func combat_start():
 		print_debug("Monsters listed: ", entities)
 		print_debug("Turn order generated: ", turn_order)
 		combat_started.emit()
+		combat_loop()
 
 func combat_loop() ->void:
 	while(in_combat):
+		print_debug("Sending start turn signal to ", turn_order[current_turn_index])
+		await get_tree().create_timer(2.0)
+		start_turn.emit(turn_order[current_turn_index])
+		active_entity = turn_order[current_turn_index]
 		#signal logic and checks for whose turn it is
 		#sending signals to whichever entity has the turn
-		#entity sends signal back confirming it received the signal
-		#game logic gives the go ahead for the entity to begin action
 		#waits until the entity emits its "turn_ended" signal
-		
-		start_turn.emit(turn_order[current_turn_index])
-		round_passed.emit()
+		await round_passed
+		#synchronization issue: monsters move instantly upon player turn ending when it should wait until after spells finish
+		#if a fireball kills a monster "mid-turn," it never emits its end turn signal and the game softlocks
 	return
 
 func _on_enemy_defeated(enemy: Node2D):
