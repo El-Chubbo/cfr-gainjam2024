@@ -13,7 +13,7 @@ config_version=5
 config/name="CFR-GainJam2024"
 run/main_scene="res://Scenes/main_menu.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
-config/icon="res://Art Assets/CiranaIcon.png"
+config/icon="res://Art Assets/Cirana/CiranaIcon.png"
 
 [autoload]
 

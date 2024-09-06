@@ -245,8 +245,8 @@ func _on_quick_pan_event(new_position: Vector2):
 	if quick_target:
 		quick_target.kill()
 	quick_target = get_tree().create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT).set_parallel(true)
-	quick_target.tween_property(self, "position:x", new_position.x, 0.5)
-	quick_target.tween_property(self, "position:x", new_position.y, 0.5)
+	quick_target.tween_property(self, "global_position:x", new_position.x, 0.5)
+	quick_target.tween_property(self, "global_position:y", new_position.y, 0.5)
 	is_quick_panning = false
 	quick_pan_completed.emit()
 	return
