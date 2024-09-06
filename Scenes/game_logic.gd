@@ -5,7 +5,7 @@ signal round_passed
 signal player_turn
 signal enemy_turn
 signal combat_started
-signal combat_end
+signal combat_ended
 signal start_turn(entity) #emitted to all monsters, if the entity reference matches
 signal camera_quick_pan(target: Vector2, type)
 
@@ -179,16 +179,18 @@ func emit_signal_when_ready(signal_name: String, args: Array, emitter: Object) -
 #endregion
 
 func _on_turn_end(entity: Object):
-	print_debug("Received end turn signal from ", entity)
-	if turn_order[current_turn_index] == entity:
-		print_debug(turn_order[current_turn_index], " turn has ended")
-		current_turn_index += 1
-		if current_turn_index >= turn_order.size():
-			current_turn_index = 0
-		round_passed.emit()
-	else:
-		print_debug("Turn end signal from ", entity, " does not match turn index for ", turn_order[current_turn_index])
-		return
+	if in_combat:
+		print_debug("Received end turn signal from ", entity)
+		if turn_order[current_turn_index] == entity:
+			print_debug(turn_order[current_turn_index], " turn has ended")
+			current_turn_index += 1
+			if current_turn_index >= turn_order.size():
+				current_turn_index = 0
+			round_passed.emit()
+		else:
+			print_debug("Turn end signal from ", entity, " does not match turn index for ", turn_order[current_turn_index])
+			return
+	return
 
 func _on_turn_start():
 	
@@ -227,7 +229,7 @@ func combat_start():
 func combat_loop() ->void:
 	while(in_combat):
 		print_debug("Sending start turn signal to ", turn_order[current_turn_index])
-		await get_tree().create_timer(2.0)
+		await get_tree().create_timer(3.0)
 		start_turn.emit(turn_order[current_turn_index])
 		active_entity = turn_order[current_turn_index]
 		#signal logic and checks for whose turn it is
@@ -243,7 +245,7 @@ func _on_enemy_defeated(enemy: Node2D):
 	if !in_combat:
 		return
 	print_debug(enemy, "defeated")
-	if turn_order.find(enemy) < current_turn_index:
+	if current_turn_index >= turn_order.find(enemy):
 		current_turn_index -= 1
 	turn_order.erase(enemy)
 	entities.erase(enemy)
@@ -253,7 +255,8 @@ func _on_enemy_defeated(enemy: Node2D):
 	#if there's no enemies left, in_combat = false
 	if entities.is_empty():
 		in_combat = false
-		combat_end.emit()
+		turn_order.clear()
+		combat_ended.emit()
 		print_debug("Combat has ended")
 	return
 

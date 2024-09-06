@@ -49,7 +49,7 @@ func _on_turn_start(entity: Variant):
 	#if no attacks are in range, follow nav agent path with MOV
 	#if it's impossible for the monster to move or there's no MOV left, then end turn
 	while (current_AP > 0):
-		await get_tree().create_timer(0.5) #small interval between moves so not everything is moving instantly
+		await get_tree().create_timer(1) #small interval between moves so not everything is moving instantly
 		##still needs a mean of checking attacks in the monster's movepool
 		if attack_component.check_attack_in_range() == true:
 			current_AP -= 1

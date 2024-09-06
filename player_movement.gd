@@ -104,7 +104,7 @@ func _ready():
 	GameLogic.add_emitter("turn_ended", self)
 	GameLogic.add_listener("start_turn", self, "_on_turn_begin")
 	GameLogic.add_listener("combat_started", self, "_on_combat_start")
-	GameLogic.add_listener("combat_end", self, "_on_combat_end")
+	GameLogic.add_listener("combat_ended", self, "_on_combat_end")
 	PlayerData.reference = self
 	#in hindsight I should've put all the player stats in this script in a dictionary too
 	if override_stats:
@@ -175,18 +175,19 @@ func _unhandled_input(event):
 
 func move(dir) -> bool:
 	print("Current movement: ", current_MOV, " in direction ", dir)
-	#if !check_possible_movement():
-		##THIS NEEDS TO BE UPDATED
-		#currently if the player reaches the edge of the movement at all, they get completely locked in place
-		#the intended behavior is to still let them return
-		##add a check if the following movement will exceed the limit
-		#fail_move(dir)
-		#return false
+	var successful_movement : bool = await check_movement_limit(dir)
+	if !successful_movement:
+		fail_move(dir)
+		return false
+		#issue: if the player is at the edge of their movement, they should still be able to eat enemies 1 space away
+		#this causes feast attempts at the edge of movement range to fail
+		#should the enemy collision be bumped up?
 	ray.target_position = movement_inputs[dir] * tile_size
 	ray.force_raycast_update()
 	#print_debug("Raycast is colliding with ", ray.get_collider())
 	##this is a nasty if statement and probably should be cleaned up
-	if !ray.is_colliding() or ray.get_collider().is_in_group("pickup") or ray.get_collider().is_in_group("trigger") or ray.get_collider().is_in_group("spell") and !ray.get_collider().is_in_group("monster") and current_MOV > 0:
+	##probably should make a separate function checking all the collisions that returns a bool similar to check_movement_limit(dir)
+	if !ray.is_colliding() or ray.get_collider().is_in_group("pickup") or ray.get_collider().is_in_group("trigger") or ray.get_collider().is_in_group("spell") and !ray.get_collider().is_in_group("monster") and successful_movement:
 		#position += inputs[dir] * tile_size #instant movement
 		moved.emit(current_MOV)
 		var tween = create_tween()
@@ -227,20 +228,21 @@ func fail_move(dir):
 ##so shouldn't the entire calculation just be with a Vector2.zero?
 ##should be refactored later
 func update_movement_resource(dir):
-	print("Old position coordinates: ", old_position)
+	#print("Old position coordinates: ", old_position)
 	new_position += movement_inputs[dir]
-	print("New position coordinates: ", new_position)
+	#print("New position coordinates: ", new_position)
 	var total_distance = abs(new_position.x - old_position.x) + abs(new_position.y - old_position.y)
-	print("Distance between positions: ", total_distance)
+	#print("Distance between positions: ", total_distance)
 	current_MOV = turn_move_cap - total_distance
 	mov_updated.emit(current_MOV)
 	return
 
 #this function is ONLY for the player reaching the edge of their allowed movement spaces
 #it can't be a simple "if current_movement == 0" since the player is allowed to go backwards.
-func check_movement_limit(dir):
-	
-	pass
+func check_movement_limit(dir) -> bool:
+	var temp_position = new_position + movement_inputs[dir]
+	var total_distance = abs(temp_position.x - old_position.x) + abs(temp_position.y - old_position.y)
+	return turn_move_cap - total_distance >= 0
 
 #Trigger relevant animations
 #Adjust state flags
@@ -357,11 +359,16 @@ func _on_turn_begin(entity_ID: Variant):
 	if entity_ID == self:
 		print_debug("Cirana received start turn signal")
 		new_position = Vector2.ZERO
+		old_position = Vector2.ZERO
 		current_MOV = max_movement
+		turn_move_cap = max_movement
 		current_AP = max_actions
+		mov_updated.emit(current_MOV)
+		ap_updated.emit(current_AP)
 		has_turn = true
 		turn_state = turn_states.PLAYER_TURN
 		#bug: Cirana softlocked even though this function went through?
+		#it seems right now the controls lock if Cirana has two turns back to back
 	return
 
 #observer for receiving a spell cast input from the player
@@ -383,6 +390,7 @@ func _on_cancel_cast():
 	$Area2D/MarkerDown.visible = false
 
 func _on_combat_end():
+	print("Cirana has received combat end signal")
 	turn_state = turn_states.FREEMOVE
 	return
 
