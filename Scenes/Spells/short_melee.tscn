@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://cl4ite3hvju1w"]
+
+[ext_resource type="Script" path="res://Scenes/Spells/melee_strike.gd" id="1_l8012"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sgmgc"]
+size = Vector2(128, 128)
+
+[node name="1SpaceMelee" type="Area2D" groups=["spell"]]
+script = ExtResource("1_l8012")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_sgmgc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

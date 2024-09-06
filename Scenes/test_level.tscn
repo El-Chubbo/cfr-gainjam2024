@@ -6,7 +6,7 @@
 [ext_resource type="TileSet" uid="uid://73aonnlj4cly" path="res://Scenes/Pickups/pickup_tiles.tres" id="2_mid33"]
 [ext_resource type="Texture2D" uid="uid://hnsxwwrcqt2i" path="res://Art Assets/tilesetOverlays.png" id="4_edn4b"]
 [ext_resource type="PackedScene" uid="uid://dx42msiyc1b1s" path="res://Scenes/test_monster.tscn" id="4_p7ln6"]
-[ext_resource type="PackedScene" uid="uid://bjk146k4p6yho" path="res://Scenes/gameplay_hud.tscn" id="5_dufm1"]
+[ext_resource type="PackedScene" uid="uid://bjk146k4p6yho" path="res://Scenes/UI/gameplay_hud.tscn" id="5_dufm1"]
 [ext_resource type="Script" path="res://Scenes/calorie_test.gd" id="7_063by"]
 [ext_resource type="PackedScene" uid="uid://bfqyxkto0uv5u" path="res://Scenes/Pickups/apple_pickup.tscn" id="9_v6mgm"]
 [ext_resource type="PackedScene" uid="uid://b8lf8ia416yc" path="res://Scenes/Pickups/health_pickup.tscn" id="10_5ka68"]

@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://cfsc5odf3wfjk" path="res://Scenes/placeholder_tiles.tres" id="1_g8ura"]
 [ext_resource type="TileSet" uid="uid://73aonnlj4cly" path="res://Scenes/Pickups/pickup_tiles.tres" id="2_u0oll"]
 [ext_resource type="PackedScene" uid="uid://joo0ehc63rqi" path="res://Scenes/cirana_player.tscn" id="2_yr85u"]
-[ext_resource type="PackedScene" uid="uid://bjk146k4p6yho" path="res://Scenes/gameplay_hud.tscn" id="3_ehk5u"]
+[ext_resource type="PackedScene" uid="uid://bjk146k4p6yho" path="res://Scenes/UI/gameplay_hud.tscn" id="3_ehk5u"]
 [ext_resource type="TileSet" uid="uid://be3gismalb6ry" path="res://Scenes/overlay_tiles.tres" id="3_v6bpj"]
 [ext_resource type="PackedScene" uid="uid://cftlng4a1boxg" path="res://Scenes/controllable_camera.tscn" id="4_1jqkb"]
 [ext_resource type="Script" path="res://Scenes/quick_level_trigger.gd" id="7_hgkqc"]

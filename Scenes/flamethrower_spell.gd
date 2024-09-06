@@ -11,6 +11,7 @@ signal dealt_damage(damage, victim)
 @export var damage_modifier = 1.0
 @onready var particle #= $FireImpactParticle
 @export var calorie_cost = 600
+@export var life_time = 2.0
 var base_damage = 300
 
 #turns out most of the fireball code isn't useful anyway
@@ -69,4 +70,5 @@ func _on_area_entered(area: Area2D) -> void: #collided with entity
 		##print_debug("Fireball hit ", area, "!")
 		#dealt_damage.emit(base_damage * damage_modifier, area)
 		#complete()
+	
 	return

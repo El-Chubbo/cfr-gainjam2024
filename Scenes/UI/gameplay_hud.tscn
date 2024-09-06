@@ -1,9 +1,9 @@
 [gd_scene load_steps=11 format=3 uid="uid://bjk146k4p6yho"]
 
-[ext_resource type="Script" path="res://Scenes/hud_logic.gd" id="1_c74vo"]
+[ext_resource type="Script" path="res://Scenes/UI/hud_logic.gd" id="1_c74vo"]
 [ext_resource type="PackedScene" uid="uid://83lbldk0ei0i" path="res://Scenes/spell_hotbar.tscn" id="2_4g6re"]
 [ext_resource type="PackedScene" uid="uid://cbjaog3mtnip8" path="res://Scenes/heart_gui.tscn" id="3_cnv8t"]
-[ext_resource type="PackedScene" uid="uid://duyb1tue8pemb" path="res://Scenes/calorie_meter.tscn" id="4_44m3x"]
+[ext_resource type="PackedScene" uid="uid://duyb1tue8pemb" path="res://Scenes/UI/calorie_meter.tscn" id="4_44m3x"]
 [ext_resource type="Texture2D" uid="uid://ctso5cblwwyud" path="res://Art Assets/Heart Sprites.png" id="4_rlp4i"]
 [ext_resource type="PackedScene" uid="uid://bsmnxnmeifj5s" path="res://Scenes/turn_order_box.tscn" id="5_214fo"]
 [ext_resource type="PackedScene" uid="uid://dm85s7bcj2sdw" path="res://Scenes/Components/resource_labels.tscn" id="7_anc3g"]

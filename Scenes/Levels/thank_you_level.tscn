@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://joo0ehc63rqi" path="res://Scenes/cirana_player.tscn" id="1_6j5o2"]
 [ext_resource type="TileSet" uid="uid://cfsc5odf3wfjk" path="res://Scenes/placeholder_tiles.tres" id="2_yvm2j"]
 [ext_resource type="PackedScene" uid="uid://cftlng4a1boxg" path="res://Scenes/controllable_camera.tscn" id="3_j1p7f"]
-[ext_resource type="PackedScene" uid="uid://bjk146k4p6yho" path="res://Scenes/gameplay_hud.tscn" id="4_3a7sp"]
+[ext_resource type="PackedScene" uid="uid://bjk146k4p6yho" path="res://Scenes/UI/gameplay_hud.tscn" id="4_3a7sp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5x0vy"]
 font_size = 256
