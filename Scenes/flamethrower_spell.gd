@@ -11,7 +11,8 @@ signal dealt_damage(damage, victim)
 @export var damage_modifier = 1.0
 @onready var particle #= $FireImpactParticle
 @export var calorie_cost = 600
-@export var life_time = 2.0
+@export var life_time = 3.0
+@onready var timer = $Lifetime
 var base_damage = 300
 
 #turns out most of the fireball code isn't useful anyway
@@ -26,13 +27,15 @@ func _init():
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	timer.wait_time = life_time
+	timer.start()
+	return
 
 func set_damage(attack: int):
 	base_damage += attack
 
 func get_damage():
-	return base_damage
+	return base_damage * damage_modifier
 
 func get_cost():
 	return calorie_cost
@@ -66,9 +69,14 @@ func _on_body_entered(body: Node2D) -> void: #collided with wall
 
 func _on_area_entered(area: Area2D) -> void: #collided with entity
 	##to do: behavior for if a monster hits the player with a fireball
-	#if !area.is_in_group("spell") and !area.is_in_group("pickup"):
-		##print_debug("Fireball hit ", area, "!")
-		#dealt_damage.emit(base_damage * damage_modifier, area)
+	if !area.is_in_group("spell") and !area.is_in_group("pickup"):
+		print_debug("Flamethrower hit ", area, "!")
+		dealt_damage.emit(base_damage * damage_modifier, area)
 		#complete()
 	
+	return
+
+
+func _on_lifetime_timeout() -> void:
+	queue_free()
 	return

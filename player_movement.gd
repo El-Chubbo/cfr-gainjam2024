@@ -78,6 +78,9 @@ var new_position = Vector2.ZERO
 @onready var animation = $Sprite2D
 #probably redundant variables
 
+#this will keep track of spells the player has casted so their turn only ends after all the spells have despawned
+var live_spells = [Object]
+
 var movement_inputs = {"right": Vector2.RIGHT, 
 			"left": Vector2.LEFT,
 			"up": Vector2.UP,
@@ -150,6 +153,8 @@ func _ready():
 ##hold inputs should be supported eventually
 ##hold a direction to continue inputting that direction
 ##holding a casting input will have the player remain in the casting state
+#note: this does NOT use the Command Pattern due to the time constraint for the game jam
+#The Command Pattern would probably be better for this
 func _unhandled_input(event):
 	if moving or control_state == control_states.MOVING:
 		return
@@ -174,7 +179,7 @@ func _unhandled_input(event):
 		return
 
 func move(dir) -> bool:
-	print("Current movement: ", current_MOV, " in direction ", dir)
+	#print("Current movement: ", current_MOV, " in direction ", dir)
 	var successful_movement : bool = await check_movement_limit(dir)
 	if !successful_movement:
 		fail_move(dir)
@@ -187,6 +192,7 @@ func move(dir) -> bool:
 	#print_debug("Raycast is colliding with ", ray.get_collider())
 	##this is a nasty if statement and probably should be cleaned up
 	##probably should make a separate function checking all the collisions that returns a bool similar to check_movement_limit(dir)
+	#var valid_collision = await check_collision(dir)
 	if !ray.is_colliding() or ray.get_collider().is_in_group("pickup") or ray.get_collider().is_in_group("trigger") or ray.get_collider().is_in_group("spell") and !ray.get_collider().is_in_group("monster") and successful_movement:
 		#position += inputs[dir] * tile_size #instant movement
 		moved.emit(current_MOV)
@@ -207,6 +213,9 @@ func move(dir) -> bool:
 		##eventually the "feast" move should be added here if colliding with an edible enemy
 		fail_move(dir)
 		return false
+	return false
+
+func check_collision(dir : Vector2) -> bool:
 	return false
 
 func fail_move(dir):
@@ -268,7 +277,7 @@ func attack(dir):
 		action_failed.emit(action_buffer)
 		cancel()
 		return
-	if action_buffer != "spell_1":
+	if action_buffer != "spell_1" and action_buffer != "spell_2":
 		print_debug("Unfinished spell, ignoring input")
 		#temporary statement to prevent crashes
 		return
@@ -277,9 +286,9 @@ func attack(dir):
 	#if action_buffer == "spell_1":
 		#var b = spell_1.instantiate()
 		#owner.add_child(b)
+	var final_attack: int = base_attack * percentage_attack_modifier + flat_attack_modifier
 	match action_buffer:
 		"spell_1":
-			var final_attack: int = base_attack * percentage_attack_modifier + flat_attack_modifier
 			if !remove_calories(150): #it's supposed to fetch the spell's cost here, but hardcoding it for now
 				#print_debug(spell_1, " spell cast failed. Too few calories!")
 				action_failed.emit(action_buffer)
@@ -292,7 +301,16 @@ func attack(dir):
 			spell_instance.add_to_group("from player")
 			owner.add_child(spell_instance)
 		"spell_2":
-			pass
+			if !remove_calories(600):
+				action_failed.emit(action_buffer)
+				cancel()
+				return
+			#issue: the sprites for the flamethrower get improperly rotated even though they should always be oriented up
+			#I'm not sure how to make the sprite 'ignore' the rotation, and I don't want to alternate versions just for the other directions
+			spell_instance = spell_2.instantiate()
+			spell_instance.set_damage(final_attack)
+			spell_instance.add_to_group("from player")
+			owner.add_child(spell_instance)
 		#to do: other spell inputs
 		_:
 			print_debug("Error, ", action_buffer, " attempted instancing an invalid spell")

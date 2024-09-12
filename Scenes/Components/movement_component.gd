@@ -30,28 +30,45 @@ func _on_defeat(argument):
 	$Area2D.set_deferred("monitorable", false)
 	return
 
-func _on_receive_movement_request(dir):
-	move(dir)
+#this can be used for external scripts forcing the entity to move, like a cutscene
+func _on_receive_movement_request(entity : Object, dir : Vector2):
+	if entity == self:
+		move(dir)
 	return
 
 func move(dir) -> bool:
-	ray.target_position = dir * tile_size
-	ray.force_raycast_update()
-	if !ray.is_colliding() or ray.get_collider().is_in_group("pickup") and dir != Vector2.ZERO:
+	#new change, moving the collision detection to its own function
+	#this should also be changed in other locations with movement scripts
+	var valid_collision = await check_collision(dir)
+	#the movement component should be abstracted so it can have different rules dependent on which entity has the component
+	if valid_collision:
 		#position += inputs[dir] * tile_size #instant movement
 		moved.emit()
 		var tween = create_tween()
 		tween.tween_property(parent, "global_position",
 			global_position + dir * tile_size, 1.0/animation_speed).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+		#global_position = global_position.snapped(Vector2.ONE * tile_size)
+		#this line was supposed to resolve monsters getting slightly misaligned on movements, but instead broke the positioning completely
 		await tween.finished
 		return true
 	#small tween wiggle for invalid movement
 	##this likely won't happen, but good for knowing if pathfinding breaks
-	elif ray.is_colliding():
+	else:
 		var tween = create_tween()
 		tween.tween_property(parent, "global_position",
 			global_position + dir * (tile_size*0.1), 1.0/animation_speed).set_trans(Tween.TRANS_ELASTIC)
 		await tween.finished
 		global_position -= dir * (tile_size*0.1)
 		return false
+	return false
+
+func check_collision(dir) ->bool:
+	ray.target_position = dir * tile_size
+	ray.force_raycast_update()
+	if !ray.is_colliding() and dir!= Vector2.ZERO:
+		return true
+	elif ray.get_collider().is_in_group("monster") or ray.get_collider().is_in_group("player"):
+		return false
+	elif ray.get_collider().is_in_group("pickup") or ray.get_collider().is_in_group("trigger"):
+		return true
 	return false

@@ -62,7 +62,8 @@ animation_speed = 6
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1
 avoidance_enabled = true
-avoidance_mask = 0
+radius = 128.0
+neighbor_distance = 512.0
 debug_enabled = true
 
 [node name="CakeSprites" type="AnimatedSprite2D" parent="."]

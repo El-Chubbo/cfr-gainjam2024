@@ -4,16 +4,18 @@
 [ext_resource type="Texture2D" uid="uid://bs7dbvi3nxmii" path="res://Art Assets/tilesetSpells.png" id="1_v3v3t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_10wfp"]
-size = Vector2(256, 384)
+size = Vector2(512, 768)
 
-[node name="Flamethrower" type="Area2D"]
+[node name="Flamethrower" type="Area2D" groups=["spell"]]
 script = ExtResource("1_ltcyp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["spell"]]
+position = Vector2(256, 0)
 shape = SubResource("RectangleShape2D_10wfp")
 
 [node name="GridContainer" type="GridContainer" parent="CollisionShape2D"]
-custom_minimum_size = Vector2(256, 384)
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(512, 768)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -25,67 +27,78 @@ theme_override_constants/v_separation = 0
 columns = 2
 
 [node name="Panel" type="Panel" parent="CollisionShape2D/GridContainer"]
-custom_minimum_size = Vector2(128, 128)
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D/GridContainer/Panel"]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_v3v3t")
 centered = false
 hframes = 2
 vframes = 3
 
 [node name="Panel2" type="Panel" parent="CollisionShape2D/GridContainer"]
-custom_minimum_size = Vector2(128, 128)
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D/GridContainer/Panel2"]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_v3v3t")
 centered = false
 hframes = 2
 vframes = 3
 
 [node name="Panel3" type="Panel" parent="CollisionShape2D/GridContainer"]
-custom_minimum_size = Vector2(128, 128)
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D/GridContainer/Panel3"]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_v3v3t")
 centered = false
 hframes = 2
 vframes = 3
 
 [node name="Panel4" type="Panel" parent="CollisionShape2D/GridContainer"]
-custom_minimum_size = Vector2(128, 128)
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D/GridContainer/Panel4"]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_v3v3t")
 centered = false
 hframes = 2
 vframes = 3
 
 [node name="Panel5" type="Panel" parent="CollisionShape2D/GridContainer"]
-custom_minimum_size = Vector2(128, 128)
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D/GridContainer/Panel5"]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_v3v3t")
 centered = false
 hframes = 2
 vframes = 3
 
 [node name="Panel6" type="Panel" parent="CollisionShape2D/GridContainer"]
-custom_minimum_size = Vector2(128, 128)
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D/GridContainer/Panel6"]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_v3v3t")
 centered = false
 hframes = 2
 vframes = 3
+
+[node name="Lifetime" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Lifetime" to="." method="_on_lifetime_timeout"]
