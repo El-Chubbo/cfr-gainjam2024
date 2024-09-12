@@ -228,16 +228,16 @@ func combat_start():
 
 func combat_loop() ->void:
 	while(in_combat):
-		print_debug("Sending start turn signal to ", turn_order[current_turn_index])
-		await get_tree().create_timer(3.0)
 		start_turn.emit(turn_order[current_turn_index])
 		active_entity = turn_order[current_turn_index]
+		print("Turn active for ", turn_order[current_turn_index])
 		#signal logic and checks for whose turn it is
 		#sending signals to whichever entity has the turn
 		#waits until the entity emits its "turn_ended" signal
 		await round_passed
 		#synchronization issue: monsters move instantly upon player turn ending when it should wait until after spells finish
 		#if a fireball kills a monster "mid-turn," it never emits its end turn signal and the game softlocks
+		await get_tree().create_timer(5.0)
 	return
 
 func _on_enemy_defeated(enemy: Node2D):
@@ -245,10 +245,18 @@ func _on_enemy_defeated(enemy: Node2D):
 	if !in_combat:
 		return
 	print_debug(enemy, "defeated")
-	if current_turn_index >= turn_order.find(enemy):
+	if enemy == active_entity:
+		current_turn_index -= 1
+		round_passed.emit()
+		#game softlocks without the round_passed.emit()
+	elif current_turn_index > turn_order.find(enemy):
 		current_turn_index -= 1
 	turn_order.erase(enemy)
 	entities.erase(enemy)
+	#bug: this iterates the turn index before the end turn signal fires
+	#since the end turn signal won't match the turn index, round_passed never fires
+	#the next active entity never receives it's start turn signal, and the game softlocks
+	##fixed
 	print_debug("Turn order is now ", turn_order)
 	#the quick pans keep going to strange positions
 	camera_quick_pan.emit(enemy.global_position)

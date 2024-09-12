@@ -366,8 +366,9 @@ func _on_action_performed(action: String = "unspecified"):
 	if current_AP <= 0 and turn_state == turn_states.PLAYER_TURN:
 		print("Cirana has ended her turn")
 		has_turn = false
-		turn_ended.emit(self)
 		turn_state = turn_states.ENEMY_TURN
+		turn_ended.emit(self)
+		print("Turn state has been set to ", turn_state)
 	return
 
 #observer for receiving signal that the player turn has begun
@@ -385,6 +386,7 @@ func _on_turn_begin(entity_ID: Variant):
 		ap_updated.emit(current_AP)
 		has_turn = true
 		turn_state = turn_states.PLAYER_TURN
+		print("Turn state has been set to ", turn_state)
 		#bug: Cirana softlocked even though this function went through?
 		#it seems right now the controls lock if Cirana has two turns back to back
 	return

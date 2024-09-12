@@ -78,6 +78,7 @@ grow_vertical = 2
 
 [node name="DietModeButton" type="CheckButton" parent="MainButtons"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "Diet Mode"
 
