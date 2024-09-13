@@ -73,15 +73,14 @@ func _on_how_to_play_button_pressed() -> void:
 	$VolumeSliders.visible = false
 	return
 
-
 func _on_test_button1_pressed() -> void:
-	GameLogic.goto_scene("res://Scenes/test_level.tscn")
+	GameLogic.goto_scene("res://Scenes/Levels/test_level.tscn")
 	MusicPlayer.force_play(MusicPlayer.song_list.NONE)
 	##Music should probably controlled on level load rather than manually from the previous scene
 	return
 
 func _on_test_button2_pressed() -> void:
-	GameLogic.goto_scene("res://Scenes/test_level2.tscn")
+	GameLogic.goto_scene("res://Scenes/Levels/test_level2.tscn")
 	MusicPlayer.default_clips()
 	MusicPlayer.force_play(MusicPlayer.song_list.MYSTIC_ACT1)
 	return

@@ -206,7 +206,8 @@ func _on_turn_start():
 #p m m m p m m
 #p m m m p m m m
 ##this isn't balanced very well for high amounts of monsters until the parry/dodge system is implemented
-
+##a better solution would be a speed stat so the player could have a regular interval of turns, Honkai Star Rail for example
+##the complexity may be too high for a project of this scale however, encounters could be kept to just a handful of monsters
 
 #find all entities in the scene, add them to the list, then calculate the turn order
 func combat_start():

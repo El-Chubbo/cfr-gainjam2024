@@ -157,7 +157,11 @@ func _ready():
 #The Command Pattern would probably be better for this
 func _unhandled_input(event):
 	if moving or control_state == control_states.MOVING:
+		#ignore inputs in the middle of a moving action
 		return
+	if turn_state == turn_states.PLAYER_TURN and event.is_action_pressed("pass_turn"):
+		cancel()
+		action_performed.emit("pass_turn")
 	if turn_state != turn_states.ENEMY_TURN:
 		#print("Cirana's current turn state: ", turn_state)
 		for dir in movement_inputs.keys():
@@ -363,7 +367,7 @@ func _on_action_performed(action: String = "unspecified"):
 		ap_updated.emit(current_AP)
 		old_position = new_position
 		turn_move_cap = current_MOV
-	if current_AP <= 0 and turn_state == turn_states.PLAYER_TURN:
+	if (current_AP <= 0 and turn_state == turn_states.PLAYER_TURN) or action == "pass_turn": #passing on a non-player turn is already checked in unhandled input
 		print("Cirana has ended her turn")
 		has_turn = false
 		turn_state = turn_states.ENEMY_TURN
