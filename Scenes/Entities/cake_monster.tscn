@@ -60,10 +60,15 @@ parent = NodePath("..")
 animation_speed = 6
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 128.0
+target_desired_distance = 256.0
+path_max_distance = 128.0
 path_postprocessing = 1
 avoidance_enabled = true
 radius = 128.0
 neighbor_distance = 512.0
+avoidance_layers = 2
+avoidance_mask = 2
 debug_enabled = true
 
 [node name="CakeSprites" type="AnimatedSprite2D" parent="."]
@@ -124,6 +129,7 @@ rotation = 1.5708
 gizmo_extents = 64.0
 
 [node name="AttackComponent" parent="." instance=ExtResource("10_ocs2t")]
+visible = false
 
 [connection signal="defeated" from="." to="." method="_on_defeat"]
 [connection signal="defeated" from="." to="MovementComponent" method="_on_defeat"]

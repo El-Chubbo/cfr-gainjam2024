@@ -5,18 +5,23 @@ extends Area2D
 signal dealt_damage(damage, victim)
 
 enum reactive_properties {DODGEABLE, PARRYABLE, BOTH, NEITHER}
-var reactive_property = reactive_properties.BOTH
+@export var reactive_property = reactive_properties.BOTH
+@export var rotatable : bool = true #this means the attack is supposed to be rotated with the attack axis
 @export var parameters : Dictionary = {"Startup" : 0.0, "Duration" : 0.0,
 				"Cost" : 0, "BaseDamage" : 0, "DamageModifier" : 1.0,}
 @export var startup_timer : Timer
 @export var duration_timer : Timer
 
+
 func _ready() -> void:
-	startup_timer.wait_time = parameters["Startup"]
+	#startup_timer.wait_time = parameters["Startup"]
+	startup_timer.wait_time = 0 #TEMPORARY UNTIL DEFENSIVE MECHANICS IMPLEMENTED
 	duration_timer.wait_time = parameters["Duration"]
 	#a "windup" flash should play warning the attack coming out
 	#the color of the flash should indicate what reaction is allowed
-	#
+	#this will be implemented at a later time
+	
+	
 	return
 
 func _on_area_entered(area: Area2D) -> void:

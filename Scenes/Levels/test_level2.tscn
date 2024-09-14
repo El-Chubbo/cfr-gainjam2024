@@ -62,14 +62,6 @@ zoom_min = 0.2
 [node name="CiranaPlayer" parent="." instance=ExtResource("2_yr85u")]
 position = Vector2(-128, -384)
 
-[connection signal="defeated" from="Entities/CakeMonster" to="Entities/CakeMonster" method="_on_defeat"]
-[connection signal="defeated" from="Entities/CakeMonster" to="Entities/CakeMonster/MovementComponent" method="_on_defeat"]
-[connection signal="defeated" from="Entities/@Node2D@21783" to="Entities/@Node2D@21783" method="_on_defeat"]
-[connection signal="defeated" from="Entities/@Node2D@21783" to="Entities/@Node2D@21783/MovementComponent" method="_on_defeat"]
-[connection signal="defeated" from="Entities/@Node2D@21784" to="Entities/@Node2D@21784" method="_on_defeat"]
-[connection signal="defeated" from="Entities/@Node2D@21784" to="Entities/@Node2D@21784/MovementComponent" method="_on_defeat"]
-[connection signal="defeated" from="Entities/@Node2D@21785" to="Entities/@Node2D@21785" method="_on_defeat"]
-[connection signal="defeated" from="Entities/@Node2D@21785" to="Entities/@Node2D@21785/MovementComponent" method="_on_defeat"]
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
 [connection signal="calories_changed" from="CiranaPlayer" to="GameplayHud" method="_update_calories"]
 [connection signal="health_changed" from="CiranaPlayer" to="GameplayHud" method="_update_health"]

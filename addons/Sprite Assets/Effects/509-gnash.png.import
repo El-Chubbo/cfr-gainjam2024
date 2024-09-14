@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhxqvfmpioi04"
-path="res://.godot/imported/Placeholder Icon 3.png-3bf488017ae3f28a4ac9a58a21d9de6f.ctex"
+uid="uid://cg84f7t7rd4go"
+path="res://.godot/imported/509-gnash.png-d19145e3de2d3b763dbee646a54accdc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art Assets/Placeholder Icon 3.png"
-dest_files=["res://.godot/imported/Placeholder Icon 3.png-3bf488017ae3f28a4ac9a58a21d9de6f.ctex"]
+source_file="res://addons/Sprite Assets/Effects/509-gnash.png"
+dest_files=["res://.godot/imported/509-gnash.png-d19145e3de2d3b763dbee646a54accdc.ctex"]
 
 [params]
 

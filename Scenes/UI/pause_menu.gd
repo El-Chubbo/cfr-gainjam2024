@@ -40,11 +40,12 @@ func _retry():
 	GameLogic.goto_scene(path)
 	#get_tree().reload_current_scene()
 	#get_tree().paused = false
-	#unpaused.emit()
+	unpaused.emit()
 	return
 	
 func _return_to_title():
 	GameLogic.goto_scene("res://Scenes/main_menu.tscn")
+	unpaused.emit()
 	return
 
 func _unhandled_input(event: InputEvent) -> void:

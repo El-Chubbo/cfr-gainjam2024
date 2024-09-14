@@ -229,6 +229,7 @@ func combat_start():
 
 func combat_loop() ->void:
 	while(in_combat):
+		#a transition function should be included here for better separation between turns
 		start_turn.emit(turn_order[current_turn_index])
 		active_entity = turn_order[current_turn_index]
 		print("Turn active for ", turn_order[current_turn_index])

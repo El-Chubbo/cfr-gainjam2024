@@ -1,18 +1,112 @@
-[gd_scene load_steps=3 format=3 uid="uid://cl4ite3hvju1w"]
+[gd_scene load_steps=7 format=3 uid="uid://cl4ite3hvju1w"]
 
 [ext_resource type="Script" path="res://Scenes/Spells/melee_strike.gd" id="1_l8012"]
+[ext_resource type="Texture2D" uid="uid://csdx0ttodwkii" path="res://addons/Sprite Assets/Effects/387-cut.png" id="2_kgtpa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sgmgc"]
 size = Vector2(128, 128)
 
-[node name="ShortMelee" type="Area2D" groups=["spell"]]
+[sub_resource type="Animation" id="Animation_wnlnr"]
+resource_name = "melee_silver"
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [40, 41, 42, 43, 44, 45, 46, 47]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_scnd7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [40]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uow40"]
+_data = {
+"RESET": SubResource("Animation_scnd7"),
+"melee_silver": SubResource("Animation_wnlnr")
+}
+
+[node name="ShortMelee" type="Area2D" node_paths=PackedStringArray("startup_timer", "duration_timer") groups=["spell"]]
+monitoring = false
 script = ExtResource("1_l8012")
+reactive_property = 0
+parameters = {
+"BaseDamage": 0,
+"Cost": 0,
+"DamageModifier": 1.0,
+"Duration": 0.0,
+"Startup": 1.0
+}
+startup_timer = NodePath("Startup")
+duration_timer = NodePath("Duration")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_sgmgc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 3
+position = Vector2(0, 1.506)
+rotation = -0.361283
+scale = Vector2(2, 2)
+texture = ExtResource("2_kgtpa")
+hframes = 8
+vframes = 9
+frame = 40
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_uow40")
+}
+autoplay = "melee_silver"
+speed_scale = 2.0
+
+[node name="Startup" type="Timer" parent="."]
+one_shot = true
+
+[node name="Duration" type="Timer" parent="."]
+one_shot = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

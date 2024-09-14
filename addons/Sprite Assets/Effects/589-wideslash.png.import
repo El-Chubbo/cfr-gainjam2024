@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhxqvfmpioi04"
-path="res://.godot/imported/Placeholder Icon 3.png-3bf488017ae3f28a4ac9a58a21d9de6f.ctex"
+uid="uid://ddbha6wffrocu"
+path="res://.godot/imported/589-wideslash.png-234e4cb8967a31181c5c255254a33256.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art Assets/Placeholder Icon 3.png"
-dest_files=["res://.godot/imported/Placeholder Icon 3.png-3bf488017ae3f28a4ac9a58a21d9de6f.ctex"]
+source_file="res://addons/Sprite Assets/Effects/589-wideslash.png"
+dest_files=["res://.godot/imported/589-wideslash.png-234e4cb8967a31181c5c255254a33256.ctex"]
 
 [params]
 

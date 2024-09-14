@@ -202,7 +202,7 @@ texture = ExtResource("3_en7wx")
 
 [node name="CiranaArt" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
-texture_filter = 3
+texture_filter = 4
 position = Vector2(633, 127)
 scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_wngro")

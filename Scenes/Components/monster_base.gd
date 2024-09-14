@@ -81,7 +81,11 @@ func calculate_path() -> Vector2:
 	#get the nearest direction to take for the path
 	##I need to get the vector between the current position and next path position
 	##then I need to convert that into a perpendicular direction
-	return global_position.direction_to(next_path_position)
+	var snap : Vector2
+	snap.x = 1
+	snap.y = 1
+	#really would've preferred to make this one line but every format I tried had an error
+	return global_position.direction_to(next_path_position).snapped(snap)
 
 func get_MOV():
 	return current_MOV
