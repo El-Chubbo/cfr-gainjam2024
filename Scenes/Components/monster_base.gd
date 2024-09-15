@@ -13,6 +13,7 @@ extends Node2D
 var target: Node2D = null
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+@onready var nav_obstacle: NavigationObstacle2D = $NavigationObstacle2D
 
 signal turn_ended(reference)
 signal defeated(reference)
@@ -25,6 +26,9 @@ var current_MOV = max_MOV
 var current_AP = max_AP
 
 var directions = ["up", "down", "left", "right"]
+@export var available_attacks : Array[PackedScene]
+#an array of packed scene paths for attacks
+#basically, every attack added to this array in the inspector will become an attack available to the monster
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -32,6 +36,11 @@ func _ready() -> void:
 	GameLogic.add_emitter("turn_ended", self)
 	GameLogic.add_listener("start_turn", self, "_on_turn_start")
 	GameLogic.add_emitter("defeated", self)
+	#print(self, "has the navigation map of ", nav_agent.get_navigation_map())
+	#print(self, " has affected the navigation map ", nav_obstacle.get_navigation_map())
+	#debug prints checking the nav agents are affecting the correct layer
+	for attack in available_attacks:
+		load(attack.resource_path)
 	return
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -51,7 +60,7 @@ func _on_turn_start(entity: Variant):
 	while (current_AP > 0):
 		await get_tree().create_timer(1) #small interval between moves so not everything is moving instantly
 		##still needs a mean of checking attacks in the monster's movepool
-		if attack_component.check_attack_in_range() == true:
+		if attack_component.check_attack_in_range(available_attacks) == true:
 			current_AP -= 1
 			continue
 	#calculate path using navigation Agent

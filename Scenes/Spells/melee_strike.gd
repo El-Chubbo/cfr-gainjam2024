@@ -15,13 +15,20 @@ enum reactive_properties {DODGEABLE, PARRYABLE, BOTH, NEITHER}
 
 func _ready() -> void:
 	#startup_timer.wait_time = parameters["Startup"]
-	startup_timer.wait_time = 0 #TEMPORARY UNTIL DEFENSIVE MECHANICS IMPLEMENTED
+	startup_timer.wait_time = 0.1 #TEMPORARY UNTIL DEFENSIVE MECHANICS IMPLEMENTED
 	duration_timer.wait_time = parameters["Duration"]
 	#a "windup" flash should play warning the attack coming out
 	#the color of the flash should indicate what reaction is allowed
 	#this will be implemented at a later time
-	
-	
+	startup_timer.start()
+	return
+
+func _on_startup_timeout() -> void:
+	duration_timer.start()
+	return
+
+func _on_duration_timeout() -> void:
+	queue_free()
 	return
 
 func _on_area_entered(area: Area2D) -> void:

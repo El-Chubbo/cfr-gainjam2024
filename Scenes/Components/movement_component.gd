@@ -62,8 +62,7 @@ func move(dir : Vector2) -> bool:
 		tween.tween_property(parent, "global_position",
 			global_position + dir * (tile_size*0.1), 1.0/animation_speed).set_trans(Tween.TRANS_ELASTIC)
 		await tween.finished
-		parent.global_position -= dir * (tile_size*0.1)
-		#this line was left as simply global_position by accident causing HUGE position desyncs for the longest time holy fuck
+		parent.global_position -= dir * (tile_size*0.1) #this line was left as simply global_position by accident causing HUGE position desyncs for the longest time holy fuck
 		return false
 	return false
 
@@ -71,12 +70,12 @@ func check_collision(dir) ->bool:
 	ray.target_position = dir * tile_size
 	ray.force_raycast_update()
 	if !ray.is_colliding() and dir!= Vector2.ZERO:
-		print_debug("Monster will not collide with an entity, valid move")
+		#print_debug("Monster will not collide with an entity, valid move")
 		return true
 	elif ray.get_collider().is_in_group("monster") or ray.get_collider().is_in_group("player"):
-		print_debug("Monster will collide with entity, invalid move")
+		#print_debug("Monster will collide with entity, invalid move")
 		return false
 	elif ray.get_collider().is_in_group("pickup") or ray.get_collider().is_in_group("trigger"):
-		print_debug("Monster will collide with non-physical entity, valid move")
+		#print_debug("Monster will collide with non-physical entity, valid move")
 		return true
 	return false

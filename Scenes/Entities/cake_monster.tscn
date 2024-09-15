@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://bwwub6oudj27n"]
+[gd_scene load_steps=14 format=3 uid="uid://bwwub6oudj27n"]
 
 [ext_resource type="Script" path="res://Scenes/Components/monster_base.gd" id="1_551yx"]
 [ext_resource type="PackedScene" uid="uid://cp4dtj0hqoh3x" path="res://Scenes/Components/movement_component.tscn" id="2_fok58"]
+[ext_resource type="PackedScene" uid="uid://cl4ite3hvju1w" path="res://Scenes/Spells/short_melee.tscn" id="2_i3820"]
 [ext_resource type="PackedScene" uid="uid://b30id1vnhmleh" path="res://Scenes/Components/health_component.tscn" id="3_m1u6b"]
 [ext_resource type="Texture2D" uid="uid://dolftr2sliyls" path="res://Art Assets/Monsters/cake fork 1.png" id="4_b4d38"]
 [ext_resource type="Texture2D" uid="uid://bveigehxsidn5" path="res://Art Assets/Monsters/cake fork 2.png" id="5_uhdki"]
@@ -53,6 +54,7 @@ animations = [{
 script = ExtResource("1_551yx")
 max_health = 110
 max_MOV = 2
+available_attacks = Array[PackedScene]([ExtResource("2_i3820")])
 
 [node name="MovementComponent" parent="." node_paths=PackedStringArray("parent") groups=["component"] instance=ExtResource("2_fok58")]
 unique_name_in_owner = true
@@ -69,7 +71,6 @@ radius = 128.0
 neighbor_distance = 512.0
 avoidance_layers = 2
 avoidance_mask = 2
-debug_enabled = true
 
 [node name="CakeSprites" type="AnimatedSprite2D" parent="."]
 texture_filter = 3
@@ -130,6 +131,12 @@ gizmo_extents = 64.0
 
 [node name="AttackComponent" parent="." instance=ExtResource("10_ocs2t")]
 visible = false
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+radius = 128.0
+vertices = PackedVector2Array(-128, -128, -128, 128, 128, 128, 128, -128)
+affect_navigation_mesh = true
+avoidance_layers = 3
 
 [connection signal="defeated" from="." to="." method="_on_defeat"]
 [connection signal="defeated" from="." to="MovementComponent" method="_on_defeat"]

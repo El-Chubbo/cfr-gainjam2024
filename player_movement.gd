@@ -570,10 +570,10 @@ func _on_area_2d_area_entered(entity: Area2D) -> void:
 	if entity.is_in_group("trigger"):
 		return
 	if entity.is_in_group("spell") and !entity.is_in_group("from player"):
-		take_damage(1, "spell")
+		take_damage(1, "spell") #this should fetch more information from the attack
 		return
-	if entity.is_in_group("test") and !entity.is_in_group("from player"):
-		add_calories(entity.get_calories(), entity.get_is_forced())
+	if entity.is_in_group("test") and !entity.is_in_group("from player"): #this should be removed, it was only used for test level 1
+		add_calories(entity.get_calories(), entity.get_is_forced()) 
 		return
 	if entity.is_in_group("pickup") and !entity.is_in_group("test"):
 		#add_calories(entity.get_calories(), entity.get_is_forced())
