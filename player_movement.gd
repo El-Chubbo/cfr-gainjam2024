@@ -416,6 +416,10 @@ func _on_cancel_cast():
 func _on_combat_end():
 	print("Cirana has received combat end signal")
 	turn_state = turn_states.FREEMOVE
+	current_AP = max_actions
+	ap_updated.emit(current_AP)
+	current_MOV = max_movement
+	mov_updated.emit(current_MOV)
 	return
 
 func _on_combat_start():

@@ -18,7 +18,7 @@ func _ready() -> void:
 	GameLogic.add_listener("max_health_changed", self, "_set_max_health")
 	GameLogic.add_listener("round_passed", self, "_on_round_passed")
 	GameLogic.add_listener("combat_started", self, "_on_combat_start")
-	GameLogic.add_listener("combat_end", self, "_on_combat_end")
+	GameLogic.add_listener("combat_ended", self, "_on_combat_end")
 	GameLogic.add_listener('game_over', self, '_on_game_over')
 	GameLogic.add_listener('player_turn', self, '_on_player_turn')
 	resource_labels.visible = GameLogic.in_combat
@@ -84,6 +84,7 @@ func _on_enemy_turn():
 func _on_combat_end():
 	turn_label.text = "Not in combat"
 	resource_labels.visible = false
+	turn_label.visible = false
 	return
 
 func _on_pause_button_pressed() -> void:
