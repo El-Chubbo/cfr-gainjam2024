@@ -24,10 +24,9 @@ func _ready() -> void:
 	#pass
 
 func _on_turn_start(entity):
-	if entity == self:
-		print_debug(self, " has passed their turn")
-		turn_ended.emit(self)
-		return
+	#print_debug(self, " has passed their turn")
+	turn_ended.emit(self)
+	return
 
 func _on_health_depleted() -> void:
 	$Area2D.set_deferred("monitoring", false)

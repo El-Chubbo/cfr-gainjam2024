@@ -187,7 +187,7 @@ func _unhandled_input(event):
 func move(dir) -> bool:
 	#print("Current movement: ", current_MOV, " in direction ", dir)
 	var successful_movement : bool = await check_movement_limit(dir)
-	if !successful_movement:
+	if !successful_movement and turn_state == turn_states.PLAYER_TURN:
 		fail_move(dir)
 		return false
 		#issue: if the player is at the edge of their movement, they should still be able to eat enemies 1 space away
@@ -215,15 +215,16 @@ func move(dir) -> bool:
 		return true
 	#small tween wiggle for invalid movement
 	elif ray.is_colliding():
+		##eventually the "feast" move should be added here if colliding with an edible enemy
 		fail_move(dir)
 		return false
 	return false
 
 func check_collision(dir : Vector2) -> bool:
+	#todo: consolidate raycast collision checks into this function
 	return false
 
 func fail_move(dir):
-	##eventually the "feast" move should be added here if colliding with an edible enemy
 	var tween = create_tween()
 	tween.tween_property(self, "position",
 		position + movement_inputs[dir] * (tile_size*0.1), 1.0/animation_speed).set_trans(Tween.TRANS_ELASTIC)

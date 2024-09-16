@@ -239,7 +239,7 @@ func combat_loop() ->void:
 		await round_passed
 		#synchronization issue: monsters move instantly upon player turn ending when it should wait until after spells finish
 		#if a fireball kills a monster "mid-turn," it never emits its end turn signal and the game softlocks
-		await get_tree().create_timer(5.0)
+		await get_tree().create_timer(2.0).timeout
 	return
 
 func _on_enemy_defeated(enemy: Node2D):
@@ -262,7 +262,7 @@ func _on_enemy_defeated(enemy: Node2D):
 	print_debug("Turn order is now ", turn_order)
 	#the quick pans keep going to strange positions
 	camera_quick_pan.emit(enemy.global_position)
-	await get_tree().create_timer(2.0)
+	await get_tree().create_timer(1.0).timeout
 	camera_quick_pan.emit(player_reference.global_position)
 	#await camera_reference.quick_pan_completed
 	#if there's no enemies left, in_combat = false
