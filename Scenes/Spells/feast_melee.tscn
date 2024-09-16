@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://cl4ite3hvju1w"]
+[gd_scene load_steps=8 format=3 uid="uid://cmwldu66rjbpf"]
 
-[ext_resource type="Script" path="res://Scenes/Spells/melee_strike.gd" id="1_l8012"]
-[ext_resource type="Texture2D" uid="uid://csdx0ttodwkii" path="res://addons/Sprite Assets/Effects/387-cut.png" id="2_kgtpa"]
+[ext_resource type="Script" path="res://Scenes/Spells/melee_strike.gd" id="1_dvsii"]
+[ext_resource type="Texture2D" uid="uid://cg84f7t7rd4go" path="res://addons/Sprite Assets/Effects/509-gnash.png" id="2_bmk4t"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sgmgc"]
-size = Vector2(128, 128)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t84dn"]
+size = Vector2(256, 256)
 
 [sub_resource type="Animation" id="Animation_scnd7"]
 length = 0.001
@@ -110,32 +110,33 @@ _data = {
 "melee_silver": SubResource("Animation_wnlnr")
 }
 
-[node name="ShortMelee" type="Area2D" node_paths=PackedStringArray("startup_timer", "duration_timer") groups=["spell"]]
-monitoring = false
-script = ExtResource("1_l8012")
-reactive_property = 0
+[node name="FeastMelee" type="Area2D" node_paths=PackedStringArray("startup_timer", "duration_timer") groups=["spell"]]
+priority = 1
+script = ExtResource("1_dvsii")
+rotatable = false
+gain_calories = true
 parameters = {
 "BaseDamage": 0,
+"CalorieModifier": 0.5,
 "Cost": 0,
-"DamageModifier": 1.0,
-"Duration": 0.5,
-"Startup": 0.25
+"DamageModifier": 3.0,
+"Duration": 0.0,
+"Startup": 0.0
 }
 startup_timer = NodePath("CollisionShape2D/Startup")
 duration_timer = NodePath("CollisionShape2D/Duration")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(64, 0)
-shape = SubResource("RectangleShape2D_sgmgc")
+position = Vector2(128, 0)
+shape = SubResource("RectangleShape2D_t84dn")
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D"]
 z_index = 1
 texture_filter = 3
 position = Vector2(0, 1.506)
-rotation = -0.361283
 scale = Vector2(4, 4)
-texture = ExtResource("2_kgtpa")
-hframes = 8
+texture = ExtResource("2_bmk4t")
+hframes = 13
 vframes = 9
 frame = 26
 
@@ -144,7 +145,7 @@ root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_uow40")
 }
-autoplay = "melee_silver"
+autoplay = "melee_feast"
 speed_scale = 2.0
 
 [node name="Startup" type="Timer" parent="CollisionShape2D"]
@@ -156,5 +157,5 @@ one_shot = true
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="CollisionShape2D"]
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
-[connection signal="timeout" from="CollisionShape2D/Startup" to="." method="_on_startup_timeout"]
-[connection signal="timeout" from="CollisionShape2D/Duration" to="." method="_on_duration_timeout"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="CollisionShape2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

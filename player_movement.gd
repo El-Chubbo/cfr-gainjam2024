@@ -18,6 +18,7 @@ signal game_over(cause: String)
 
 var spell_1 = preload("res://Scenes/fireball.tscn")
 var spell_2 = preload("res://Scenes/flamethrower.tscn")
+var spell_3 = preload("res://Scenes/Spells/feast_melee.tscn")
 
 var using_preset = true ##temporary variable for using the static gameplay sprites, no dynamic face animations
 var weight_level = 0 #used for determining some cosmetic effects, doesn't affect gameplay
@@ -33,6 +34,7 @@ var defensive_state = defensive_states.INACTIVE
 #Idle means no input has been given to Cirana, starting a spell cast or moving is available
 #Casting means a spell has been prepared, inputing a movement direction with launch it
 #Moving means Cirana is mid movement animation and is locked out of other inputs
+#Moving can also be reused for spells that lock Cirana into an animation
 enum control_states {IDLE, CASTING, MOVING}
 var control_state = control_states.IDLE
 
@@ -78,7 +80,8 @@ var new_position = Vector2.ZERO
 @onready var animation = $Sprite2D
 #probably redundant variables
 
-#this will keep track of spells the player has casted so their turn only ends after all the spells have despawned
+##this will keep track of spells the player has casted so their turn only ends after all the spells have despawned
+##This should also be used in conjunction with control_states.MOVING to lock the player's controls until a spell animation has completed
 var live_spells = [Object]
 
 var movement_inputs = {"right": Vector2.RIGHT, 
@@ -179,7 +182,6 @@ func _unhandled_input(event):
 	else:
 		#print("Received input while it's not Cirana's turn")
 		#checkParryDodge(event)
-		#return
 		return
 
 func move(dir) -> bool:
@@ -210,11 +212,9 @@ func move(dir) -> bool:
 		moving = false
 		if turn_state == turn_states.PLAYER_TURN:
 			update_movement_resource(dir)
-			#todo: calculate MOV difference function
 		return true
 	#small tween wiggle for invalid movement
 	elif ray.is_colliding():
-		##eventually the "feast" move should be added here if colliding with an edible enemy
 		fail_move(dir)
 		return false
 	return false
@@ -223,6 +223,7 @@ func check_collision(dir : Vector2) -> bool:
 	return false
 
 func fail_move(dir):
+	##eventually the "feast" move should be added here if colliding with an edible enemy
 	var tween = create_tween()
 	tween.tween_property(self, "position",
 		position + movement_inputs[dir] * (tile_size*0.1), 1.0/animation_speed).set_trans(Tween.TRANS_ELASTIC)
@@ -281,7 +282,7 @@ func attack(dir):
 		action_failed.emit(action_buffer)
 		cancel()
 		return
-	if action_buffer != "spell_1" and action_buffer != "spell_2":
+	if action_buffer != "spell_1" and action_buffer != "spell_2" and action_buffer != "spell_3":
 		print_debug("Unfinished spell, ignoring input")
 		#temporary statement to prevent crashes
 		return
@@ -315,6 +316,13 @@ func attack(dir):
 			spell_instance.set_damage(final_attack)
 			spell_instance.add_to_group("from player")
 			owner.add_child(spell_instance)
+		"spell_3":
+			fail_move(dir) #this isn't really a "fail", moreso I'm reusing the animation in this function
+			#to do: finish feast input
+			spell_instance = spell_3.instantiate()
+			spell_instance.set_damage(final_attack)
+			spell_instance.add_to_group("from player")
+			owner.add_child(spell_instance)
 		#to do: other spell inputs
 		_:
 			print_debug("Error, ", action_buffer, " attempted instancing an invalid spell")
@@ -342,7 +350,6 @@ func checkParryDodge(input):
 		pass
 	else: return
 
-
 ##notably, if a parry or dodge is successful, the cooldown immediately gets refreshed. This could potentially lead to dodge or parry strings.
 func parry() -> void:
 	#enable 'parrying' state
@@ -358,7 +365,7 @@ func dodge() -> void:
 	#attempt moving in direction input (dodging towards walls won't work)
 	#multi-space attacks should still deal damage if the player doesn't successfully dodge out of it
 	##Maybe a raycast or another area 2D can be used to check if the dodge was successful?
-	##Ideally the check should be isntantaneous and not be delayed until after the movement was performed
+	##Ideally the check should be instantaneous and not be delayed until after the movement was performed
 	pass
 
 func _on_action_performed(action: String = "unspecified"):
