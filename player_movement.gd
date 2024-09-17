@@ -18,6 +18,7 @@ signal game_over(cause: String)
 
 var spell_1 = preload("res://Scenes/fireball.tscn")
 var spell_2 = preload("res://Scenes/flamethrower.tscn")
+var spell_3 = preload("res://Scenes/Spells/feast_melee.tscn")
 
 var using_preset = true ##temporary variable for using the static gameplay sprites, no dynamic face animations
 var weight_level = 0 #used for determining some cosmetic effects, doesn't affect gameplay
@@ -33,6 +34,7 @@ var defensive_state = defensive_states.INACTIVE
 #Idle means no input has been given to Cirana, starting a spell cast or moving is available
 #Casting means a spell has been prepared, inputing a movement direction with launch it
 #Moving means Cirana is mid movement animation and is locked out of other inputs
+#Moving can also be reused for spells that lock Cirana into an animation
 enum control_states {IDLE, CASTING, MOVING}
 var control_state = control_states.IDLE
 
@@ -78,7 +80,8 @@ var new_position = Vector2.ZERO
 @onready var animation = $Sprite2D
 #probably redundant variables
 
-#this will keep track of spells the player has casted so their turn only ends after all the spells have despawned
+##this will keep track of spells the player has casted so their turn only ends after all the spells have despawned
+##This should also be used in conjunction with control_states.MOVING to lock the player's controls until a spell animation has completed
 var live_spells = [Object]
 
 var movement_inputs = {"right": Vector2.RIGHT, 
@@ -157,7 +160,11 @@ func _ready():
 #The Command Pattern would probably be better for this
 func _unhandled_input(event):
 	if moving or control_state == control_states.MOVING:
+		#ignore inputs in the middle of a moving action
 		return
+	if turn_state == turn_states.PLAYER_TURN and event.is_action_pressed("pass_turn"):
+		cancel()
+		action_performed.emit("pass_turn")
 	if turn_state != turn_states.ENEMY_TURN:
 		#print("Cirana's current turn state: ", turn_state)
 		for dir in movement_inputs.keys():
@@ -175,13 +182,12 @@ func _unhandled_input(event):
 	else:
 		#print("Received input while it's not Cirana's turn")
 		#checkParryDodge(event)
-		#return
 		return
 
 func move(dir) -> bool:
 	#print("Current movement: ", current_MOV, " in direction ", dir)
 	var successful_movement : bool = await check_movement_limit(dir)
-	if !successful_movement:
+	if !successful_movement and turn_state == turn_states.PLAYER_TURN:
 		fail_move(dir)
 		return false
 		#issue: if the player is at the edge of their movement, they should still be able to eat enemies 1 space away
@@ -206,7 +212,6 @@ func move(dir) -> bool:
 		moving = false
 		if turn_state == turn_states.PLAYER_TURN:
 			update_movement_resource(dir)
-			#todo: calculate MOV difference function
 		return true
 	#small tween wiggle for invalid movement
 	elif ray.is_colliding():
@@ -216,6 +221,7 @@ func move(dir) -> bool:
 	return false
 
 func check_collision(dir : Vector2) -> bool:
+	#todo: consolidate raycast collision checks into this function
 	return false
 
 func fail_move(dir):
@@ -277,7 +283,7 @@ func attack(dir):
 		action_failed.emit(action_buffer)
 		cancel()
 		return
-	if action_buffer != "spell_1" and action_buffer != "spell_2":
+	if action_buffer != "spell_1" and action_buffer != "spell_2" and action_buffer != "spell_3":
 		print_debug("Unfinished spell, ignoring input")
 		#temporary statement to prevent crashes
 		return
@@ -311,6 +317,13 @@ func attack(dir):
 			spell_instance.set_damage(final_attack)
 			spell_instance.add_to_group("from player")
 			owner.add_child(spell_instance)
+		"spell_3":
+			fail_move(dir) #this isn't really a "fail", moreso I'm reusing the animation in this function
+			#to do: finish feast input
+			spell_instance = spell_3.instantiate()
+			spell_instance.set_damage(final_attack)
+			spell_instance.add_to_group("from player")
+			owner.add_child(spell_instance)
 		#to do: other spell inputs
 		_:
 			print_debug("Error, ", action_buffer, " attempted instancing an invalid spell")
@@ -338,7 +351,6 @@ func checkParryDodge(input):
 		pass
 	else: return
 
-
 ##notably, if a parry or dodge is successful, the cooldown immediately gets refreshed. This could potentially lead to dodge or parry strings.
 func parry() -> void:
 	#enable 'parrying' state
@@ -354,7 +366,7 @@ func dodge() -> void:
 	#attempt moving in direction input (dodging towards walls won't work)
 	#multi-space attacks should still deal damage if the player doesn't successfully dodge out of it
 	##Maybe a raycast or another area 2D can be used to check if the dodge was successful?
-	##Ideally the check should be isntantaneous and not be delayed until after the movement was performed
+	##Ideally the check should be instantaneous and not be delayed until after the movement was performed
 	pass
 
 func _on_action_performed(action: String = "unspecified"):
@@ -363,11 +375,12 @@ func _on_action_performed(action: String = "unspecified"):
 		ap_updated.emit(current_AP)
 		old_position = new_position
 		turn_move_cap = current_MOV
-	if current_AP <= 0 and turn_state == turn_states.PLAYER_TURN:
+	if (current_AP <= 0 and turn_state == turn_states.PLAYER_TURN) or action == "pass_turn": #passing on a non-player turn is already checked in unhandled input
 		print("Cirana has ended her turn")
 		has_turn = false
-		turn_ended.emit(self)
 		turn_state = turn_states.ENEMY_TURN
+		turn_ended.emit(self)
+		print("Turn state has been set to ", turn_state)
 	return
 
 #observer for receiving signal that the player turn has begun
@@ -385,6 +398,7 @@ func _on_turn_begin(entity_ID: Variant):
 		ap_updated.emit(current_AP)
 		has_turn = true
 		turn_state = turn_states.PLAYER_TURN
+		print("Turn state has been set to ", turn_state)
 		#bug: Cirana softlocked even though this function went through?
 		#it seems right now the controls lock if Cirana has two turns back to back
 	return
@@ -410,6 +424,10 @@ func _on_cancel_cast():
 func _on_combat_end():
 	print("Cirana has received combat end signal")
 	turn_state = turn_states.FREEMOVE
+	current_AP = max_actions
+	ap_updated.emit(current_AP)
+	current_MOV = max_movement
+	mov_updated.emit(current_MOV)
 	return
 
 func _on_combat_start():
@@ -564,10 +582,10 @@ func _on_area_2d_area_entered(entity: Area2D) -> void:
 	if entity.is_in_group("trigger"):
 		return
 	if entity.is_in_group("spell") and !entity.is_in_group("from player"):
-		take_damage(1, "spell")
+		take_damage(1, "spell") #this should fetch more information from the attack
 		return
-	if entity.is_in_group("test") and !entity.is_in_group("from player"):
-		add_calories(entity.get_calories(), entity.get_is_forced())
+	if entity.is_in_group("test") and !entity.is_in_group("from player"): #this should be removed, it was only used for test level 1
+		add_calories(entity.get_calories(), entity.get_is_forced()) 
 		return
 	if entity.is_in_group("pickup") and !entity.is_in_group("test"):
 		#add_calories(entity.get_calories(), entity.get_is_forced())

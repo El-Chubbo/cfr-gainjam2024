@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://dc7cdht5c8747" path="res://Scenes/UI/volume_sliders.tscn" id="10_r5agc"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_0frbk"]
-font_size = 64
+font_size = 80
 outline_size = 6
 outline_color = Color(0, 0, 0, 1)
 
@@ -78,6 +78,7 @@ grow_vertical = 2
 
 [node name="DietModeButton" type="CheckButton" parent="MainButtons"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 text = "Diet Mode"
 
@@ -168,23 +169,23 @@ grow_vertical = 0
 text = "Back to Menu"
 
 [node name="PlaceHolderTitle" type="Label" parent="."]
-visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -81.0
-offset_top = -11.5
-offset_right = 81.0
-offset_bottom = 11.5
+offset_left = -368.0
+offset_top = -103.0
+offset_right = 368.0
+offset_bottom = 7.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Cirana's Factory Raid"
+text = "Cirana's Adventure"
 label_settings = SubResource("LabelSettings_0frbk")
 
 [node name="TitleGraphic" type="TextureRect" parent="."]
 unique_name_in_owner = true
+visible = false
 texture_filter = 4
 anchors_preset = 8
 anchor_left = 0.5
@@ -199,9 +200,10 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_en7wx")
 
-[node name="CiranaArt" type="AnimatedSprite2D" parent="TitleGraphic"]
+[node name="CiranaArt" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(505, -118)
+texture_filter = 4
+position = Vector2(633, 127)
 scale = Vector2(0.25, 0.25)
 sprite_frames = SubResource("SpriteFrames_wngro")
 animation = &"idle"

@@ -6,13 +6,13 @@ extends CanvasLayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	DietMode.enabled = true
 	diet_toggle.set_deferred("button_pressed", DietMode.enabled)
 	update_cirana_sprite(DietMode.enabled)
-	#DietMode.enabled = false
 	$MainButtons.visible = true
 	$TestLevels.visible = enable_test_levels
 	$CreditsControls.visible = false
-	%TitleGraphic.visible = true
+	#%TitleGraphic.visible = true
 	%CiranaArt.visible = true
 	MusicPlayer.force_play(MusicPlayer.song_list.MYSTIC_INTRO)
 	return
@@ -59,7 +59,7 @@ func _on_back_button_pressed() -> void:
 	$TestLevels.visible = enable_test_levels
 	$CreditsControls.visible = false
 	$HowToPlayControls.visible = false
-	%TitleGraphic.visible = true
+	#%TitleGraphic.visible = true
 	%CiranaArt.visible = true
 	$VolumeSliders.visible = true
 	return
@@ -73,15 +73,14 @@ func _on_how_to_play_button_pressed() -> void:
 	$VolumeSliders.visible = false
 	return
 
-
 func _on_test_button1_pressed() -> void:
-	GameLogic.goto_scene("res://Scenes/test_level.tscn")
+	GameLogic.goto_scene("res://Scenes/Levels/test_level.tscn")
 	MusicPlayer.force_play(MusicPlayer.song_list.NONE)
 	##Music should probably controlled on level load rather than manually from the previous scene
 	return
 
 func _on_test_button2_pressed() -> void:
-	GameLogic.goto_scene("res://Scenes/test_level2.tscn")
+	GameLogic.goto_scene("res://Scenes/Levels/test_level2.tscn")
 	MusicPlayer.default_clips()
 	MusicPlayer.force_play(MusicPlayer.song_list.MYSTIC_ACT1)
 	return

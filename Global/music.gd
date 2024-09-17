@@ -30,8 +30,8 @@ func _ready() -> void:
 	GameLogic.add_listener("player_turn", self, "_on_player_turn")
 	GameLogic.add_listener("enemy_turn", self, "_on_enemy_turn")
 	##instead of separate listeners, this should probably just be one with an entity reference given and check the node group
-	GameLogic.add_listener("game_paused", self, "_on_game_paused")
-	GameLogic.add_listener("game_unpaused", self, "_on_game_unpaused")
+	GameLogic.add_listener("paused", self, "_on_game_paused")
+	GameLogic.add_listener("unpaused", self, "_on_game_unpaused")
 	
 	return
 
@@ -138,11 +138,11 @@ func audio_transition() -> void:
 
 ##I can't find the proper method to call to trigger a transition like "switch to clip" in the editor, try setting auto advances I guess??
 func force_play(song: song_list):
-	print_debug("Received force_play signal with input ", song)
+	#print_debug("Received force_play signal with input ", song)
 	match song:
 		song_list.MYSTIC_ACT1:
 			if currently_playing == song_list.MYSTIC_INTRO:
-				print_debug("Attempting to switch from Mystic_Intro to Mystic_Transition")
+				#print_debug("Attempting to switch from Mystic_Intro to Mystic_Transition")
 				$Mystic.stream.set_clip_auto_advance(0, 1)
 				$Mystic.stream.set_clip_auto_advance_next_clip(0, 1)
 				##this area still needs a lot more work
@@ -171,5 +171,5 @@ func force_play(song: song_list):
 	return
 
 func _on_finished() -> void:
-	print_debug("Received a finished() signal")
+	#print_debug("Received a finished() signal")
 	return

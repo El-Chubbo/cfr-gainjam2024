@@ -1,3 +1,3 @@
 extends Node
 
-var enabled = false
+var enabled = true

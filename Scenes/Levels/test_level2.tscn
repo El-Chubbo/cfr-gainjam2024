@@ -25,15 +25,18 @@ tile_set = ExtResource("1_g8ura")
 [node name="Pickups" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAD6//v/AAAAAAAABQD7//v/AAAAAAAABQD8//v/AAAAAAAABQAEAPv/AAAAAAAABQAFAPv/AAAAAAAABQAGAPv/AAAAAAAABQD+/wYAAAAAAAAAFwD//wYAAAAAAAAAEAAAAAYAAAAAAAAACgABAAYAAAAAAAAACQACAAYAAAAAAAAAHQA=")
 tile_set = ExtResource("2_u0oll")
+navigation_enabled = false
 
 [node name="Entities" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAD+//v/AgAAAAAAAQACAPv/AgAAAAAAAQAEAPn/AgAAAAAAAQD8//n/AgAAAAAAAQA=")
 tile_set = ExtResource("2_u0oll")
+navigation_enabled = false
 
 [node name="Overlays" type="TileMapLayer" parent="."]
 scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAAAAPH/AAABAAEAAAA=")
 tile_set = ExtResource("3_v6bpj")
+navigation_enabled = false
 
 [node name="Area2D" type="Area2D" parent="." groups=["trigger"]]
 position = Vector2(130, -3710)
@@ -58,7 +61,6 @@ debug_mode = true
 [node name="ControllableCamera" parent="." instance=ExtResource("4_1jqkb")]
 position = Vector2(-128, -384)
 zoom_min = 0.2
-pan_keyboard = true
 
 [node name="CiranaPlayer" parent="." instance=ExtResource("2_yr85u")]
 position = Vector2(-128, -384)
