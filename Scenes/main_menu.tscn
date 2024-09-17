@@ -78,7 +78,6 @@ grow_vertical = 2
 
 [node name="DietModeButton" type="CheckButton" parent="MainButtons"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 text = "Diet Mode"
 
@@ -169,6 +168,7 @@ grow_vertical = 0
 text = "Back to Menu"
 
 [node name="PlaceHolderTitle" type="Label" parent="."]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -185,8 +185,7 @@ label_settings = SubResource("LabelSettings_0frbk")
 
 [node name="TitleGraphic" type="TextureRect" parent="."]
 unique_name_in_owner = true
-visible = false
-texture_filter = 4
+texture_filter = 6
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

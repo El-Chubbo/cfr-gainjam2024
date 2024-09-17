@@ -6,13 +6,13 @@ extends CanvasLayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	DietMode.enabled = true
+	#DietMode.enabled = true
 	diet_toggle.set_deferred("button_pressed", DietMode.enabled)
 	update_cirana_sprite(DietMode.enabled)
 	$MainButtons.visible = true
 	$TestLevels.visible = enable_test_levels
 	$CreditsControls.visible = false
-	#%TitleGraphic.visible = true
+	%TitleGraphic.visible = true
 	%CiranaArt.visible = true
 	MusicPlayer.force_play(MusicPlayer.song_list.MYSTIC_INTRO)
 	return
@@ -59,7 +59,7 @@ func _on_back_button_pressed() -> void:
 	$TestLevels.visible = enable_test_levels
 	$CreditsControls.visible = false
 	$HowToPlayControls.visible = false
-	#%TitleGraphic.visible = true
+	%TitleGraphic.visible = true
 	%CiranaArt.visible = true
 	$VolumeSliders.visible = true
 	return
