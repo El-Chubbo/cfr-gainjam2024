@@ -110,14 +110,18 @@ func _on_game_paused() -> void:
 	AudioServer.set_bus_effect_enabled(1, 0, true)
 	AudioServer.set_bus_effect_enabled(1, 1, true)
 	AudioServer.set_bus_effect_enabled(1, 2, true)
+	AudioServer.set_bus_effect_enabled(1, 3, true)
 	return
-	
+
+##in hindsight, maybe both pause and unpause signals should be linked to the same function and simply flip the bool accordingly
+
 func _on_game_unpaused() -> void:
 	is_paused = false
-	print_debug("Received unpause signal, muffling music")
+	print_debug("Received unpause signal, unmuffling music")
 	AudioServer.set_bus_effect_enabled(1, 0, false)
 	AudioServer.set_bus_effect_enabled(1, 1, false)
 	AudioServer.set_bus_effect_enabled(1, 2, false)
+	AudioServer.set_bus_effect_enabled(1, 3, false)
 	return
 
 ##honestly I should probably ditch using the whole audio stream interactive thing and just script playing audiostreams manually

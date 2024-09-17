@@ -46,8 +46,8 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		queue_free()
 	return
 
-
 func _on_area_entered(area: Area2D) -> void:
+	print("Feast attack entered an area")
 	if (area.is_in_group("monster") and self.is_in_group("from player")) or (area.is_in_group("player") and !self.is_in_group("from player")):
 		dealt_damage.emit(get_damage(), area)
 		if gain_calories:
@@ -56,6 +56,7 @@ func _on_area_entered(area: Area2D) -> void:
 	return
 
 func _on_body_entered(body: Node2D) -> void:
+	print("Feast attack entered a body")
 	if (body.is_in_group("monster") and self.is_in_group("from player")) or (body.is_in_group("player") and !self.is_in_group("from player")):
 		dealt_damage.emit(get_damage(), body)
 		if gain_calories:

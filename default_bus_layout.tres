@@ -1,8 +1,8 @@
-[gd_resource type="AudioBusLayout" load_steps=4 format=3 uid="uid://crlria4fgu8n"]
+[gd_resource type="AudioBusLayout" load_steps=5 format=3 uid="uid://crlria4fgu8n"]
 
 [sub_resource type="AudioEffectAmplify" id="AudioEffectAmplify_jfytv"]
 resource_name = "Amplify"
-volume_db = 6.0
+volume_db = 8.0
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_xwqo4"]
 resource_name = "Reverb"
@@ -10,7 +10,12 @@ room_size = 0.4
 
 [sub_resource type="AudioEffectFilter" id="AudioEffectFilter_eys31"]
 resource_name = "Filter"
-cutoff_hz = 500.0
+cutoff_hz = 1000.0
+
+[sub_resource type="AudioEffectHighPassFilter" id="AudioEffectHighPassFilter_nxpx0"]
+resource_name = "HighPassFilter"
+cutoff_hz = 2100.0
+resonance = 1.0
 
 [resource]
 bus/1/name = &"Music"
@@ -25,3 +30,5 @@ bus/1/effect/1/effect = SubResource("AudioEffectReverb_xwqo4")
 bus/1/effect/1/enabled = false
 bus/1/effect/2/effect = SubResource("AudioEffectFilter_eys31")
 bus/1/effect/2/enabled = false
+bus/1/effect/3/effect = SubResource("AudioEffectHighPassFilter_nxpx0")
+bus/1/effect/3/enabled = false
