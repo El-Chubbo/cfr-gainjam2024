@@ -32,9 +32,9 @@ custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D/GridContainer/Panel"]
+position = Vector2(128, 128)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_v3v3t")
-centered = false
 hframes = 2
 vframes = 3
 
@@ -44,9 +44,9 @@ custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D/GridContainer/Panel2"]
+position = Vector2(128, 128)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_v3v3t")
-centered = false
 hframes = 2
 vframes = 3
 
@@ -56,9 +56,9 @@ custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D/GridContainer/Panel3"]
+position = Vector2(128, 128)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_v3v3t")
-centered = false
 hframes = 2
 vframes = 3
 
@@ -68,9 +68,9 @@ custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D/GridContainer/Panel4"]
+position = Vector2(128, 128)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_v3v3t")
-centered = false
 hframes = 2
 vframes = 3
 
@@ -80,9 +80,9 @@ custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D/GridContainer/Panel5"]
+position = Vector2(128, 128)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_v3v3t")
-centered = false
 hframes = 2
 vframes = 3
 
@@ -92,9 +92,9 @@ custom_minimum_size = Vector2(256, 256)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CollisionShape2D/GridContainer/Panel6"]
+position = Vector2(128, 128)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_v3v3t")
-centered = false
 hframes = 2
 vframes = 3
 

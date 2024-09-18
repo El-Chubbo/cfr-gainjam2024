@@ -311,8 +311,6 @@ func attack(dir):
 				action_failed.emit(action_buffer)
 				cancel()
 				return
-			#issue: the sprites for the flamethrower get improperly rotated even though they should always be oriented up
-			#I'm not sure how to make the sprite 'ignore' the rotation, and I don't want to alternate versions just for the other directions
 			spell_instance = spell_2.instantiate()
 			spell_instance.set_damage(final_attack)
 			spell_instance.add_to_group("from player")
@@ -337,6 +335,7 @@ func attack(dir):
 			spell_instance.transform = $Area2D/MarkerUp.global_transform
 		"down":
 			spell_instance.transform = $Area2D/MarkerDown.global_transform
+	#print("Rotated spell instance")
 	action_performed.emit(action_buffer)
 	cancel()
 

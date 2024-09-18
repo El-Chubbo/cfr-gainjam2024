@@ -14,6 +14,10 @@ signal dealt_damage(damage, victim)
 @export var life_time = 3.0
 @onready var timer = $Lifetime
 var base_damage = 300
+@onready var sprites : Array[Sprite2D] = [$CollisionShape2D/GridContainer/Panel/Sprite2D, $CollisionShape2D/GridContainer/Panel2/Sprite2D,
+										$CollisionShape2D/GridContainer/Panel3/Sprite2D, $CollisionShape2D/GridContainer/Panel4/Sprite2D,
+										$CollisionShape2D/GridContainer/Panel5/Sprite2D, $CollisionShape2D/GridContainer/Panel6/Sprite2D]
+##yeah this array is kinda gross visually but this should be better than doing a wasteful find_children()
 
 #turns out most of the fireball code isn't useful anyway
 #the flamethrower behavior is being spawned as a 2x3 cell large hitbox in front of the player
@@ -29,6 +33,17 @@ func _init():
 func _ready() -> void:
 	timer.wait_time = life_time
 	timer.start()
+	call_deferred("fix_rotations")
+	##this specifically needs to be deferred
+	##the global_transform code from the player was overriding the rotation fix so this delays it to the end of the frame
+	return
+
+func fix_rotations():
+	for sprite in sprites:
+		sprite.global_rotation_degrees = 0
+		sprite.visible = true
+	#print("Rotated flame sprites")
+	##this portion of code makes it so the flame sprites always point upward even when the attack gets rotated
 	return
 
 func set_damage(attack: int):
@@ -68,14 +83,11 @@ func _on_body_entered(body: Node2D) -> void: #collided with wall
 	return
 
 func _on_area_entered(area: Area2D) -> void: #collided with entity
-	##to do: behavior for if a monster hits the player with a fireball
 	if !area.is_in_group("spell") and !area.is_in_group("pickup"):
 		print_debug("Flamethrower hit ", area, "!")
 		dealt_damage.emit(base_damage * damage_modifier, area)
 		#complete()
-	
 	return
-
 
 func _on_lifetime_timeout() -> void:
 	queue_free()
