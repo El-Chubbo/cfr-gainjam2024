@@ -248,27 +248,30 @@ horizontal_alignment = 1
 
 [node name="Label2" type="Label" parent="HowToPlayControls/CenterContainer/Panel"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -276.5
-offset_top = -97.0
-offset_right = 276.5
-offset_bottom = 134.0
+anchor_bottom = 1.0
+offset_left = -291.0
+offset_top = -244.0
+offset_right = 291.0
 grow_horizontal = 2
-grow_vertical = 2
-text = "Move with WASD or arrow keys
+grow_vertical = 0
+text = "Move with WASD or arrow keys. Pass a turn with Space.
 
-Press a number key to cast one of four abilities.
-(Fireball, [1], is the only one currently implemented)
-Input a movement direction to launch it.
+Press a number key to channel one of four abilities.
+[1] Fireball, [2] Flamethrower, [3 or F] Feast, [4] Teleport
+(Teleport is not currently implemented)
+Input a movement direction to cast it.
 
-Gain Calories to cast spells by eating food pickups. 
-Watch out for overfill damage!
+Gain Calories to cast spells by eating food pickups or eating
+monsters with Feast. Watch out for overfill damage!
 
-Enabling Diet Mode is only cosmetic, does not affect the core gameplay."
+During combat, be mindful of your limited movement and
+actions per turn to attack enemies from safe positions!
+
+Enabling Diet Mode is only cosmetic and does not affect the core gameplay."
 label_settings = SubResource("LabelSettings_2v1rs")
 horizontal_alignment = 1
 

@@ -76,7 +76,7 @@ Dynamic Music
 label_settings = SubResource("LabelSettings_gm5p8")
 
 [node name="OtherCredits" type="Panel" parent="Panel/CenterContainer/HBoxContainer"]
-custom_minimum_size = Vector2(350, 325)
+custom_minimum_size = Vector2(350, 350)
 layout_mode = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="Panel/CenterContainer/HBoxContainer/OtherCredits"]
@@ -118,7 +118,8 @@ horizontal_alignment = 2
 layout_mode = 2
 text = "Fire SFX - Last Day Dreaming
 Shonen Anime SFX Pack - Helton Yan
-Food Sprites - axel"
+Food Sprites - ax1ismund1
+Pixel Attack FX - BDragon1727"
 horizontal_alignment = 2
 
 [node name="Type3" type="Label" parent="Panel/CenterContainer/HBoxContainer/OtherCredits/CenterContainer/External Assets"]
