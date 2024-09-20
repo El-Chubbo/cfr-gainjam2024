@@ -18,10 +18,6 @@ func _ready() -> void:
 	##the intent is on the main menu, the Mystic Intro will play on a loop and won't transition until a level is loaded
 	return
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-	#pass
-
 func _on_diet_mode_button_toggled(toggled_on: bool) -> void:
 	#print_debug("Diet button has value ", toggled_on)
 	DietMode.enabled = toggled_on

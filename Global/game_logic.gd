@@ -4,6 +4,7 @@ extends Node
 signal round_passed
 signal player_turn
 signal enemy_turn
+#these signals will be used with handling transitions in the turn system
 signal combat_started
 signal combat_ended
 signal start_turn(entity) #emitted to all monsters, if the entity reference matches
@@ -230,6 +231,7 @@ func combat_start():
 func combat_loop() ->void:
 	while(in_combat):
 		#a transition function should be included here for better separation between turns
+		transition_handler()
 		start_turn.emit(turn_order[current_turn_index])
 		active_entity = turn_order[current_turn_index]
 		print("Turn active for ", turn_order[current_turn_index])
@@ -255,10 +257,6 @@ func _on_enemy_defeated(enemy: Node2D):
 		current_turn_index -= 1
 	turn_order.erase(enemy)
 	entities.erase(enemy)
-	#bug: this iterates the turn index before the end turn signal fires
-	#since the end turn signal won't match the turn index, round_passed never fires
-	#the next active entity never receives it's start turn signal, and the game softlocks
-	##fixed
 	print_debug("Turn order is now ", turn_order)
 	#the quick pans keep going to strange positions
 	camera_quick_pan.emit(enemy.global_position)
@@ -272,6 +270,12 @@ func _on_enemy_defeated(enemy: Node2D):
 		combat_ended.emit()
 		print_debug("Combat has ended")
 	return
+
+##this function will handle pauses in the turn system and signal when a player or enemy turn starts
+##the intent is that a pause only occurs when transitioning between the two types of turn
+##player or enemy turns back-to-back won't have a pause
+func transition_handler() -> void:
+	pass
 
 #func _on_property_list_changed() -> void:
 	#if in_combat == true:
