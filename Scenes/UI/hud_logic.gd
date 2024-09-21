@@ -21,6 +21,7 @@ func _ready() -> void:
 	GameLogic.add_listener("combat_ended", self, "_on_combat_end")
 	GameLogic.add_listener('game_over', self, '_on_game_over')
 	GameLogic.add_listener('player_turn', self, '_on_player_turn')
+	GameLogic.add_listener('enemy_turn', self, '_on_enemy_turn')
 	resource_labels.visible = GameLogic.in_combat
 	turn_label.visible = GameLogic.in_combat
 	$CalorieMeter.value = PlayerData.current_data["Calories"]
@@ -59,6 +60,7 @@ func _update_calories(new_amount: int = 0, _difference: int = 0):
 		$CalorieMeter/AnimationPlayer.stop()
 	return
 
+##the hotbar buttons will be grayed out when the abilities are unavailable or disappear if the ability is locked or a cutscene is active
 func _update_hotbar():
 	pass
 
