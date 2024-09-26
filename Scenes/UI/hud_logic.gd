@@ -4,7 +4,8 @@ extends CanvasLayer
 @onready var hearts = $HeartGUI
 @onready var turn_label = $TurnStatus
 @onready var resource_labels = $ResourceLabels
-var player_reference
+@onready var transition_event = %TransitionEvent
+var player_reference #redundant because the global variable can be sued
 signal paused
 
 # Called when the node enters the scene tree for the first time.
@@ -79,9 +80,11 @@ func _on_combat_start():
 	
 func _on_player_turn():
 	turn_label.text = "Player turn"
+	#transition event
 
 func _on_enemy_turn():
 	turn_label.text = "Enemy turn"
+	#transition event
 
 func _on_combat_end():
 	turn_label.text = "Not in combat"
@@ -100,3 +103,8 @@ func _on_unpaused() -> void:
 func _on_game_over(cause: String) -> void:
 	$PauseMenu.reveal("GameOver", cause)
 	%PauseButton.visible = false
+
+func event_message(message : String) -> void:
+	#I'm noticing the text would be a headache to edit from here
+	%TransitionEvent/AnimationPlayer.play("phase_transition")
+	pass
