@@ -276,8 +276,8 @@ func _on_enemy_defeated(enemy: Node2D):
 ##player or enemy turns back-to-back won't have a pause
 func transition_handler() -> void:
 	if(active_entity.is_in_group("player")):
+		player_turn.emit()
 		if current_game_status != game_status.PLAYERTURN:
-			player_turn.emit()
 			await get_tree().create_timer(1.0).timeout
 		current_game_status = game_status.PLAYERTURN
 	elif(active_entity.is_in_group("monster")):

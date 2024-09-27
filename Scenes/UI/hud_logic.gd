@@ -80,7 +80,10 @@ func _on_combat_start():
 	
 func _on_player_turn():
 	#turn_label.text = "Player turn"
-	event_message("Player Turn Start")
+	if GameLogic.current_game_status == GameLogic.game_status.PLAYERTURN:
+		event_message("Go Again!") #This happens when the player has multiple turns back to back
+	else:
+		event_message("Player Turn Start")
 	return
 
 func _on_enemy_turn():
