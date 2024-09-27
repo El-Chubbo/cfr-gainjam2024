@@ -24,7 +24,7 @@ func _ready() -> void:
 	GameLogic.add_listener('player_turn', self, '_on_player_turn')
 	GameLogic.add_listener('enemy_turn', self, '_on_enemy_turn')
 	resource_labels.visible = GameLogic.in_combat
-	turn_label.visible = GameLogic.in_combat
+	#turn_label.visible = GameLogic.in_combat
 	$CalorieMeter.value = PlayerData.current_data["Calories"]
 	$CalorieMeter.max_value = PlayerData.current_data["MaxCalories"]
 	$CalorieMeter/Label.text = str(PlayerData.current_data["Calories"], "/", PlayerData.current_data["MaxCalories"])
@@ -66,7 +66,7 @@ func _update_hotbar():
 	pass
 
 func _on_combat_start():
-	turn_label.visible = true
+	#turn_label.visible = true
 	turn_label.text = "Combat started"
 	resource_labels.visible = true
 
@@ -79,17 +79,20 @@ func _on_combat_start():
 	#else: turn_label.text = "idk how you managed to get this text"
 	
 func _on_player_turn():
-	turn_label.text = "Player turn"
-	#transition event
+	#turn_label.text = "Player turn"
+	event_message("Player Turn Start")
+	return
 
 func _on_enemy_turn():
-	turn_label.text = "Enemy turn"
-	#transition event
+	#turn_label.text = "Enemy turn"
+	event_message("Enemy Turn Start")
+	return
 
 func _on_combat_end():
-	turn_label.text = "Not in combat"
+	#turn_label.text = "Not in combat"
 	resource_labels.visible = false
 	turn_label.visible = false
+	event_message("Combat Over")
 	return
 
 func _on_pause_button_pressed() -> void:
@@ -105,6 +108,7 @@ func _on_game_over(cause: String) -> void:
 	%PauseButton.visible = false
 
 func event_message(message : String) -> void:
-	#I'm noticing the text would be a headache to edit from here
-	%TransitionEvent/AnimationPlayer.play("phase_transition")
-	pass
+	##I decided to create the function within the transition gui scene as retrieving the nodes from gameplay hud is a hassle
+	transition_event.visible = true
+	transition_event.play_transition(message)
+	return

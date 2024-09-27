@@ -194,7 +194,7 @@ func _on_turn_end(entity: Object):
 	return
 
 func _on_turn_start():
-	
+	##this has probably become obsolete with transition handler existing
 	
 	
 	return
@@ -231,9 +231,9 @@ func combat_start():
 func combat_loop() ->void:
 	while(in_combat):
 		#a transition function should be included here for better separation between turns
-		transition_handler()
-		start_turn.emit(turn_order[current_turn_index])
 		active_entity = turn_order[current_turn_index]
+		await transition_handler()
+		start_turn.emit(turn_order[current_turn_index])
 		print("Turn active for ", turn_order[current_turn_index])
 		#signal logic and checks for whose turn it is
 		#sending signals to whichever entity has the turn
@@ -241,7 +241,7 @@ func combat_loop() ->void:
 		await round_passed
 		#synchronization issue: monsters move instantly upon player turn ending when it should wait until after spells finish
 		#if a fireball kills a monster "mid-turn," it never emits its end turn signal and the game softlocks
-		await get_tree().create_timer(2.0).timeout
+		#await get_tree().create_timer(2.0).timeout ##removed because transition handler does the pauses now
 	return
 
 func _on_enemy_defeated(enemy: Node2D):
@@ -275,7 +275,17 @@ func _on_enemy_defeated(enemy: Node2D):
 ##the intent is that a pause only occurs when transitioning between the two types of turn
 ##player or enemy turns back-to-back won't have a pause
 func transition_handler() -> void:
-	pass
+	if(active_entity.is_in_group("player")):
+		if current_game_status != game_status.PLAYERTURN:
+			player_turn.emit()
+			await get_tree().create_timer(1.0).timeout
+		current_game_status = game_status.PLAYERTURN
+	elif(active_entity.is_in_group("monster")):
+		if current_game_status != game_status.ENEMYTURN:
+			enemy_turn.emit()
+			await get_tree().create_timer(1.0).timeout
+		current_game_status = game_status.ENEMYTURN
+	return
 
 #func _on_property_list_changed() -> void:
 	#if in_combat == true:

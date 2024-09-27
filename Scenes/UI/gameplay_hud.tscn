@@ -52,6 +52,7 @@ value = 0.0
 visible = false
 
 [node name="TurnStatus" type="Label" parent="."]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
