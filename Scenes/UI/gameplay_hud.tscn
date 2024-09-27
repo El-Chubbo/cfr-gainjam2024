@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bjk146k4p6yho"]
+[gd_scene load_steps=12 format=3 uid="uid://bjk146k4p6yho"]
 
 [ext_resource type="Script" path="res://Scenes/UI/hud_logic.gd" id="1_c74vo"]
 [ext_resource type="PackedScene" uid="uid://83lbldk0ei0i" path="res://Scenes/spell_hotbar.tscn" id="2_4g6re"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dm85s7bcj2sdw" path="res://Scenes/Components/resource_labels.tscn" id="7_anc3g"]
 [ext_resource type="Script" path="res://Scenes/debug_controls.gd" id="8_o7yxl"]
 [ext_resource type="PackedScene" uid="uid://h60cra5dw2bk" path="res://Scenes/UI/pause_menu.tscn" id="9_t0nal"]
+[ext_resource type="PackedScene" uid="uid://xnfn7a5leew1" path="res://Scenes/UI/transition_event.tscn" id="10_hx0d1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ofr2f"]
 font_size = 32
@@ -26,6 +27,7 @@ offset_bottom = 1170.0
 scale = Vector2(0.125, 0.125)
 
 [node name="HeartGUI" parent="." instance=ExtResource("3_cnv8t")]
+unique_name_in_owner = true
 scale = Vector2(0.25, 0.25)
 
 [node name="DummyHearts" type="Sprite2D" parent="HeartGUI"]
@@ -50,6 +52,7 @@ value = 0.0
 visible = false
 
 [node name="TurnStatus" type="Label" parent="."]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -70,6 +73,7 @@ offset_top = 130.0
 offset_bottom = 224.0
 
 [node name="DebugControls" type="Control" parent="." groups=["debug"]]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
@@ -107,6 +111,11 @@ tooltip_text = "HOTKEY: Esc"
 text = "Pause"
 
 [node name="PauseMenu" parent="." instance=ExtResource("9_t0nal")]
+unique_name_in_owner = true
+visible = false
+
+[node name="TransitionEvent" parent="." instance=ExtResource("10_hx0d1")]
+unique_name_in_owner = true
 visible = false
 
 [connection signal="pressed" from="DebugControls/EnableCombat" to="DebugControls" method="_on_enable_combat_pressed"]

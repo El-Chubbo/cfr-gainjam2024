@@ -4,6 +4,7 @@ extends Node
 signal round_passed
 signal player_turn
 signal enemy_turn
+#these signals will be used with handling transitions in the turn system
 signal combat_started
 signal combat_ended
 signal start_turn(entity) #emitted to all monsters, if the entity reference matches
@@ -193,7 +194,7 @@ func _on_turn_end(entity: Object):
 	return
 
 func _on_turn_start():
-	
+	##this has probably become obsolete with transition handler existing
 	
 	
 	return
@@ -230,8 +231,9 @@ func combat_start():
 func combat_loop() ->void:
 	while(in_combat):
 		#a transition function should be included here for better separation between turns
-		start_turn.emit(turn_order[current_turn_index])
 		active_entity = turn_order[current_turn_index]
+		await transition_handler()
+		start_turn.emit(turn_order[current_turn_index])
 		print("Turn active for ", turn_order[current_turn_index])
 		#signal logic and checks for whose turn it is
 		#sending signals to whichever entity has the turn
@@ -239,7 +241,7 @@ func combat_loop() ->void:
 		await round_passed
 		#synchronization issue: monsters move instantly upon player turn ending when it should wait until after spells finish
 		#if a fireball kills a monster "mid-turn," it never emits its end turn signal and the game softlocks
-		await get_tree().create_timer(2.0).timeout
+		#await get_tree().create_timer(2.0).timeout ##removed because transition handler does the pauses now
 	return
 
 func _on_enemy_defeated(enemy: Node2D):
@@ -255,10 +257,6 @@ func _on_enemy_defeated(enemy: Node2D):
 		current_turn_index -= 1
 	turn_order.erase(enemy)
 	entities.erase(enemy)
-	#bug: this iterates the turn index before the end turn signal fires
-	#since the end turn signal won't match the turn index, round_passed never fires
-	#the next active entity never receives it's start turn signal, and the game softlocks
-	##fixed
 	print_debug("Turn order is now ", turn_order)
 	#the quick pans keep going to strange positions
 	camera_quick_pan.emit(enemy.global_position)
@@ -271,6 +269,22 @@ func _on_enemy_defeated(enemy: Node2D):
 		turn_order.clear()
 		combat_ended.emit()
 		print_debug("Combat has ended")
+	return
+
+##this function will handle pauses in the turn system and signal when a player or enemy turn starts
+##the intent is that a pause only occurs when transitioning between the two types of turn
+##player or enemy turns back-to-back won't have a pause
+func transition_handler() -> void:
+	if(active_entity.is_in_group("player")):
+		player_turn.emit()
+		if current_game_status != game_status.PLAYERTURN:
+			await get_tree().create_timer(1.0).timeout
+		current_game_status = game_status.PLAYERTURN
+	elif(active_entity.is_in_group("monster")):
+		if current_game_status != game_status.ENEMYTURN:
+			enemy_turn.emit()
+			await get_tree().create_timer(1.0).timeout
+		current_game_status = game_status.ENEMYTURN
 	return
 
 #func _on_property_list_changed() -> void:
