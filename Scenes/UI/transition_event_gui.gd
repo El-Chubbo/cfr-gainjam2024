@@ -1,5 +1,9 @@
 extends Control
 
+func _ready() -> void:
+	#todo: global listener so event messages can be played from anywhere
+	return
+
 func play_transition(message : String) -> void:
 	%Text.text = message
 	$AnimationPlayer.play("phase_transition")
