@@ -2,5 +2,8 @@
 
 [ext_resource type="Script" path="res://event_trigger_box.gd" id="1_t0dm1"]
 
-[node name="EventTriggerBox" type="Area2D"]
+[node name="EventTriggerBox" type="Area2D" groups=["trigger"]]
 script = ExtResource("1_t0dm1")
+
+[connection signal="area_entered" from="." to="." method="_on_trigger_entered"]
+[connection signal="area_exited" from="." to="." method="_on_trigger_exited"]

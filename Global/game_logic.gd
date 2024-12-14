@@ -211,11 +211,21 @@ func _on_turn_start():
 ##the complexity may be too high for a project of this scale however, encounters could be kept to just a handful of monsters
 
 #find all entities in the scene, add them to the list, then calculate the turn order
-func combat_start():
+##at the moment, this does not support adding extra enemies mid-fight
+func combat_start(monster_list = []):
 	if !in_combat:
 		in_combat = true
 		print_debug("Setting combat to", in_combat)
-		entities = get_tree().get_nodes_in_group("monster")
+		#default behavior is to trigger combat with every monster in the scene
+		#if a list is specified, then only the monsters in that list get included in the battle
+		if monster_list.is_empty():
+			print_debug("No monster list specified, triggering all monsters")
+			entities = get_tree().get_nodes_in_group("monster")
+		else:
+			entities = monster_list.duplicate()
+		if entities.is_empty():
+			print_debug("A combat encounter was started, but there's no monsters in the scene")
+			return
 		turn_order = entities.duplicate()
 		turn_order.shuffle()
 		turn_order.push_front(player_reference)

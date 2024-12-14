@@ -1,11 +1,25 @@
-[gd_scene load_steps=7 format=4 uid="uid://cbk83m8rp2o1y"]
+[gd_scene load_steps=13 format=4 uid="uid://cbk83m8rp2o1y"]
 
 [ext_resource type="TileSet" uid="uid://cfsc5odf3wfjk" path="res://Scenes/placeholder_tiles.tres" id="1_gscka"]
 [ext_resource type="TileSet" uid="uid://73aonnlj4cly" path="res://Scenes/Pickups/pickup_tiles.tres" id="2_6xunx"]
 [ext_resource type="TileSet" uid="uid://be3gismalb6ry" path="res://Scenes/overlay_tiles.tres" id="2_br3yn"]
 [ext_resource type="PackedScene" uid="uid://joo0ehc63rqi" path="res://Scenes/cirana_player.tscn" id="2_r5v4e"]
+[ext_resource type="PackedScene" uid="uid://btvcgpneuy5xj" path="res://Scenes/event_trigger_box.tscn" id="3_7pdku"]
 [ext_resource type="PackedScene" uid="uid://bjk146k4p6yho" path="res://Scenes/UI/gameplay_hud.tscn" id="3_gwsb0"]
 [ext_resource type="PackedScene" uid="uid://cftlng4a1boxg" path="res://Scenes/controllable_camera.tscn" id="4_io61h"]
+[ext_resource type="Script" path="res://Scenes/Components/puzzle_component.gd" id="4_om8i7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cwpni"]
+size = Vector2(256, 256)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7ai4x"]
+font_size = 80
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8u463"]
+size = Vector2(256, 1024)
+
+[sub_resource type="LabelSettings" id="LabelSettings_kec4a"]
+font_size = 80
 
 [node name="BattleTest" type="Node2D"]
 
@@ -18,28 +32,86 @@ scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAABAP//AAAAAAEAAAA=")
 tile_set = ExtResource("2_br3yn")
 
+[node name="EventTriggerBox" parent="Ground/Overlay1" node_paths=PackedStringArray("puzzle_object_list") instance=ExtResource("3_7pdku")]
+position = Vector2(768, -248)
+monitorable = false
+event_type = 2
+puzzle_object_list = [NodePath("../../Lockset1")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/Overlay1/EventTriggerBox"]
+shape = SubResource("RectangleShape2D_cwpni")
+
+[node name="Label" type="Label" parent="Ground/Overlay1"]
+offset_left = 456.0
+offset_top = -504.0
+offset_right = 1077.0
+offset_bottom = -394.0
+text = "Trigger Box Test"
+label_settings = SubResource("LabelSettings_7ai4x")
+
 [node name="Lockset1" type="TileMapLayer" parent="Ground"]
 tile_map_data = PackedByteArray("AAADAAEAAgAAAAAAAAADAAAAAgAAAAAAAAADAP//AgAAAAAAAAADAP7/AgAAAAAAAAA=")
 tile_set = ExtResource("1_gscka")
+script = ExtResource("4_om8i7")
 
-[node name="Lockset2" type="TileMapLayer" parent="Ground"]
-visible = false
+[node name="EventTriggerBox" parent="Ground" node_paths=PackedStringArray("puzzle_object_list") instance=ExtResource("3_7pdku")]
+monitorable = false
+event_type = 2
+puzzle_object_list = [NodePath("Lockset2")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/EventTriggerBox"]
+position = Vector2(2432, 0)
+shape = SubResource("RectangleShape2D_8u463")
+
+[node name="Lockset2" type="TileMapLayer" parent="Ground/EventTriggerBox"]
 tile_map_data = PackedByteArray("AAAIAP7/AgAAAAAAAAAIAP//AgAAAAAAAAAIAAAAAgAAAAAAAAAIAAEAAgAAAAAAAAANAAEAAgAAAAAAAAANAAAAAgAAAAAAAAANAP//AgAAAAAAAAANAP7/AgAAAAAAAAA=")
 tile_set = ExtResource("1_gscka")
+script = ExtResource("4_om8i7")
 
-[node name="Overlay2" type="TileMapLayer" parent="Ground/Lockset2"]
+[node name="Overlay2" type="TileMapLayer" parent="Ground/EventTriggerBox/Lockset2"]
 scale = Vector2(0.5, 0.5)
 tile_map_data = PackedByteArray("AAALAP//AAAAAAEAAAA=")
 tile_set = ExtResource("2_br3yn")
 
+[node name="Label2" type="Label" parent="Ground/EventTriggerBox/Lockset2/Overlay2"]
+offset_left = 5576.0
+offset_top = -618.0
+offset_right = 6197.0
+offset_bottom = -508.0
+text = "\"Surprise\" Test"
+label_settings = SubResource("LabelSettings_7ai4x")
+
+[node name="EventTriggerBox2" parent="Ground/EventTriggerBox/Lockset2/Overlay2" node_paths=PackedStringArray("puzzle_object_list") instance=ExtResource("3_7pdku")]
+position = Vector2(5882, -250)
+monitorable = false
+event_type = 2
+puzzle_object_list = [NodePath("../..")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/EventTriggerBox/Lockset2/Overlay2/EventTriggerBox2"]
+shape = SubResource("RectangleShape2D_cwpni")
+
+[node name="EventTriggerBox2" parent="Ground" instance=ExtResource("3_7pdku")]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/EventTriggerBox2"]
+position = Vector2(4799, 0)
+shape = SubResource("RectangleShape2D_8u463")
+
 [node name="Lockset3" type="TileMapLayer" parent="Ground"]
-visible = false
 tile_map_data = PackedByteArray("AAARAP7/AgAAAAAAAAARAP//AgAAAAAAAAARAAAAAgAAAAAAAAARAAEAAgAAAAAAAAATAAQAAgAAAAAAAAAUAAQAAgAAAAAAAAAVAAQAAgAAAAAAAAAWAAQAAgAAAAAAAAAXAAQAAgAAAAAAAAA=")
 tile_set = ExtResource("1_gscka")
 
 [node name="Entities" type="TileMapLayer" parent="Ground/Lockset3"]
 tile_map_data = PackedByteArray("AAAXAP//AgAAAAAAAQA=")
 tile_set = ExtResource("2_6xunx")
+
+[node name="Label" type="Label" parent="Ground/Lockset3"]
+offset_left = 5017.0
+offset_top = -457.0
+offset_right = 6105.0
+offset_bottom = -347.0
+text = "Ambush and Encounter Test"
+label_settings = SubResource("LabelSettings_kec4a")
 
 [node name="GameplayHud" parent="." instance=ExtResource("3_gwsb0")]
 
