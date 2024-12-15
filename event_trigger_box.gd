@@ -48,14 +48,11 @@ func _ready() -> void:
 		#todo: get all puzzle objects within collision box and add them to the list
 		pass
 		
-	match event_type:
-		event_types.COMBAT:
+	for puzzle_object in puzzle_object_list:
+		puzzle_triggered.connect(Callable(puzzle_object, "_on_puzzle_signal_received"))
+		##this very explicitly can't be global, as multiple puzzles can exist in the same level
+	if event_type == event_types.COMBAT:
 			GameLogic.add_listener("combat_ended", self, "_on_combat_end")
-		event_types.PUZZLE:
-			for puzzle_object in puzzle_object_list:
-				puzzle_triggered.connect(Callable(puzzle_object, "_on_puzzle_signal_received"))
-				##this very explicitly can't be global, as multiple puzzles can exist in the same level
-			return
 	return
 
 func sequential_enable() -> void:
@@ -71,7 +68,7 @@ func enable() -> void:
 func _on_trigger_entered(entity : Object) -> void:
 	print_debug(entity, " entered an event trigger")
 	if !triggered or (triggered and infinite_trigger):
-		if entity.is_in_group("player"): #todo: add functionality to check for specific entities rather than just the player
+		if entity.is_in_group("player"): #todo: add functionality to check for specific entities rather than only player
 			if toggleable:
 				triggered = !triggered
 			else:
@@ -90,7 +87,7 @@ func _on_trigger_entered(entity : Object) -> void:
 					trigger_other(entity)
 					print_debug("Other event triggered")
 			sequential_enable()
-			collision_box.disabled = !infinite_trigger
+			collision_box.set_deferred("disabled", !infinite_trigger)
 	return
 
 func _on_trigger_exited(entity : Object) -> void:
@@ -100,18 +97,25 @@ func _on_trigger_exited(entity : Object) -> void:
 		trigger_puzzle()
 
 #the naming scheme here is different since this is intended for enclosing rooms during battles
-func lock_doors() -> void:
-	for door in puzzle_object_list:
-		door.visible = true
-	return
-	
-func unlock_doors() -> void:
-	for door in puzzle_object_list:
-		door.visible = false
-	return
+#func lock_doors() -> void:
+	#for door in puzzle_object_list:
+		#door.visible = true
+	#return
+	#
+#func unlock_doors() -> void:
+	#for door in puzzle_object_list:
+		#door.visible = false
+	#return
+##deprecated, visibility doesn't remove collision from doors so this doesn't work
+##this has been replaced with emitting a positive puzzle signal when combat starts
+##and a negative puzzle signal when combat ends
+
 
 func trigger_combat() -> void:
-	lock_doors()
+	if inverse_signal:
+		puzzle_triggered.emit(false)
+	else:
+		puzzle_triggered.emit(true)
 	#todo: refactor combat_start logic to support adding one monster at a time
 	GameLogic.combat_start(monster_list)
 	return
@@ -136,7 +140,11 @@ func trigger_other(entity : Object) -> void:
 	return
 
 func _on_combat_end() -> void:
-	#this could be adjusted to add a lot more flexibility like sending puzzle signals instead but might be overkill
-	if triggered:
-		unlock_doors()
+	if triggered and event_type == event_types.COMBAT:
+		if inverse_signal:
+			print_debug("Combat event trigger emitting true signal")
+			puzzle_triggered.emit(true)
+		else:
+			print_debug("Combat event trigger emitting false signal")
+			puzzle_triggered.emit(false)
 	return

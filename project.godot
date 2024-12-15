@@ -39,6 +39,7 @@ spell="A damaging entity created by a monster or the player"
 environment="for ground, walls, and environmental entities"
 pickup="entities that can be picked up by the player"
 trigger="areas that load new levels, start cutscenes, spawn enemys, etc."
+puzzle="Nodes that listen for or send puzzle signals and perform unique behaviors when 'solved'"
 
 [input]
 

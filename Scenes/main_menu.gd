@@ -81,3 +81,8 @@ func _on_test_button2_pressed() -> void:
 	MusicPlayer.default_clips()
 	MusicPlayer.force_play(MusicPlayer.song_list.MYSTIC_ACT1)
 	return
+	
+func _on_test_button3_pressed() -> void:
+	GameLogic.goto_scene("res://Scenes/Levels/battle_test.tscn")
+	MusicPlayer.default_clips()
+	MusicPlayer.force_play(MusicPlayer.song_list.NONE)

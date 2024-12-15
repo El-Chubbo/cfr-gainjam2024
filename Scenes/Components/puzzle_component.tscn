@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwji6dxdroa1i"]
+
+[ext_resource type="Script" path="res://Scenes/Components/puzzle_component.gd" id="1_ip8v7"]
+
+[node name="PuzzleComponent" type="Node2D" groups=["puzzle"]]
+script = ExtResource("1_ip8v7")
