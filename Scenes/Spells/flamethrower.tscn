@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dl7s6q11hqeve"]
 
-[ext_resource type="Script" path="res://Scenes/flamethrower_spell.gd" id="1_ltcyp"]
+[ext_resource type="Script" path="res://Scenes/Spells/flamethrower_spell.gd" id="1_ltcyp"]
 [ext_resource type="Texture2D" uid="uid://bs7dbvi3nxmii" path="res://Art Assets/tilesetSpells.png" id="1_v3v3t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_10wfp"]

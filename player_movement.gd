@@ -16,8 +16,8 @@ signal mov_updated(new_amount: int)
 signal ap_updated(new_amount: int)
 signal game_over(cause: String)
 
-var spell_1 = preload("res://Scenes/fireball.tscn")
-var spell_2 = preload("res://Scenes/flamethrower.tscn")
+var spell_1 = preload("res://Scenes/Spells/fireball.tscn")
+var spell_2 = preload("res://Scenes/Spells/flamethrower.tscn")
 var spell_3 = preload("res://Scenes/Spells/feast_melee.tscn")
 
 var using_preset = true ##temporary variable for using the static gameplay sprites, no dynamic face animations
