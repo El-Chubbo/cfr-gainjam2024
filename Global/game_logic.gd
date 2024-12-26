@@ -335,6 +335,9 @@ func load_level_status(path):
 			current_game_status = game_status.FREEMOVE
 		"res://Scenes/main_menu.tscn":
 			current_game_status = game_status.MENU
+		_:
+			current_game_status = game_status.FREEMOVE
+			#any other scene not accounted for is *probably* going to be a regular level
 	in_combat = false
 	turn_order.clear()
 	entities.clear()

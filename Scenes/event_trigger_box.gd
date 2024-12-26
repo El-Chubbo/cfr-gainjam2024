@@ -7,8 +7,10 @@ extends Area2D
 
 signal puzzle_triggered(value: bool)
 
+
 enum event_types {COMBAT, CUTSCENE, PUZZLE, OTHER}
 @export var event_type : event_types
+#I really should figure out a means of disabling the relevant export variables depending on event type
 @export var initial_value : bool = false
 @export var infinite_trigger = false
 var triggered = initial_value
@@ -26,6 +28,7 @@ var triggered = initial_value
 #when the player enters, the script will broadcast combat start to GameLogic with the predefined list of monsters
 @export var puzzle_object_list : Array[Node]
 #behaves similarly to monster_list, can be specified manually or will attempt finding all puzzle tiles within the triggerbox
+@export var dialogue_resource: DialogueResource ##for cutscene events
 
 #@export var unlock_conditions : Dictionary = {}
 #puzzle conditions are being put into a separate script so this likely won't be used
@@ -131,7 +134,7 @@ func trigger_puzzle() -> void:
 	else:
 		puzzle_triggered.emit(!triggered)
 	return
-	
+
 func trigger_other(entity : Object) -> void:
 	#not sure on an 'other' scenario just yet, maybe extra nodes with custom scripts are added as children
 	#and this function would traverse the children?
