@@ -29,7 +29,7 @@ var triggered = initial_value
 @export var puzzle_object_list : Array[Node]
 #behaves similarly to monster_list, can be specified manually or will attempt finding all puzzle tiles within the triggerbox
 @export var dialogue_resource: DialogueResource ##for cutscene events
-
+@export var dialogue_start : String = "start" ##determines where in the dialogue resource a cutscene is read
 #@export var unlock_conditions : Dictionary = {}
 #puzzle conditions are being put into a separate script so this likely won't be used
 
@@ -124,8 +124,10 @@ func trigger_combat() -> void:
 	return
 	
 func trigger_cutscene(entity : Object) -> void:
-	#cutscene assets need to be created first before this can do anything
-	pass
+	DialogueManager.show_example_dialogue_balloon(dialogue_resource, dialogue_start)
+	#todo: enforce game state to lock controls
+	#todo: cutscene overlay and additional functionality for other scenarios
+	return
 
 func trigger_puzzle() -> void:
 	#emits a generic boolean signal that is true or false to all connected puzzle objects

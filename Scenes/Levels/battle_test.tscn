@@ -139,6 +139,7 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(5487, 1897)
 event_type = 1
 dialogue_resource = ExtResource("7_rnrcu")
+dialogue_start = "test_1"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/CutsceneTrigger"]
 position = Vector2(17, 23)
