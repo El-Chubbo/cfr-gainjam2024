@@ -35,8 +35,10 @@ anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -340.0
-offset_right = 340.0
+offset_left = -345.0
+offset_top = 116.0
+offset_right = 345.0
+offset_bottom = -79.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -76,7 +78,7 @@ Dynamic Music
 label_settings = SubResource("LabelSettings_gm5p8")
 
 [node name="OtherCredits" type="Panel" parent="Panel/CenterContainer/HBoxContainer"]
-custom_minimum_size = Vector2(350, 350)
+custom_minimum_size = Vector2(350, 375)
 layout_mode = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="Panel/CenterContainer/HBoxContainer/OtherCredits"]
@@ -104,7 +106,8 @@ layout_mode = 2
 text = "Global signals - Josh Anthony
 Heart GUI - Maker Tech
 Tile movement, Projectiles - Godot Recipes
-2D Camera- Julian Vos"
+2D Camera - Julian Vos
+Dialogue Manager - Nathan Hoad"
 label_settings = SubResource("LabelSettings_68hjd")
 horizontal_alignment = 2
 
@@ -159,6 +162,12 @@ size_flags_horizontal = 4
 text = "https://linktr.ee/el_chubbo"
 uri = "https://linktr.ee/el_chubbo"
 
+[node name="Label2" type="LinkButton" parent="Panel/CenterContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Source Code on GitHub"
+uri = "https://github.com/El-Chubbo/cfr-gainjam2024"
+
 [node name="CenterContainer3" type="CenterContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = 12
@@ -170,6 +179,13 @@ grow_vertical = 0
 
 [node name="Title" type="Label" parent="Panel/CenterContainer3"]
 layout_mode = 2
-text = "Made for the 2024 Gain Jam"
+text = "Made for the 2024 Gain Jam
+Built in Godot"
 label_settings = SubResource("LabelSettings_pwqlw")
 horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Version 0.3.0"
