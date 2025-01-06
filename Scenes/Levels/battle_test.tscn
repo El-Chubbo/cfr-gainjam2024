@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=4 uid="uid://cbk83m8rp2o1y"]
+[gd_scene load_steps=18 format=4 uid="uid://cbk83m8rp2o1y"]
 
 [ext_resource type="TileSet" uid="uid://cfsc5odf3wfjk" path="res://Scenes/placeholder_tiles.tres" id="1_gscka"]
 [ext_resource type="TileSet" uid="uid://be3gismalb6ry" path="res://Scenes/overlay_tiles.tres" id="2_br3yn"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://dwji6dxdroa1i" path="res://Scenes/Components/puzzle_component.tscn" id="5_pwpm5"]
 [ext_resource type="PackedScene" uid="uid://bwwub6oudj27n" path="res://Scenes/Entities/cake_monster.tscn" id="6_lufux"]
 [ext_resource type="Resource" uid="uid://dbg1hhdafvhr7" path="res://Cutscenes/battle_test_1.dialogue" id="7_rnrcu"]
+[ext_resource type="Resource" uid="uid://doe8c1wbikgon" path="res://Cutscenes/temp_end.dialogue" id="8_ylirp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cwpni"]
 size = Vector2(256, 256)
@@ -25,6 +26,9 @@ font_size = 80
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_exygu"]
 size = Vector2(1278, 254)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ebmei"]
+size = Vector2(256, 768)
 
 [node name="BattleTest" type="Node2D"]
 
@@ -144,6 +148,14 @@ dialogue_start = "test_1"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/CutsceneTrigger"]
 position = Vector2(17, 23)
 shape = SubResource("RectangleShape2D_exygu")
+
+[node name="CutsceneTrigger2" parent="Ground" instance=ExtResource("3_7pdku")]
+position = Vector2(4224, 2432)
+event_type = 1
+dialogue_resource = ExtResource("8_ylirp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/CutsceneTrigger2"]
+shape = SubResource("RectangleShape2D_ebmei")
 
 [node name="Group 4" type="Node" parent="Ground"]
 
