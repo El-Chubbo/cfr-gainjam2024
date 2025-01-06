@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://btvcgpneuy5xj"]
 
-[ext_resource type="Script" path="res://event_trigger_box.gd" id="1_t0dm1"]
+[ext_resource type="Script" path="res://Scenes/event_trigger_box.gd" id="1_t0dm1"]
 
 [node name="EventTriggerBox" type="Area2D" groups=["trigger"]]
 monitorable = false

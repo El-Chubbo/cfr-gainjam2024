@@ -16,8 +16,8 @@ signal mov_updated(new_amount: int)
 signal ap_updated(new_amount: int)
 signal game_over(cause: String)
 
-var spell_1 = preload("res://Scenes/fireball.tscn")
-var spell_2 = preload("res://Scenes/flamethrower.tscn")
+var spell_1 = preload("res://Scenes/Spells/fireball.tscn")
+var spell_2 = preload("res://Scenes/Spells/flamethrower.tscn")
 var spell_3 = preload("res://Scenes/Spells/feast_melee.tscn")
 
 var using_preset = true ##temporary variable for using the static gameplay sprites, no dynamic face animations
@@ -159,7 +159,7 @@ func _ready():
 #note: this does NOT use the Command Pattern due to the time constraint for the game jam
 #The Command Pattern would probably be better for this
 func _unhandled_input(event):
-	if moving or control_state == control_states.MOVING:
+	if moving or control_state == control_states.MOVING or GameLogic.current_game_status == GameLogic.game_status.CUTSCENE:
 		#ignore inputs in the middle of a moving action
 		return
 	if turn_state == turn_states.PLAYER_TURN and event.is_action_pressed("pass_turn"):

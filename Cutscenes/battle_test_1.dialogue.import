@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_13"
+type="Resource"
+uid="uid://dbg1hhdafvhr7"
+path="res://.godot/imported/battle_test_1.dialogue-2b9d8e15da4f7bcf1c112fa8a5b59c6a.tres"
+
+[deps]
+
+source_file="res://Cutscenes/battle_test_1.dialogue"
+dest_files=["res://.godot/imported/battle_test_1.dialogue-2b9d8e15da4f7bcf1c112fa8a5b59c6a.tres"]
+
+[params]
+
+defaults=true

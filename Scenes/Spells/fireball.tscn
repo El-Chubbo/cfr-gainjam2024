@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bwtokg3rfest"]
 
-[ext_resource type="Script" path="res://fireball_spell.gd" id="1_6bvob"]
+[ext_resource type="Script" path="res://Scenes/Spells/fireball_spell.gd" id="1_6bvob"]
 [ext_resource type="PackedScene" uid="uid://f8dog3numfub" path="res://Scenes/fire_trail_particle.tscn" id="2_b843l"]
 [ext_resource type="Texture2D" uid="uid://bs7dbvi3nxmii" path="res://Art Assets/tilesetSpells.png" id="2_dorus"]
 [ext_resource type="PackedScene" uid="uid://ceqsiixtm6gxp" path="res://Scenes/fire_impact_particle.tscn" id="2_hfiqc"]

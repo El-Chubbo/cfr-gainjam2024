@@ -1,0 +1,22 @@
+~ test_1
+Cirana: This is a cutscene!
+Cirana: Hopefully I get a dialogue portrait eventually!
+=> END
+
+~ test_2
+Cirana: This a pre-battle cutscene!
+Cirana: The enemies shouldn't be able to attack nor should I be able to move!
+CIrana: Talking is a free action after all!
+=> END
+
+~ test_3
+Cirana: This is a mid-battle cutscene!
+Cirana: Logically, it works by having a node listen for an enemy death signal to occur,
+then triggers the cutscene dialogue!
+Cirana: But how did I know that?
+=> END
+
+~ test_4
+Cirana: This is a post-battle cutscene!
+Cirana: You had me eat those enemies right? I'm hungry...
+=> END
