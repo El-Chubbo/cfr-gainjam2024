@@ -14,7 +14,7 @@ El: There's still tons of polish needed all over the place, like better camera b
 
 El: I'd obviously like to make visual improvements basically everywhere. The individual changes would be far too numerous to list, but for now I'm thinking of focusing on procedural animations, particles, and shaders for the next milestone of visual updates. Things that don't require new art assets.
 
-El: With the event trigger system (which includes cutscenes, puzzles, and monster encounters) nearly complete, the tallest code hurdles for creating the main levels is out of the way. [wait=0.5] Now all that's left is a save sytem, ironing out the bugs for game state and Cirana's stats on level load, and (the biggest one) a new tileset that actually looks like the inside of a factory and not the scribbles I made in 15 minutes rushing for the game jam.
+El: With the event trigger system (which includes cutscenes, puzzles, and monster encounters) nearly complete, the tallest code hurdles for creating the main levels is out of the way.[wait=0.5] Now all that's left is a save sytem, ironing out the bugs for game state and Cirana's stats on level load, and (the biggest one) a new tileset that actually looks like the inside of a factory and not the scribbles I made in 15 minutes rushing for the game jam.
 
 El: You weren't expecting the main levels to look like this,[wait=0.25] I hope?
 El: Anyway, thanks again for playing. While it's been a long time since the game jam build, I'd say the amount of features made for this update constitute about one month of work, maybe two total if you include the initial two weeks I had dedicated for the jam. Still ironing out the whole ADHD work ethic thing.

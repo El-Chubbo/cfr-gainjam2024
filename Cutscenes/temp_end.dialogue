@@ -48,48 +48,44 @@ Cirana: Um, what do you want to know?
 	Cirana: In a non-existential sense right? [wait=0.5] Well I grew up in a small village, it had a population of under a hundred or so. 
 	Cirana: Food was scarce since only a few types of crops were safe to grow and we only knew rituals for cows and boars. I've heard of there being ways to raise tons of animals as livestock, but my village didn't have the resources to do that.
 	Cirana: So we mostly relied on hunting and maybe a single animal we'd raise for special celebrations. It was very tight knit, everyone was family.
-	Cirana: Rituals?[wait=0.25] You know, the kind that prevents food from corrupting into a monster. Usually you need some kind of chant, draw a magic circle, a blessing component to spread or burn, it all depends on the specific ritual.
+	Cirana: Rituals?[wait=0.25] You know, the kind that prevents food from corrupting into a monster? Usually you need some kind of chant, draw a magic circle, a blessing component to spread or burn, it all depends on the specific ritual.
 	Cirana: Is that not normal?
 	Cirana: Anyway, I haven't a clue as to how my old village is faring now. A little before I came of age, I[wait=0.5] uh,[wait=0.25][speed=0.25] may have been responsible for a monster attack that destroyed most of it...
-	Cirana: [speed=1] It was an accident I swear![wait=0.25] I still feel guilty because of it...
+	Cirana: [speed=2] It was an accident I swear![wait=0.5][speed=1] I still feel guilty because of it...
 	Cirana: I've been on my own ever since.
 	=> ask_cirana
 - What's this factory that you're supposedly raiding?
-	Cirana: Currently[speed=0.1]... [speed=1][wait=1] I don't know! I've yet to see it. But I heard rumors about treasure hidden in its depths and nobody can reach it since the place is teeming with monsters.[wait=0.25]
-		[speed=0.5]Buuuuuuuut,[speed=1][wait=0.5] for a mage like me that shouldn't be a problem hehe!
-	Cirana: That is, [wait=0.25][speed=2] IF I CAN FIND THE SUPID THING. [speed=1]
+	Cirana: Currently[speed=0.1]... [speed=1][wait=1] I don't know! I've yet to see it. However I heard rumors about treasure hidden in its depths and nobody can reach it since the place is teeming with monsters.[wait=0.25][speed=0.5] Buuuuuuuut,[speed=1][wait=0.5] for a mage like me that shouldn't be a problem hehe!
+	Cirana: That is,[wait=0.25][speed=2] IF I CAN FIND THE SUPID THING. [speed=1]
 	=> ask_cirana
 - How are you able to cast magic? Where did you learn it?
 	Cirana: To be honest...[wait=0.25] even I don't know how all the magic stuff works. I know that I've always had a big appetite, but one day something 'clicked.'
-	Cirana: There's monsters out there that attack people with spells. Not all of them, but there's many that do. Things like fire, ice, and lightning.
-		If you tried eating a monster, sure it may taste fine but usually you get sick very quickly afterward!
+	Cirana: There's monsters out there that attack people with spells. Not all of them, but there's many that do. Things like fire, ice, and lightning. If you tried eating a monster, sure it may taste fine but usually you get sick very quickly afterward!
 	Cirana: I've learned that the hard way in the past on particularly desparate days.
-	Cirana: But on that day where something 'clicked', I felt an unbearable hunger. More than the kind I'd feel going to sleep having only eaten a few berries the whole day. I couldn't take it anymore. 
-		The Book told me I had "a hunger that only a beast could quell."
-	Cirana: There was an apple monster nearby my camp, so I just tried pouncing it. And to my surprise, [wait=0.5][speed=1.5] -it was delicious and I'd eat ten of them right now if I could. [wait=0.25]
-		[speed=2] BUT MORE IMPORTANTLY, [wait=0.5][speed=1] to my surprise I didn't get sick after!
+	Cirana: But on that day where something 'clicked', I felt an unbearable hunger. More than the kind I'd feel going to sleep having only eaten a few berries the whole day. I couldn't take it anymore. The Book told me I had "a hunger that only a beast could quell."
+	Cirana: There was an apple tree monster near my camp, so I tried my luck and pounced one of its stray underlings. And to my surprise, [wait=0.5][speed=1.5] -it was delicious and I'd eat ten of them right now if I could.[wait=0.25][speed=2] BUT MORE IMPORTANTLY,[wait=0.5][speed=1] to my surprise I didn't get sick after!
 	Cirana: From what the Book has told me, monsters contain tons of a magical substance called Calories. I think normal people can't handle that much magic in their bodies which is why they get sick.
 	Cirana: Ever since I've been able to stomach eating monsters, I can harness Calories into spells! Right now I only know some fire magic since I've seen fire plenty of times, but there's probably more out there.
-	if dietmode == false
+	if DietMode.Enabled == false
 		Cirana: Regular food seems a lot less filling nowadays though...
 		Cirana: And for some reason my shorts have felt smaller and my leg wrappings tighter...
 	Cirana: Maybe there's more to magic that I don't know?
 	=> ask_cirana
 - Why are the monsters living cakes?
 	Cirana: They're called cakes? I haven't looked at the Book yet. Mmmm,[wait=0.25] they're yummy.
-		[wait=0.5] Other than that, I have no idea.
+	Cirana: Other than that, I have no idea.
 	=> ask_cirana
 - What is the 'Feastiary?'
 	Cirana: It's a grimoire I found in some ancient ruins a long time ago!
 	Cirana: The Book is super strange, the majority of its pages are completely blank! But sometimes, a page fills in on its own.
 	Cirana: Somehow it even has an entry about me, which is kinda creepy since it knows things that I've never told it.
-	Cirana: I'm still trying to figure out what the Book's purpose is. I couldn't read any of the text in the ruins that looked like it might explain its origins. And the Book itself has ignored all my attempts to get it to explain itself, seemingly deliberately.
+	Cirana: I'm still trying to figure out what the Book's purpose is. I couldn't read any of the text in the ruins that looked like it might explain its origins. And the Book has ignored all my attempts to get it to explain itself, seemingly deliberately.
 	Cirana: But so far, whenever there's a new monster I encounter or when I'm in need of guidance, new words appear inside it. I probably wouldn't have survived this long without it.
 	Cirana: Even if what it says can be cryptic, and it's unreliable what it writes about, the Book has never once been incorrect.
 	Cirana: Oh,[wait=0.25] where is the Book?[wait=0.5] It's right here with me.
 	Cirana: May you see it?
 	Cirana: [speed=0.1]...[speed=1]No.
-	\(There's no art assets for it yet.\)
+	(There's no art assets for it yet.)
 	=> ask_cirana
 - Nevermind
 	=> choices
