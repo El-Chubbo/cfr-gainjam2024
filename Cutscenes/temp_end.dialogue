@@ -66,7 +66,8 @@ Cirana: Um, what do you want to know?
 	Cirana: There was an apple tree monster near my camp, so I tried my luck and pounced one of its stray underlings. And to my surprise, [wait=0.5][speed=1.5] -it was delicious and I'd eat ten of them right now if I could.[wait=0.25][speed=2] BUT MORE IMPORTANTLY,[wait=0.5][speed=1] to my surprise I didn't get sick after!
 	Cirana: From what the Book has told me, monsters contain tons of a magical substance called Calories. I think normal people can't handle that much magic in their bodies which is why they get sick.
 	Cirana: Ever since I've been able to stomach eating monsters, I can harness Calories into spells! Right now I only know some fire magic since I've seen fire plenty of times, but there's probably more out there.
-	if DietMode.Enabled == false
+#This check is unreliable to be accurate in the test scene. It works properly in-game.
+	if DietMode.enabled == false
 		Cirana: Regular food seems a lot less filling nowadays though...
 		Cirana: And for some reason my shorts have felt smaller and my leg wrappings tighter...
 	Cirana: Maybe there's more to magic that I don't know?

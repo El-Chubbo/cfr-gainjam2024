@@ -248,7 +248,7 @@ func combat_loop() ->void:
 		#signal logic and checks for whose turn it is
 		#sending signals to whichever entity has the turn
 		#waits until the entity emits its "turn_ended" signal
-		await round_passed
+		await round_passed or combat_ended
 		#synchronization issue: monsters move instantly upon player turn ending when it should wait until after spells finish
 		#if a fireball kills a monster "mid-turn," it never emits its end turn signal and the game softlocks
 		#await get_tree().create_timer(2.0).timeout ##removed because transition handler does the pauses now
