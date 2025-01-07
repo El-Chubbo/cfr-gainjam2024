@@ -179,8 +179,8 @@ grow_vertical = 0
 
 [node name="Title" type="Label" parent="Panel/CenterContainer3"]
 layout_mode = 2
-text = "Made for the 2024 Gain Jam
-Built in Godot"
+text = "
+Built in Godot Engine 4.3"
 label_settings = SubResource("LabelSettings_pwqlw")
 horizontal_alignment = 1
 
