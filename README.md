@@ -1,6 +1,7 @@
 # Feastiary-CFR
  A smaller version of the main Feastiary project downscaled for the 2024 Gain Jam
 
+Play the current released build on itch.io: https://el-chubbo.itch.io/ciranas-factory-raid
 
 As an open source project, the basics to my rules for using the project is this:
 You may do anything with the code as you wish. Learn from it, reference it, even use it directly should it be deemed good enough.
