@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://bbeec4do7gab2"]
+[gd_scene load_steps=16 format=3 uid="uid://bbeec4do7gab2"]
 
 [ext_resource type="Script" path="res://Scenes/main_menu.gd" id="1_j5icd"]
+[ext_resource type="Script" path="res://Scenes/update_handler.gd" id="2_6ouah"]
 [ext_resource type="PackedScene" uid="uid://jkwjim8u1mgw" path="res://Scenes/UI/credits.tscn" id="2_cl04f"]
 [ext_resource type="Texture2D" uid="uid://cv3wvovrw6x1u" path="res://Art Assets/GameLogo.png" id="3_en7wx"]
 [ext_resource type="Texture2D" uid="uid://cpareh3en80th" path="res://Art Assets/Cirana/Preset Sprites/cirana preset fat neutral.png" id="4_oavkc"]
@@ -62,6 +63,12 @@ line_spacing = -6.0
 [node name="Main Menu" type="CanvasLayer"]
 script = ExtResource("1_j5icd")
 enable_test_levels = true
+
+[node name="UpdateHandler" type="Node2D" parent="."]
+script = ExtResource("2_6ouah")
+
+[node name="UpdateChecker" type="HTTPRequest" parent="UpdateHandler"]
+unique_name_in_owner = true
 
 [node name="MainButtons" type="VBoxContainer" parent="."]
 anchors_preset = 8
