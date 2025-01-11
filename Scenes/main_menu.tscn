@@ -106,6 +106,7 @@ layout_mode = 2
 text = "View Credits"
 
 [node name="QuitButton" type="Button" parent="MainButtons"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Quit
 "

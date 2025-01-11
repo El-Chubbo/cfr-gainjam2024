@@ -3,18 +3,30 @@ extends Area2D
 signal dealt_damage(damage, victim)
 
 @export var speed = 1250
-@onready var fire_impact = $FireImpact
+@onready var impact_SFX = $FireImpactSFX
 @export var damage_modifier = 1.0
-@onready var particle = $FireImpactParticle
+@onready var trail_particle : Node2D = $FireTrailGPU
+@onready var impact_particle : Node2D = $FireImpactGPU
 @export var calorie_cost = 150
 var base_damage = 0
 
 func _init():
 	pass
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	if OS.has_feature("web"):
+		#replace particles with their CPU versions, delete GPU nodes
+		trail_particle.queue_free()
+		impact_particle.queue_free()
+		trail_particle = $FireTrailCPU
+		impact_particle = $FireImpactCPU
+	else:
+		$FireTrailCPU.queue_free()
+		$FireImpactCPU.queue_free()
+	# whether or not it's better to load the correct type on the spot or have both preloaded with the fireball I don't know
+	# but the difference should be negligible, as long as there isn't a frame hitch caused by it
+	trail_particle.emitting = true
+	return
 
 func set_damage(attack: int):
 	base_damage += attack
@@ -30,16 +42,17 @@ func _physics_process(delta: float) -> void:
 	position += transform.x * speed * delta
 
 func complete():
-	fire_impact.play()
-	particle.position = self.position #particle doesn't follow the parent for some reason
-	particle.emitting = true
+	impact_SFX.play()
+	impact_particle.position = self.position #particle doesn't follow the parent for some reason
+	impact_particle.emitting = true
 	#dealt_damage.emit(base_damage * damage_modifier)
 	speed = 0
 	$Sprite2D.visible = false
 	self.set_deferred("monitoring", false)
 	self.set_deferred("monitorable", false)
-	$FireTrailParticle.emitting = false
-	await fire_impact.finished
+	$CollisionShape2D.set_deferred("disabled", true)
+	trail_particle.emitting = false
+	await impact_SFX.finished
 	queue_free()
 
 func _on_body_entered(body: Node2D) -> void: #collided with wall

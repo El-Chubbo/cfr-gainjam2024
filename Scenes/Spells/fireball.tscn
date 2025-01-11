@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://bwtokg3rfest"]
+[gd_scene load_steps=9 format=3 uid="uid://bwtokg3rfest"]
 
 [ext_resource type="Script" path="res://Scenes/Spells/fireball_spell.gd" id="1_6bvob"]
 [ext_resource type="PackedScene" uid="uid://f8dog3numfub" path="res://Scenes/fire_trail_particle.tscn" id="2_b843l"]
 [ext_resource type="Texture2D" uid="uid://bs7dbvi3nxmii" path="res://Art Assets/tilesetSpells.png" id="2_dorus"]
 [ext_resource type="PackedScene" uid="uid://ceqsiixtm6gxp" path="res://Scenes/fire_impact_particle.tscn" id="2_hfiqc"]
 [ext_resource type="AudioStream" uid="uid://bb347o2lhmxwd" path="res://Sound Assets/SFX/EM_FIRE_IMPACT_01.wav" id="3_gvds4"]
+[ext_resource type="PackedScene" uid="uid://cpuh1du0rwp1j" path="res://Scenes/fire_trail_particleCPU.tscn" id="3_k77u2"]
+[ext_resource type="PackedScene" uid="uid://c8yqbcbn24huy" path="res://Scenes/fire_impact_particleCPU.tscn" id="7_knfkm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kurqc"]
 size = Vector2(128, 128)
@@ -15,8 +17,11 @@ speed = 2000
 metadata/team = 0
 metadata/damage_type = "spell"
 
-[node name="FireTrailParticle" parent="." instance=ExtResource("2_b843l")]
+[node name="FireTrailGPU" parent="." instance=ExtResource("2_b843l")]
 position = Vector2(-64, 0)
+emitting = false
+
+[node name="FireTrailCPU" parent="." instance=ExtResource("3_k77u2")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
@@ -29,7 +34,7 @@ frame = 1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["spell"]]
 shape = SubResource("RectangleShape2D_kurqc")
 
-[node name="FireImpact" type="AudioStreamPlayer2D" parent="."]
+[node name="FireImpactSFX" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_gvds4")
 volume_db = -4.0
 max_distance = 4000.0
@@ -37,7 +42,9 @@ attenuation = 0.5
 max_polyphony = 2
 panning_strength = 0.5
 
-[node name="FireImpactParticle" parent="." instance=ExtResource("2_hfiqc")]
+[node name="FireImpactGPU" parent="." instance=ExtResource("2_hfiqc")]
+
+[node name="FireImpactCPU" parent="." instance=ExtResource("7_knfkm")]
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(96, 0)
