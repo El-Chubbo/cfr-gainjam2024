@@ -84,11 +84,13 @@ text = "Version: application/config/version"
 script = ExtResource("5_qgp3a")
 
 [node name="LinkButton" type="LinkButton" parent="UpdateHandler"]
+unique_name_in_owner = true
 visible = false
 offset_top = 18.0
 offset_right = 133.0
 offset_bottom = 58.0
 text = "New version Link"
+uri = "https://el-chubbo.itch.io/ciranas-factory-raid"
 
 [node name="MainButtons" type="VBoxContainer" parent="."]
 anchors_preset = 8

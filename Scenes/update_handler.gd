@@ -22,6 +22,10 @@ func send_request():
 
 func _on_request_completed(results, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
+	if !json:
+		print("Failed to get remote version")
+		%VersionLabel.text = current_version + ", failed to check for update"
+		return
 	print("HTTP Request: Remote version is ", json["latest"])
 	remote_version = json["latest"]
 	if remote_version == "": # probably should have a more refined error handler
@@ -44,6 +48,7 @@ func notify_update() -> void:
 		-1:
 			# current version is behind remote, tell user to update!
 			print("Installed version ", current_version, " is older than remote version")
+			%VersionLabel.show_update(remote_version)
 			pass
 		_:
 			# the format of versions don't match, can't determine which is newer
