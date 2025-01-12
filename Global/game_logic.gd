@@ -215,7 +215,7 @@ func _on_turn_start():
 func combat_start(monster_list = []):
 	if !in_combat:
 		in_combat = true
-		print_debug("Setting combat to", in_combat)
+		print_debug("Setting combat to ", in_combat)
 		#default behavior is to trigger combat with every monster in the scene
 		#if a list is specified, then only the monsters in that list get included in the battle
 		if monster_list.is_empty():
@@ -239,19 +239,21 @@ func combat_start(monster_list = []):
 		combat_loop()
 
 func combat_loop() ->void:
+	var round_debug : int = 0
 	while(in_combat):
+		round_debug += 1
+		print("This should be round ", round_debug)
 		#a transition function should be included here for better separation between turns
 		active_entity = turn_order[current_turn_index]
 		await transition_handler()
-		start_turn.emit(turn_order[current_turn_index])
-		print("Turn active for ", turn_order[current_turn_index])
+		if active_entity: # in case an entity gets deleted inbetween the transition
+			start_turn.emit(turn_order[current_turn_index])
+			print("Turn active for ", turn_order[current_turn_index])
 		#signal logic and checks for whose turn it is
 		#sending signals to whichever entity has the turn
 		#waits until the entity emits its "turn_ended" signal
 		await round_passed or combat_ended
-		#synchronization issue: monsters move instantly upon player turn ending when it should wait until after spells finish
-		#if a fireball kills a monster "mid-turn," it never emits its end turn signal and the game softlocks
-		#await get_tree().create_timer(2.0).timeout ##removed because transition handler does the pauses now
+		print("Combat thread now looping")
 	return
 
 func _on_enemy_defeated(enemy: Node2D):
@@ -341,6 +343,7 @@ func load_level_status(path):
 	in_combat = false
 	turn_order.clear()
 	entities.clear()
+	combat_ended.emit()
 
 func goto_scene(path):
 	print_debug("Attempting to load level ", path)

@@ -12,6 +12,9 @@ extends Node2D
 
 var target: Node2D = null
 
+# will refuse any extra 'start turn' signals if already acting
+var acting: = false
+
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var nav_obstacle: NavigationObstacle2D = $NavigationObstacle2D
 
@@ -48,9 +51,10 @@ func _ready() -> void:
 	#pass
 
 func _on_turn_start(entity: Variant):
-	if entity != self:
+	if entity != self or acting:
 		return
 	print_debug("Received turn start signal")
+	acting = true
 	current_MOV = max_MOV
 	current_AP = max_AP
 	#do more things
@@ -77,6 +81,7 @@ func _on_turn_start(entity: Variant):
 				#get the direction of the nearest path stage, then attempt moving that direction
 	print_debug("No more valid moves found, ending turn")
 	turn_ended.emit(self)
+	acting = false
 	return
 
 func calculate_path() -> Vector2:
