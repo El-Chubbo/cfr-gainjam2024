@@ -21,6 +21,7 @@ var acting: = false
 signal turn_ended(reference)
 signal defeated(reference)
 
+@export var enabled = true
 @export var max_health = 50
 var current_health = max_health
 @export var max_MOV = 1
@@ -39,6 +40,10 @@ func _ready() -> void:
 	GameLogic.add_emitter("turn_ended", self)
 	GameLogic.add_listener("start_turn", self, "_on_turn_start")
 	GameLogic.add_emitter("defeated", self)
+	if enabled:
+		enable()
+	else:
+		disable()
 	#print(self, "has the navigation map of ", nav_agent.get_navigation_map())
 	#print(self, " has affected the navigation map ", nav_obstacle.get_navigation_map())
 	#debug prints checking the nav agents are affecting the correct layer
@@ -46,12 +51,23 @@ func _ready() -> void:
 		load(attack.resource_path)
 	return
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-	#pass
+func enable() -> void:
+	print_debug("Monster has been enabled")
+	enabled = true
+	visible = true
+	move_component.enable_collision()
+
+func disable() -> void:
+	enabled = false
+	visible = false
+	move_component.disable_collision()
 
 func _on_turn_start(entity: Variant):
 	if entity != self or acting:
+		return
+	if !enabled:
+		print_debug("Monster recevied turn start signal, but is disabled")
+		turn_ended.emit(self)
 		return
 	print_debug("Received turn start signal")
 	acting = true
@@ -120,5 +136,6 @@ func on_defeat():
 	#todo: visual effects like vanish shader
 	turn_ended.emit(self)
 	visible = false
+	move_component.disable_collision()
 	queue_free()
 	return

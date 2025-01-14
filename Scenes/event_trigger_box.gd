@@ -120,6 +120,13 @@ func trigger_combat() -> void:
 	else:
 		puzzle_triggered.emit(true)
 	#todo: refactor combat_start logic to support adding one monster at a time
+	#bug: if a monster is deleted from this list the stale reference causes a crash
+	for monster in monster_list:
+		if monster: # check for stale reference
+			monster.enable()
+			# this doesn't support disabling monsters, but that's a very specific scenario that might not be necessary
+		else:
+			monster_list.erase(monster)
 	GameLogic.combat_start(monster_list)
 	return
 	

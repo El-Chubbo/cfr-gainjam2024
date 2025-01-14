@@ -235,6 +235,7 @@ func combat_start(monster_list = []):
 		turn_order.insert(insertion_point,player_reference)
 		print_debug("Monsters listed: ", entities)
 		print_debug("Turn order generated: ", turn_order)
+		
 		combat_started.emit()
 		combat_loop()
 

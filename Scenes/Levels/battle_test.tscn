@@ -129,6 +129,7 @@ script = ExtResource("4_tom50")
 
 [node name="CakeMonster" parent="Ground/Group 3/PuzzleComponent/Lockset3" instance=ExtResource("6_lufux")]
 position = Vector2(6016, -128)
+enabled = false
 
 [node name="Label" type="Label" parent="Ground/Group 3/PuzzleComponent/Lockset3"]
 offset_left = 5017.0
@@ -158,6 +159,35 @@ dialogue_resource = ExtResource("8_ylirp")
 shape = SubResource("RectangleShape2D_ebmei")
 
 [node name="Group 4" type="Node" parent="Ground"]
+
+[node name="EventTriggerBox2" parent="Ground/Group 4" node_paths=PackedStringArray("monster_list", "puzzle_object_list") instance=ExtResource("3_7pdku")]
+position = Vector2(3712, 2432)
+monster_list = [NodePath("../../Group 3/PuzzleComponent/Lockset3/CakeMonster")]
+puzzle_object_list = [NodePath("../../Group 3/PuzzleComponent")]
+dialogue_resource = ExtResource("7_rnrcu")
+dialogue_start = "test_2"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/Group 4/EventTriggerBox2"]
+shape = SubResource("RectangleShape2D_8u463")
+
+[node name="PuzzleComponent" parent="Ground/Group 4" node_paths=PackedStringArray("puzzle_behaviors") instance=ExtResource("5_pwpm5")]
+visible = false
+resolvable = true
+puzzle_behaviors = [NodePath("Lockset3")]
+visibility_style = 1
+
+[node name="Lockset3" type="TileMapLayer" parent="Ground/Group 4/PuzzleComponent"]
+tile_map_data = PackedByteArray("AAAPAAgAAgAAAAAAAAAPAAkAAgAAAAAAAAAPAAoAAgAAAAAAAAAEAAgAAgAAAAAAAAAEAAkAAgAAAAAAAAAEAAoAAgAAAAAAAAA=")
+tile_set = ExtResource("1_gscka")
+script = ExtResource("4_tom50")
+
+[node name="CakeMonster" parent="Ground/Group 4/PuzzleComponent/Lockset3" instance=ExtResource("6_lufux")]
+position = Vector2(2944, 2176)
+max_health = 200
+
+[node name="CakeMonster2" parent="Ground/Group 4/PuzzleComponent/Lockset3" instance=ExtResource("6_lufux")]
+position = Vector2(2944, 2688)
+max_health = 200
 
 [node name="GameplayHud" parent="." instance=ExtResource("3_gwsb0")]
 
