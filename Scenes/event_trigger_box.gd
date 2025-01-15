@@ -69,7 +69,7 @@ func enable() -> void:
 	return
 
 func _on_trigger_entered(entity : Object) -> void:
-	print_debug(entity, " entered an event trigger")
+	#print_debug(entity, " entered an event trigger")
 	if !triggered or (triggered and infinite_trigger):
 		if entity.is_in_group("player"): #todo: add functionality to check for specific entities rather than only player
 			if toggleable:
@@ -94,7 +94,7 @@ func _on_trigger_entered(entity : Object) -> void:
 	return
 
 func _on_trigger_exited(entity : Object) -> void:
-	print_debug(entity, " left an event trigger")
+	#print_debug(entity, " left an event trigger")
 	if hold_trigger and entity.is_in_group("player"):
 		triggered = !triggered
 		trigger_puzzle()
@@ -154,9 +154,9 @@ func trigger_other(entity : Object) -> void:
 func _on_combat_end() -> void:
 	if triggered and event_type == event_types.COMBAT:
 		if inverse_signal:
-			print_debug("Combat event trigger emitting true signal")
+			#print_debug("Combat event trigger emitting true signal")
 			puzzle_triggered.emit(true)
 		else:
-			print_debug("Combat event trigger emitting false signal")
+			#print_debug("Combat event trigger emitting false signal")
 			puzzle_triggered.emit(false)
 	return

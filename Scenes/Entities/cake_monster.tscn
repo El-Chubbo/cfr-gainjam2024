@@ -56,7 +56,7 @@ max_health = 110
 max_MOV = 2
 available_attacks = Array[PackedScene]([ExtResource("2_i3820")])
 
-[node name="MovementComponent" parent="." node_paths=PackedStringArray("parent") groups=["component"] instance=ExtResource("2_fok58")]
+[node name="MovementComponent" parent="." node_paths=PackedStringArray("parent") groups=["from monster"] instance=ExtResource("2_fok58")]
 unique_name_in_owner = true
 parent = NodePath("..")
 animation_speed = 6

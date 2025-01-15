@@ -18,7 +18,6 @@ enum reactive_properties {DODGEABLE, PARRYABLE, BOTH, NEITHER}
 @export var startup_timer : Timer
 @export var duration_timer : Timer
 
-
 func _ready() -> void:
 	#startup_timer.wait_time = parameters["Startup"]
 	if parameters["Startup"] == 0.0:
@@ -48,22 +47,23 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	print("Feast attack entered an area")
-	if (area.is_in_group("monster") and self.is_in_group("from player")) or (area.is_in_group("player") and !self.is_in_group("from player")):
+	print(area.get_groups())
+	if (area.is_in_group("from monster") and self.is_in_group("from player")):
 		dealt_damage.emit(get_damage(), area)
 		if gain_calories:
 			print_debug("Player should gain ", get_damage() * parameters["CalorieModifier"], " calories")
 			PlayerData.reference.add_calories(get_damage() * parameters["CalorieModifier"], true) 
 	return
 
-func _on_body_entered(body: Node2D) -> void:
-	print("Feast attack entered a body")
-	if (body.is_in_group("monster") and self.is_in_group("from player")) or (body.is_in_group("player") and !self.is_in_group("from player")):
-		dealt_damage.emit(get_damage(), body)
-		if gain_calories:
-			print_debug("Player should gain ", get_damage() * parameters["CalorieModifier"], " calories")
-			PlayerData.reference.add_calories(get_damage() * parameters["CalorieModifier"], true) 
-	return
-
+#func _on_body_entered(body: Node2D) -> void:
+	#print("Feast attack entered a body")
+	#if (body.is_in_group("monster")):
+		#dealt_damage.emit(get_damage(), body)
+		#if gain_calories:
+			#print_debug("Player should gain ", get_damage() * parameters["CalorieModifier"], " calories")
+			#PlayerData.reference.add_calories(get_damage() * parameters["CalorieModifier"], true) 
+	#return
+## obsolete, use areas
 
 func get_damage() -> int:
 	return parameters["BaseDamage"] * parameters["DamageModifier"]

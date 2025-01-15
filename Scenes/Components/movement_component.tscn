@@ -9,7 +9,7 @@ size = Vector2(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hajl0"]
 size = Vector2(128, 128)
 
-[node name="MovementComponent" type="CharacterBody2D"]
+[node name="MovementComponent" type="CharacterBody2D" groups=["component"]]
 script = ExtResource("1_w33h1")
 
 [node name="PlaceHolderSprite" type="Sprite2D" parent="."]

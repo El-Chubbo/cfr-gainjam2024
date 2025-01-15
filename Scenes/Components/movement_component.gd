@@ -20,7 +20,10 @@ var MOV = 0
 func _ready() -> void:
 	if !parent:
 		parent = get_parent()
-	pass
+	for group in self.get_groups():
+		$Area2D/CollisionShape2D.add_to_group(group) # quick way to transfer groups to collision boxes
+		$Area2D.add_to_group(group)
+	return
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("from player") and area.is_in_group("spell"):
@@ -88,3 +91,8 @@ func check_collision(dir) ->bool:
 		#print_debug("Monster will collide with non-physical entity, valid move")
 		return true
 	return false
+
+# manual way to add group to collision box outside of the packed scene
+func add_group(name: String) -> void:
+	$Area2D/CollisionShape2D.add_to_group(name)
+	return
