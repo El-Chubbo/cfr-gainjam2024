@@ -7,7 +7,6 @@ extends Area2D
 
 signal puzzle_triggered(value: bool)
 
-
 enum event_types {COMBAT, CUTSCENE, PUZZLE, OTHER}
 @export var event_type : event_types
 #I really should figure out a means of disabling the relevant export variables depending on event type
@@ -33,7 +32,7 @@ var triggered = initial_value
 #@export var unlock_conditions : Dictionary = {}
 #puzzle conditions are being put into a separate script so this likely won't be used
 
-@export var sequential_trigger : Array[Area2D]
+@export var sequential_trigger : Array[Node2D] ## intended for turning on other scripts, not entities like monsters
 #upon this trigger box being entered, it will enable all other trigger boxes in this list
 var collision_box : CollisionShape2D
 
@@ -81,7 +80,7 @@ func _on_trigger_entered(entity : Object) -> void:
 					print_debug("Combat event triggered")
 					trigger_combat()
 				event_types.CUTSCENE:
-					trigger_cutscene(entity)
+					trigger_cutscene()
 					print_debug("Cutscene event triggered")
 				event_types.PUZZLE:
 					trigger_puzzle()
@@ -113,7 +112,6 @@ func _on_trigger_exited(entity : Object) -> void:
 ##this has been replaced with emitting a positive puzzle signal when combat starts
 ##and a negative puzzle signal when combat ends
 
-
 func trigger_combat() -> void:
 	if inverse_signal:
 		puzzle_triggered.emit(false)
@@ -130,7 +128,7 @@ func trigger_combat() -> void:
 	GameLogic.combat_start(monster_list)
 	return
 	
-func trigger_cutscene(entity : Object) -> void:
+func trigger_cutscene() -> void:
 	DialogueManager.show_example_dialogue_balloon(dialogue_resource, dialogue_start)
 	#todo: enforce game state to lock controls
 	#todo: cutscene overlay and additional functionality for other scenarios

@@ -238,6 +238,10 @@ func combat_start(monster_list = []):
 		
 		combat_started.emit()
 		combat_loop()
+	else:
+		print("Something attempted to start a new combat encounter, but a battle is already in progress")
+		# adding new monsters mid-battle could be done here, but that feature is being saved for a later refactor
+	return
 
 func combat_loop() ->void:
 	var round_debug : int = 0

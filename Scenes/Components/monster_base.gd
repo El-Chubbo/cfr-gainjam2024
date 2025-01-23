@@ -40,6 +40,8 @@ func _ready() -> void:
 	GameLogic.add_emitter("turn_ended", self)
 	GameLogic.add_listener("start_turn", self, "_on_turn_start")
 	GameLogic.add_emitter("defeated", self)
+	current_health = max_health
+	health_component.set_initial_health(max_health)
 	if enabled:
 		enable()
 	else:
