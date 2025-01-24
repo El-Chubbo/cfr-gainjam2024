@@ -39,7 +39,7 @@ tile_map_data = PackedByteArray("AAD9/wEAAAAAAAAAAAD+/wEAAAAAAAAAAAD//wEAAAAAAAA
 tile_set = ExtResource("1_gscka")
 
 [node name="Pickups" type="TileMapLayer" parent="Ground"]
-tile_map_data = PackedByteArray("AAAVAAoAAAAAAAAAAgAWAAoAAAAAAAAAEQAUAAoAAAAAAAAABwALAP7/AAAAAAAADQACAAkAAAAAAAAAAgA=")
+tile_map_data = PackedByteArray("AAAVAAoAAAAAAAAAAgAWAAoAAAAAAAAAEQAUAAoAAAAAAAAABwALAP7/AAAAAAAADQACAAkAAAAAAAAAAgATAA4AAAAAAAAAAgA=")
 tile_set = ExtResource("2_lf5hr")
 
 [node name="Overlay1" type="TileMapLayer" parent="Ground"]
