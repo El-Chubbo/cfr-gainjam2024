@@ -10,6 +10,7 @@ size = Vector2(64, 64)
 script = ExtResource("1_c4jcg")
 
 [node name="MeleeRange" type="Area2D" parent="."]
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeRange"]
 shape = SubResource("RectangleShape2D_j3lob")

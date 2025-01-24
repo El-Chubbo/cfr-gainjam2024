@@ -58,12 +58,11 @@ label_settings = SubResource("LabelSettings_gqvdb")
 [node name="GameplayHud" parent="." instance=ExtResource("3_ehk5u")]
 debug_mode = true
 
-[node name="ControllableCamera" parent="." instance=ExtResource("4_1jqkb")]
-position = Vector2(-128, -384)
-zoom_min = 0.2
-
 [node name="CiranaPlayer" parent="." instance=ExtResource("2_yr85u")]
 position = Vector2(-128, -384)
+
+[node name="ControllableCamera" parent="CiranaPlayer" instance=ExtResource("4_1jqkb")]
+zoom_min = 0.2
 
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
 [connection signal="calories_changed" from="CiranaPlayer" to="GameplayHud" method="_update_calories"]

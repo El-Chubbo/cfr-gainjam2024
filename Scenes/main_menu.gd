@@ -14,6 +14,8 @@ func _ready() -> void:
 	$CreditsControls.visible = false
 	%TitleGraphic.visible = true
 	%CiranaArt.visible = true
+	if OS.has_feature("web"):
+		%QuitButton.visible = false
 	MusicPlayer.force_play(MusicPlayer.song_list.MYSTIC_INTRO) ##I just noticed this isn't working properly
 	##the intent is on the main menu, the Mystic Intro will play on a loop and won't transition until a level is loaded
 	return

@@ -1,10 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://bbeec4do7gab2"]
+[gd_scene load_steps=17 format=3 uid="uid://bbeec4do7gab2"]
 
 [ext_resource type="Script" path="res://Scenes/main_menu.gd" id="1_j5icd"]
+[ext_resource type="Script" path="res://Scenes/update_handler.gd" id="2_6ouah"]
 [ext_resource type="PackedScene" uid="uid://jkwjim8u1mgw" path="res://Scenes/UI/credits.tscn" id="2_cl04f"]
 [ext_resource type="Texture2D" uid="uid://cv3wvovrw6x1u" path="res://Art Assets/GameLogo.png" id="3_en7wx"]
 [ext_resource type="Texture2D" uid="uid://cpareh3en80th" path="res://Art Assets/Cirana/Preset Sprites/cirana preset fat neutral.png" id="4_oavkc"]
 [ext_resource type="Texture2D" uid="uid://btv3ccns7fmp4" path="res://Art Assets/Cirana/Preset Sprites/cirana preset fat smug.png" id="5_j3h4c"]
+[ext_resource type="Script" path="res://Scenes/UI/version_display.gd" id="5_qgp3a"]
 [ext_resource type="Texture2D" uid="uid://ckl7sl2sebuk4" path="res://Art Assets/Cirana/Preset Sprites/cirana preset fat confident.png" id="6_mm53m"]
 [ext_resource type="Texture2D" uid="uid://cgcuixwmmx7m6" path="res://Art Assets/Cirana/Preset Sprites/cirana preset neutral.png" id="7_ghrog"]
 [ext_resource type="Texture2D" uid="uid://gqx06past2ly" path="res://Art Assets/Cirana/Preset Sprites/cirana preset smug.png" id="8_xjqjf"]
@@ -63,6 +65,33 @@ line_spacing = -6.0
 script = ExtResource("1_j5icd")
 enable_test_levels = true
 
+[node name="UpdateHandler" type="Node2D" parent="."]
+script = ExtResource("2_6ouah")
+
+[node name="UpdateChecker" type="HTTPRequest" parent="UpdateHandler"]
+unique_name_in_owner = true
+
+[node name="VersionLabel" type="Label" parent="UpdateHandler"]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_left = -0.125
+anchor_top = -1.917
+anchor_right = -0.125
+anchor_bottom = -1.917
+offset_right = 270.0
+offset_bottom = 23.0
+text = "Version: application/config/version"
+script = ExtResource("5_qgp3a")
+
+[node name="LinkButton" type="LinkButton" parent="UpdateHandler"]
+unique_name_in_owner = true
+visible = false
+offset_top = 18.0
+offset_right = 133.0
+offset_bottom = 58.0
+text = "New version Link"
+uri = "https://el-chubbo.itch.io/ciranas-factory-raid"
+
 [node name="MainButtons" type="VBoxContainer" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
@@ -106,6 +135,7 @@ layout_mode = 2
 text = "View Credits"
 
 [node name="QuitButton" type="Button" parent="MainButtons"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Quit
 "

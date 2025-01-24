@@ -386,7 +386,7 @@ func _on_action_performed(action: String = "unspecified"):
 #enable movement, replenish movement and AP to max
 #record current tile map position
 func _on_turn_begin(entity_ID: Variant):
-	if entity_ID == self:
+	if entity_ID == self and !has_turn:
 		print_debug("Cirana received start turn signal")
 		new_position = Vector2.ZERO
 		old_position = Vector2.ZERO
@@ -398,8 +398,6 @@ func _on_turn_begin(entity_ID: Variant):
 		has_turn = true
 		turn_state = turn_states.PLAYER_TURN
 		print("Turn state has been set to ", turn_state)
-		#bug: Cirana softlocked even though this function went through?
-		#it seems right now the controls lock if Cirana has two turns back to back
 	return
 
 #observer for receiving a spell cast input from the player

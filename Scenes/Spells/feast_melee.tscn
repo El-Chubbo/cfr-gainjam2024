@@ -129,7 +129,7 @@ rotatable = false
 gain_calories = true
 parameters = {
 "BaseDamage": 0,
-"CalorieModifier": 0.5,
+"CalorieModifier": 1.25,
 "Cost": 0,
 "DamageModifier": 3.0,
 "Duration": 0.0,

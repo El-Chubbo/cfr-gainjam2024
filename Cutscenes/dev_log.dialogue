@@ -9,16 +9,27 @@ El: See you in the next update! I'll send you back to Cirana now.
 => END
 
 ~ dev_log
-#Written 1/5/2025
-El: There's still tons of polish needed all over the place, like better camera behavior, refining the spell and movement controls, better feedback on performing actions, and some code refactoring to make future features easier to implement. There's way more than that, but those are higher priority for now.
+#Written 1/23/2025
+El: Back in my dev log for version 0.3.0, I thought I was getting close to minimum system features necessary to start making 'real' levels. However in my effort to fix some major bugs and polish existing mechanics, I've identified technical debt caused by the rushed code I had written to submit in time for the game jam back in August.
 
-El: I'd obviously like to make visual improvements basically everywhere. The individual changes would be far too numerous to list, but for now I'm thinking of focusing on procedural animations, particles, and shaders for the next milestone of visual updates. Things that don't require new art assets.
+El: Even if a lot of it is still functional, I'm running into design limitations, unfixable jank, and tedium in level design workflow. The combat loop handler, pathfinding, and general collision detection need to be refactored. The event scripting needs more of its behavior to be automated so creating encounters and puzzles is easier.
 
-El: With the event trigger system (which includes cutscenes, puzzles, and monster encounters) nearly complete, the tallest code hurdles for creating the main levels is out of the way.[wait=0.5] Now all that's left is a save sytem, ironing out the bugs for game state and Cirana's stats on level load, and (the biggest one) a new tileset that actually looks like the inside of a factory and not the scribbles I made in 15 minutes rushing for the game jam.
+El: I have a few goals with these refactors. A proper solution to all the existing jank with how the game tracks battles and adding new functionality like monsters joining mid-battle. Preventing monsters from getting stuck on each other and enabling more varied movement behaviors for future monster types. Using Godot's collision layers to simplify code. Cleaner damage code that allow for game mechanics around damage dealt, resistances, and final blows.
 
-El: You weren't expecting the main levels to look like this,[wait=0.25] I hope?
-El: Anyway, thanks again for playing. While it's been a long time since the game jam build, I'd say the amount of features made for this update constitute about one month of work, maybe two total if you include the initial two weeks I had dedicated for the jam. Still ironing out the whole ADHD work ethic thing.
+El: It's still a lot of underlying systems to implement and part of me is a little bummed that I can't really tell a story or create set pieces out of debug levels. But it's probably for the better to not waste time creating filler content that will inevitably break or get replaced as other parts of the game are developed.
+
+El: As always, thanks for playing.
 => end_log
 
 #This file is to be changed with each build of the game, however I'll archive previous versions
 #by including the commented-out text here
+
+#Written 1/5/2025
+#El: There's still tons of polish needed all over the place, like better camera behavior, refining the spell and movement controls, better feedback on performing actions, and some code refactoring to make future features easier to implement. There's way more than that, but those are higher priority for now.
+#
+#El: I'd obviously like to make visual improvements basically everywhere. The individual changes would be far too numerous to list, but for now I'm thinking of focusing on procedural animations, particles, and shaders for the next milestone of visual updates. Things that don't require new art assets.
+#
+#El: With the event trigger system (which includes cutscenes, puzzles, and monster encounters) nearly complete, the tallest code hurdles for creating the main levels is out of the way.[wait=0.5] Now all that's left is a save sytem, ironing out the bugs for game state and Cirana's stats on level load, and (the biggest one) a new tileset that actually looks like the inside of a factory and not the scribbles I made in 15 minutes rushing for the game jam.
+#
+#El: You weren't expecting the main levels to look like this,[wait=0.25] I hope?
+#El: Anyway, thanks again for playing. While it's been a long time since the game jam build, I'd say the amount of features made for this update constitute about one month of work, maybe two total if you include the initial two weeks I had dedicated for the jam. Still ironing out the whole ADHD work ethic thing.

@@ -77,13 +77,6 @@ text = "Damage Zone"
 label_settings = SubResource("LabelSettings_4cnpu")
 metadata/_edit_use_anchors_ = true
 
-[node name="ControllableCamera" parent="." instance=ExtResource("1_d2gh6")]
-position = Vector2(135, 155)
-limit_left = -2048
-limit_top = -1536
-limit_right = 2560
-limit_bottom = 1792
-
 [node name="CalorieTest" type="Area2D" parent="." groups=["pickup", "test"]]
 position = Vector2(896, 641)
 monitoring = false
@@ -160,8 +153,14 @@ metadata/_edit_use_anchors_ = true
 process_priority = -1
 position = Vector2(125, 105)
 
+[node name="ControllableCamera" parent="CiranaPlayer" instance=ExtResource("1_d2gh6")]
+position = Vector2(10, 50)
+limit_left = -2048
+limit_top = -1536
+limit_right = 2560
+limit_bottom = 1792
+
 [node name="GameplayHud" parent="." instance=ExtResource("5_dufm1")]
-debug_mode = true
 
 [connection signal="calories_changed" from="CiranaPlayer" to="GameplayHud" method="_update_calories"]
 [connection signal="health_changed" from="CiranaPlayer" to="GameplayHud" method="_update_health"]

@@ -7,7 +7,6 @@ extends Area2D
 
 signal puzzle_triggered(value: bool)
 
-
 enum event_types {COMBAT, CUTSCENE, PUZZLE, OTHER}
 @export var event_type : event_types
 #I really should figure out a means of disabling the relevant export variables depending on event type
@@ -33,7 +32,7 @@ var triggered = initial_value
 #@export var unlock_conditions : Dictionary = {}
 #puzzle conditions are being put into a separate script so this likely won't be used
 
-@export var sequential_trigger : Array[Area2D]
+@export var sequential_trigger : Array[Node2D] ## intended for turning on other scripts, not entities like monsters
 #upon this trigger box being entered, it will enable all other trigger boxes in this list
 var collision_box : CollisionShape2D
 
@@ -69,7 +68,7 @@ func enable() -> void:
 	return
 
 func _on_trigger_entered(entity : Object) -> void:
-	print_debug(entity, " entered an event trigger")
+	#print_debug(entity, " entered an event trigger")
 	if !triggered or (triggered and infinite_trigger):
 		if entity.is_in_group("player"): #todo: add functionality to check for specific entities rather than only player
 			if toggleable:
@@ -81,7 +80,7 @@ func _on_trigger_entered(entity : Object) -> void:
 					print_debug("Combat event triggered")
 					trigger_combat()
 				event_types.CUTSCENE:
-					trigger_cutscene(entity)
+					trigger_cutscene()
 					print_debug("Cutscene event triggered")
 				event_types.PUZZLE:
 					trigger_puzzle()
@@ -94,7 +93,7 @@ func _on_trigger_entered(entity : Object) -> void:
 	return
 
 func _on_trigger_exited(entity : Object) -> void:
-	print_debug(entity, " left an event trigger")
+	#print_debug(entity, " left an event trigger")
 	if hold_trigger and entity.is_in_group("player"):
 		triggered = !triggered
 		trigger_puzzle()
@@ -113,17 +112,23 @@ func _on_trigger_exited(entity : Object) -> void:
 ##this has been replaced with emitting a positive puzzle signal when combat starts
 ##and a negative puzzle signal when combat ends
 
-
 func trigger_combat() -> void:
 	if inverse_signal:
 		puzzle_triggered.emit(false)
 	else:
 		puzzle_triggered.emit(true)
 	#todo: refactor combat_start logic to support adding one monster at a time
+	#bug: if a monster is deleted from this list the stale reference causes a crash
+	for monster in monster_list:
+		if monster: # check for stale reference
+			monster.enable()
+			# this doesn't support disabling monsters, but that's a very specific scenario that might not be necessary
+		else:
+			monster_list.erase(monster)
 	GameLogic.combat_start(monster_list)
 	return
 	
-func trigger_cutscene(entity : Object) -> void:
+func trigger_cutscene() -> void:
 	DialogueManager.show_example_dialogue_balloon(dialogue_resource, dialogue_start)
 	#todo: enforce game state to lock controls
 	#todo: cutscene overlay and additional functionality for other scenarios
@@ -147,9 +152,9 @@ func trigger_other(entity : Object) -> void:
 func _on_combat_end() -> void:
 	if triggered and event_type == event_types.COMBAT:
 		if inverse_signal:
-			print_debug("Combat event trigger emitting true signal")
+			#print_debug("Combat event trigger emitting true signal")
 			puzzle_triggered.emit(true)
 		else:
-			print_debug("Combat event trigger emitting false signal")
+			#print_debug("Combat event trigger emitting false signal")
 			puzzle_triggered.emit(false)
 	return
